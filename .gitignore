@@ -1,7 +1,6 @@
 # Temporary files
 *.tmp
 *.temp
-.DS_Store
 Thumbs.db
 
 # Editor directories and files

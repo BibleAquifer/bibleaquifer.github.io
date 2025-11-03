@@ -5,6 +5,9 @@ const ORG_NAME = 'BibleAquifer';
 // Excluded repos that don't follow the standard data structure
 const EXCLUDED_REPOS = ['docs', 'ACAI', 'bibleaquifer.github.io', '.github'];
 
+// UI configuration
+const ERROR_DISPLAY_DURATION = 5000; // milliseconds
+
 // State management
 let resources = [];
 let selectedResource = null;
@@ -330,6 +333,7 @@ function formatFieldName(name) {
 }
 
 // Helper function to get language name from code
+// Language codes follow ISO 639-3 standard (3-letter codes)
 function getLanguageName(code) {
     const languageMap = {
         'eng': 'English',
@@ -375,7 +379,7 @@ function showError(message) {
     const main = document.querySelector('main');
     main.insertBefore(errorDiv, main.firstChild);
     
-    setTimeout(() => errorDiv.remove(), 5000);
+    setTimeout(() => errorDiv.remove(), ERROR_DISPLAY_DURATION);
 }
 
 // Initialize the app when DOM is ready
