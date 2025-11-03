@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bible Aquifer - Biblical Resources</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Bible Aquifer</h1>
+            <p class="subtitle">Open Biblical Resources in Multiple Languages</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="intro">
+            <p>Welcome to Bible Aquifer, a collection of open biblical resources including Bible dictionaries, study notes, translation guides, and more. Browse resources by type and language.</p>
+        </section>
+
+        <section id="controls">
+            <div class="control-group">
+                <label for="resource-select">Select Resource:</label>
+                <select id="resource-select">
+                    <option value="">Loading resources...</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="language-select">Select Language:</label>
+                <select id="language-select">
+                    <option value="">Select a resource first</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <button id="load-btn" disabled>Load Content</button>
+            </div>
+        </section>
+
+        <section id="resource-info">
+            <div id="resource-metadata"></div>
+        </section>
+
+        <section id="content-browser">
+            <h2>Content Browser</h2>
+            <div id="article-list"></div>
+        </section>
+
+        <section id="content-viewer">
+            <h2>Content Viewer</h2>
+            <div id="content-display"></div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Bible Aquifer. Open Biblical Resources.</p>
+            <p><a href="https://github.com/BibleAquifer" target="_blank">GitHub Organization</a> | <a href="https://github.com/BibleAquifer/docs" target="_blank">Documentation</a></p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
