@@ -32,6 +32,8 @@ header {
 
 .header-nav {
     margin-left: auto;
+    display: flex;
+    gap: 0.5rem;
 }
 
 .catalog-link {

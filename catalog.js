@@ -52,7 +52,7 @@ async function loadResources() {
             !EXCLUDED_REPOS.includes(repo.name) && !repo.archived
         ).map(repo => ({
             name: repo.name,
-            title: formatResourceName(repo.name),
+            title: repo.name,
             description: repo.description,
             url: repo.html_url
         }));
@@ -62,7 +62,7 @@ async function loadResources() {
         resources.forEach(resource => {
             const option = document.createElement('option');
             option.value = resource.name;
-            option.textContent = resource.title;
+            option.textContent = resource.name;
             resourceSelect.appendChild(option);
         });
     } catch (error) {
@@ -100,12 +100,19 @@ async function handleResourceChange() {
             item.type === 'dir' && item.name.length === 3
         );
         
+        // Check if 'eng' exists in the languages
+        const hasEng = languages.some(lang => lang.name === 'eng');
+        
         // Populate language dropdown
         languageSelect.innerHTML = '<option value="">Select a language...</option>';
         languages.forEach(lang => {
             const option = document.createElement('option');
             option.value = lang.name;
             option.textContent = getLanguageName(lang.name);
+            // Select 'eng' by default if it exists
+            if (lang.name === 'eng' && hasEng) {
+                option.selected = true;
+            }
             languageSelect.appendChild(option);
         });
         
@@ -113,6 +120,12 @@ async function handleResourceChange() {
         
         // Display resource metadata
         displayResourceInfo();
+        
+        // If 'eng' exists, auto-load it
+        if (hasEng) {
+            selectedLanguage = 'eng';
+            await loadLanguageMetadata();
+        }
         
     } catch (error) {
         console.error('Error loading languages:', error);
