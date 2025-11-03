@@ -19,6 +19,8 @@ const resourceSelect = document.getElementById('resource-select');
 const languageSelect = document.getElementById('language-select');
 const resourceMetadataDiv = document.getElementById('resource-metadata');
 const contentDisplayDiv = document.getElementById('content-display');
+const resourceInfoSection = document.getElementById('resource-info');
+const contentViewerSection = document.getElementById('content-viewer');
 
 // Initialize the application
 async function init() {
@@ -81,6 +83,8 @@ async function handleResourceChange() {
         languageSelect.disabled = true;
         resourceMetadataDiv.innerHTML = '';
         contentDisplayDiv.innerHTML = '';
+        resourceInfoSection.classList.add('hidden');
+        contentViewerSection.classList.add('hidden');
         return;
     }
     
@@ -140,6 +144,7 @@ async function handleLanguageChange() {
     
     if (!selectedLanguage) {
         contentDisplayDiv.innerHTML = '';
+        contentViewerSection.classList.add('hidden');
         return;
     }
     
@@ -175,6 +180,9 @@ function displayResourceInfo() {
         <p>${selectedResource.description || 'No description available'}</p>
         <p><a href="${selectedResource.url}" target="_blank">View on GitHub</a></p>
     `;
+    
+    // Show the resource info section
+    resourceInfoSection.classList.remove('hidden');
 }
 
 // Display language metadata
@@ -249,6 +257,9 @@ function displayLanguageMetadata() {
     }
     
     contentDisplayDiv.innerHTML = html;
+    
+    // Show the content viewer section
+    contentViewerSection.classList.remove('hidden');
 }
 
 // Helper function to format resource names
