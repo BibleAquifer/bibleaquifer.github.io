@@ -18,16 +18,16 @@ function markdownToHTML(markdown) {
     const links = [];
     let linkIndex = 0;
     
-    // Extract and replace links with placeholders
+    // Extract and replace links with placeholders (using a pattern that won't match italic regex)
     html = html.replace(/\[_([^_]+)_\]\(([^)]+)\)/g, (match, text, url) => {
-        const placeholder = `__LINK_${linkIndex}__`;
+        const placeholder = `{{LINK${linkIndex}}}`;
         links.push({ placeholder, html: `<a href="${url}" target="_blank"><em>${text}</em></a>` });
         linkIndex++;
         return placeholder;
     });
     
     html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
-        const placeholder = `__LINK_${linkIndex}__`;
+        const placeholder = `{{LINK${linkIndex}}}`;
         links.push({ placeholder, html: `<a href="${url}" target="_blank">${text}</a>` });
         linkIndex++;
         return placeholder;
