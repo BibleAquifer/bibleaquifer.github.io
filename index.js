@@ -11,17 +11,32 @@ function markdownToHTML(markdown) {
     // Convert headers (## Header)
     html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
     
-    // Convert links [text](url) - needs to handle italics within links
-    // First, handle links with italic text inside
-    html = html.replace(/\[_([^_]+)_\]\(([^)]+)\)/g, '<a href="$2" target="{{BLANK}}"><em>$1</em></a>');
-    // Then handle regular links
-    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="{{BLANK}}">$1</a>');
+    // Store links temporarily to avoid underscore conflicts
+    const links = [];
+    let linkIndex = 0;
     
-    // Convert bold/italic _text_ (standalone, not in links)
+    // Extract and replace links with placeholders
+    html = html.replace(/\[_([^_]+)_\]\(([^)]+)\)/g, (match, text, url) => {
+        const placeholder = `__LINK_${linkIndex}__`;
+        links.push({ placeholder, html: `<a href="${url}" target="_blank"><em>${text}</em></a>` });
+        linkIndex++;
+        return placeholder;
+    });
+    
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
+        const placeholder = `__LINK_${linkIndex}__`;
+        links.push({ placeholder, html: `<a href="${url}" target="_blank">${text}</a>` });
+        linkIndex++;
+        return placeholder;
+    });
+    
+    // Convert bold/italic _text_ (now safe since links are placeholders)
     html = html.replace(/_([^_]+)_/g, '<em>$1</em>');
     
-    // Restore target="_blank"
-    html = html.replace(/{{BLANK}}/g, '_blank');
+    // Restore links
+    links.forEach(link => {
+        html = html.replace(link.placeholder, link.html);
+    });
     
     // Convert code `code`
     html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
@@ -104,10 +119,12 @@ async function loadReadmeContent() {
             const section = sections[i].trim();
             if (section) {
                 if (i === 0) {
-                    // First section doesn't have an h2, wrap it differently if needed
-                    formattedContent += `<section class="content-section">${section}</section>`;
+                    // First section doesn't have an h2, skip if empty
+                    if (section.length > 0) {
+                        formattedContent += `<section class="content-section">${section}</section>`;
+                    }
                 } else {
-                    // Add h2 back and wrap in section
+                    // Add h2 back (section already contains </h2>)
                     formattedContent += `<section class="content-section"><h2>${section}</section>`;
                 }
             }
