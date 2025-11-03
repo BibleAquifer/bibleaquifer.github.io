@@ -48,37 +48,14 @@ async function loadResources() {
         const repos = await response.json();
         
         // Filter repos that are data repositories
-        const filteredRepos = repos.filter(repo => 
+        resources = repos.filter(repo => 
             !EXCLUDED_REPOS.includes(repo.name) && !repo.archived
-        );
-        
-        // Load resources with proper titles from metadata
-        resources = [];
-        for (const repo of filteredRepos) {
-            let title = formatResourceName(repo.name);
-            
-            // Try to fetch the actual title from metadata (use 'eng' as default)
-            try {
-                const metadataUrl = `https://raw.githubusercontent.com/${ORG_NAME}/${repo.name}/main/eng/metadata.json`;
-                const metaResponse = await fetch(metadataUrl);
-                if (metaResponse.ok) {
-                    const metadata = await metaResponse.json();
-                    if (metadata.resource_metadata?.license_info?.title) {
-                        title = metadata.resource_metadata.license_info.title;
-                    }
-                }
-            } catch (err) {
-                // If can't fetch metadata, use formatted repo name
-                console.log(`Could not fetch metadata for ${repo.name}, using repo name`);
-            }
-            
-            resources.push({
-                name: repo.name,
-                title: title,
-                description: repo.description,
-                url: repo.html_url
-            });
-        }
+        ).map(repo => ({
+            name: repo.name,
+            title: formatResourceName(repo.name),
+            description: repo.description,
+            url: repo.html_url
+        }));
         
         // Populate resource dropdown
         resourceSelect.innerHTML = '<option value="">Select a resource...</option>';
@@ -194,12 +171,38 @@ function displayLanguageMetadata() {
         return;
     }
     
-    let html = '<h3>Resource Information</h3>';
-    html += '<div class="metadata-grid">';
-    
-    // Display key metadata fields from resource_metadata
     const resourceMeta = languageMetadata.resource_metadata || {};
     const licenseMeta = resourceMeta.license_info || {};
+    
+    let html = '';
+    
+    // Display citation if available
+    if (licenseMeta.title) {
+        html += '<h3>Citation</h3>';
+        html += '<p class="citation">';
+        html += `<em>${licenseMeta.title}</em>`;
+        
+        // Add copyright holder if available
+        if (licenseMeta.copyright?.holder?.name) {
+            html += `. © ${licenseMeta.copyright.dates || ''} ${licenseMeta.copyright.holder.name}`;
+        }
+        
+        // Add license info
+        if (licenseMeta.licenses && licenseMeta.licenses.length > 0) {
+            const firstLicense = licenseMeta.licenses[0];
+            const langCode = resourceMeta.language || 'eng';
+            if (firstLicense[langCode]) {
+                html += `. Licensed under ${firstLicense[langCode].name}`;
+            }
+        }
+        
+        html += '.</p>';
+        html += '<hr style="margin: 1.5rem 0;">';
+    }
+    
+    // Display key metadata
+    html += '<h3>Resource Information</h3>';
+    html += '<div class="metadata-grid">';
     
     const metadataToDisplay = [
         { label: 'Title', value: licenseMeta.title || resourceMeta.title },
@@ -223,12 +226,12 @@ function displayLanguageMetadata() {
     // Add download links
     if (selectedResource && selectedLanguage) {
         html += '<hr style="margin: 1.5rem 0;">';
-        html += '<h3>Download Options</h3>';
-        html += '<p>Access this resource directly from GitHub:</p>';
+        html += '<h3>Access Resource</h3>';
+        html += '<p>Browse or download this resource:</p>';
         html += '<ul class="download-list">';
-        html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/tree/main/${selectedLanguage}/json" target="_blank">View JSON files</a></li>`;
-        html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/tree/main/${selectedLanguage}/md" target="_blank">View Markdown files</a></li>`;
-        html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/releases" target="_blank">Download from releases</a></li>`;
+        html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/tree/main/${selectedLanguage}/json" target="_blank">Browse JSON files</a></li>`;
+        html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/tree/main/${selectedLanguage}/md" target="_blank">Browse Markdown files</a></li>`;
+        html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/releases/latest" target="_blank">Download latest release</a></li>`;
         html += '</ul>';
     }
     
