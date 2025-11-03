@@ -24,6 +24,30 @@ header {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-nav {
+    margin-left: auto;
+}
+
+.catalog-link {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.catalog-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
 header h1 {
     font-size: 2.5rem;
     margin-bottom: 0.5rem;
@@ -315,6 +339,16 @@ footer p {
 .cta-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+/* Download list styling */
+.download-list {
+    margin-left: 2rem;
+    margin-top: 1rem;
+}
+
+.download-list li {
+    margin-bottom: 0.5rem;
 }
 
 /* Breadcrumb navigation */
