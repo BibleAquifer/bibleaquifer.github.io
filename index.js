@@ -11,11 +11,17 @@ function markdownToHTML(markdown) {
     // Convert headers (## Header)
     html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
     
-    // Convert links [text](url)
-    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+    // Convert links [text](url) - needs to handle italics within links
+    // First, handle links with italic text inside
+    html = html.replace(/\[_([^_]+)_\]\(([^)]+)\)/g, '<a href="$2" target="{{BLANK}}"><em>$1</em></a>');
+    // Then handle regular links
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="{{BLANK}}">$1</a>');
     
-    // Convert bold/italic _text_
-    html = html.replace(/_(.*?)_/g, '<em>$1</em>');
+    // Convert bold/italic _text_ (standalone, not in links)
+    html = html.replace(/_([^_]+)_/g, '<em>$1</em>');
+    
+    // Restore target="_blank"
+    html = html.replace(/{{BLANK}}/g, '_blank');
     
     // Convert code `code`
     html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
