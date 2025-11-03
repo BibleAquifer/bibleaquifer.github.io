@@ -1,0 +1,393 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f5f5;
+}
+
+.hidden {
+    display: none;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+header {
+    background: linear-gradient(135deg, #2c5aa0 0%, #1e3a66 100%);
+    color: white;
+    padding: 2rem 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-nav {
+    margin-left: auto;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.catalog-link {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.catalog-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+main {
+    padding: 2rem 0;
+}
+
+section {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+#intro {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+#controls {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.control-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+.control-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #2c5aa0;
+}
+
+.control-group select,
+.control-group button {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    background: white;
+}
+
+.control-group select:focus {
+    outline: none;
+    border-color: #2c5aa0;
+}
+
+button {
+    background: #2c5aa0;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+button:hover:not(:disabled) {
+    background: #1e3a66;
+}
+
+button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+h2 {
+    color: #2c5aa0;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+#resource-metadata {
+    padding: 1rem;
+    background: #f8f9fa;
+    border-left: 4px solid #2c5aa0;
+    border-radius: 4px;
+}
+
+#resource-metadata h3 {
+    color: #2c5aa0;
+    margin-bottom: 0.5rem;
+}
+
+#resource-metadata p {
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+#article-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.article-item {
+    padding: 1rem;
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.article-item:hover {
+    background: #e8f4f8;
+    border-color: #2c5aa0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.article-item h4 {
+    color: #2c5aa0;
+    margin-bottom: 0.5rem;
+}
+
+.article-item p {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+#content-display {
+    padding: 1.5rem;
+    background: #fafafa;
+    border-radius: 4px;
+    min-height: 200px;
+}
+
+#content-display h3 {
+    color: #2c5aa0;
+    margin-bottom: 1rem;
+}
+
+#content-display .content-body {
+    line-height: 1.8;
+}
+
+.loading {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+    font-style: italic;
+}
+
+.error {
+    padding: 1rem;
+    background: #fee;
+    border-left: 4px solid #c00;
+    border-radius: 4px;
+    color: #c00;
+}
+
+footer {
+    background: #2c5aa0;
+    color: white;
+    padding: 2rem 0;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+footer a {
+    color: #add8e6;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+footer p {
+    margin-bottom: 0.5rem;
+}
+
+.metadata-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem 1rem;
+}
+
+.metadata-label {
+    font-weight: 600;
+    color: #2c5aa0;
+}
+
+.metadata-value {
+    color: #555;
+}
+
+@media (max-width: 768px) {
+    #controls {
+        flex-direction: column;
+    }
+    
+    .control-group {
+        width: 100%;
+    }
+    
+    #article-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Informational page styles */
+.content-section {
+    background: white;
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.content-section h2 {
+    color: #2c5aa0;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+}
+
+.content-section p {
+    margin-bottom: 1rem;
+    line-height: 1.8;
+    color: #555;
+}
+
+.content-section a {
+    color: #2c5aa0;
+    text-decoration: none;
+}
+
+.content-section a:hover {
+    text-decoration: underline;
+}
+
+.content-section code {
+    background: #f4f4f4;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+}
+
+.cta-section {
+    background: linear-gradient(135deg, #2c5aa0 0%, #1e3a66 100%);
+    color: white;
+    text-align: center;
+    padding: 3rem 2rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.cta-section h2 {
+    color: white;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+.cta-section p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: white;
+    color: #2c5aa0;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+/* Download list styling */
+.download-list {
+    margin-left: 2rem;
+    margin-top: 1rem;
+}
+
+.download-list li {
+    margin-bottom: 0.5rem;
+}
+
+/* Citation styling */
+.citation {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #555;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-left: 4px solid #2c5aa0;
+    border-radius: 4px;
+}
+
+/* Breadcrumb navigation */
+.breadcrumb {
+    background: white;
+    padding: 1rem 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.breadcrumb a {
+    color: #2c5aa0;
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+/* Catalog page specific styles */
+#catalog-controls {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
