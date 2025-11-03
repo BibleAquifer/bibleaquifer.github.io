@@ -1,12 +1,15 @@
 // GitHub API configuration
-const GITHUB_API = 'https://api.github.com';
 const ORG_NAME = 'BibleAquifer';
-const REPO_NAME = 'bibleaquifer.github.io';
-const README_PATH = '.github/profile/README.md';
+const ORG_REPO_NAME = '.github';
+const README_PATH = 'profile/README.md';
 
 // Simple markdown to HTML converter
 function markdownToHTML(markdown) {
     let html = markdown;
+    
+    // Remove the first H1 header and its following line (subtitle) if present
+    // The site already has the title in the header
+    html = html.replace(/^# [^\n]+\n[^\n]+\n\n/m, '');
     
     // Convert headers (## Header)
     html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
@@ -98,8 +101,8 @@ async function loadReadmeContent() {
         // Show loading state
         contentContainer.innerHTML = '<div class="loading">Loading content...</div>';
         
-        // Fetch README from GitHub
-        const url = `https://raw.githubusercontent.com/${ORG_NAME}/${REPO_NAME}/main/${README_PATH}`;
+        // Fetch README from GitHub organization
+        const url = `https://raw.githubusercontent.com/${ORG_NAME}/${ORG_REPO_NAME}/main/${README_PATH}`;
         const response = await fetch(url);
         
         if (!response.ok) {
