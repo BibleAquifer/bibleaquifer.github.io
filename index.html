@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aquifer Bible Resources</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="index.js" defer></script>
 </head>
 <body>
     <header>
@@ -21,26 +22,9 @@
     </header>
 
     <main class="container">
-        <section class="content-section">
-            <h2>Open Source, Freely Available Bible Resources for the Global Church</h2>
-            <p>In nature, aquifers are filled with fresh water. In the global church, there is a need for an Aquifer of another kind - one filled with trustworthy, openly licensed, unrestricted Bible resources for global translation organizations. The Aquifer on Github enables the development of Bible translation apps and other Biblical resources in many more languages. With Aquifer Bible resources available on Github in an open source digital content library, the acceleration of high quality Bible translations for all nations, people and languages can be achieved.</p>
-        </section>
-
-        <section class="content-section">
-            <h2>Resource-level Organization</h2>
-            <p>Aquifer resources are available on Github in resource repositories, like the one for the <a href="https://github.com/BibleAquifer/AquiferOpenStudyNotes" target="_blank">Aquifer Open Study Notes</a>. The repository contains all available languages of the resource. If you don't want to clone the repository (the Github method of retrieving the repository for use on your local computer) you can just grab the languages you'd like from the <a href="https://github.com/BibleAquifer/AquiferOpenStudyNotes/releases" target="_blank">latest resource release</a>. Check out all of <a href="https://github.com/orgs/BibleAquifer/repositories" target="_blank">the resource repositories</a> we have available for download.</p>
-        </section>
-
-        <section class="content-section">
-            <h2>Available Openly-licensed Resources</h2>
-            <p>We are working on making all of the content from the Aquifer — Bibles, Dictionaries, Study Notes, Audio, etc. — available here for easy access. But it is not all here yet. We have started with all of the resources that are not Bibles. That includes Dictionaries like the <a href="https://github.com/BibleAquifer/AquiferOpenBibleDictionary" target="_blank"><em>Aquifer Open Bible Dictionary</em></a>, study notes like the <a href="https://github.com/BibleAquifer/BiblicaStudyNotes" target="_blank"><em>Biblica Study Notes</em></a>, and translation guides like the <a href="https://github.com/BibleAquifer/FIATranslationGuide" target="_blank"><em>FIA Translation Guide</em></a> and the <a href="https://github.com/BibleAquifer/UWTranslationNotes" target="_blank"><em>unfoldingWord Translation Notes</em></a>.</p>
-            <p>Bibles, audio Bibles, and Bible alignments will be available in the coming weeks and months.</p>
-        </section>
-
-        <section class="content-section">
-            <h2>Documentation and Schemas</h2>
-            <p>If you're looking to implement these resources in your organization's applications or other tooling, that's awesome! We have some <a href="https://github.com/BibleAquifer/docs" target="_blank">documentation</a> available that we plan on expanding. Resources follow a date-based versioning scheme (with tags like <code>v2025-10-28</code>) which are used to generate releases (like <a href="https://github.com/BibleAquifer/AquiferOpenBibleDictionary/releases" target="_blank">these releases</a> for the <em>Aquifer Open Bible Dictionary</em>). All of our resource JSON is validated against <a href="https://github.com/BibleAquifer/docs/tree/main/schemas" target="_blank">our schemas</a> — which also provide a <a href="https://docs.burrito.bible" target="_blank">Scripture Burrito</a>-esque form of metadata for processors that are familiar with that vocabulary.</p>
-        </section>
+        <div id="dynamic-content">
+            <!-- Content will be loaded dynamically from .github/profile/README.md -->
+        </div>
 
         <section class="cta-section">
             <h2>Browse the Catalog</h2>
