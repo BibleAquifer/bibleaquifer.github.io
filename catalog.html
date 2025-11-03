@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unified Catalog - Aquifer Bible Resources</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Unified Catalog</h1>
+            <p class="subtitle">Browse Aquifer Bible Resources by Type and Language</p>
+        </div>
+    </header>
+
+    <nav class="breadcrumb">
+        <div class="container">
+            <a href="index.html">Home</a> &gt; Catalog
+        </div>
+    </nav>
+
+    <main class="container">
+        <section id="catalog-controls">
+            <div class="control-group">
+                <label for="resource-select">Select Resource:</label>
+                <select id="resource-select">
+                    <option value="">Loading resources...</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="language-select">Select Language:</label>
+                <select id="language-select">
+                    <option value="">Select a resource first</option>
+                </select>
+            </div>
+        </section>
+
+        <section id="resource-info">
+            <div id="resource-metadata"></div>
+        </section>
+
+        <section id="content-viewer">
+            <h2>Resource Details</h2>
+            <div id="content-display"></div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Bible Aquifer. Open Biblical Resources.</p>
+            <p><a href="https://github.com/BibleAquifer" target="_blank">GitHub Organization</a> | <a href="https://github.com/BibleAquifer/docs" target="_blank">Documentation</a></p>
+        </div>
+    </footer>
+
+    <script src="catalog.js"></script>
+</body>
+</html>
