@@ -20,8 +20,11 @@ ORG_REPO_NAME = '.github'
 README_PATH = 'profile/README.md'
 EXCLUDED_REPOS = ['docs', 'ACAI', 'bibleaquifer.github.io', '.github']
 
-# GitHub token from environment (optional but recommended)
-GITHUB_TOKEN = os.environ.get('GITHUB_TOKEN', '')
+# Debug/test mode flag
+DEBUG_MODE = os.environ.get('DEBUG_MODE', '').lower() in ('true', '1', 'yes')
+
+# GitHub token from environment - try manage-aquifer first, then GITHUB_AQUIFER_API_KEY
+GITHUB_TOKEN = os.environ.get('manage-aquifer', '') or os.environ.get('GITHUB_AQUIFER_API_KEY', '')
 
 def get_headers():
     """Get headers for GitHub API requests"""
@@ -302,12 +305,13 @@ def build_resource_data() -> Dict[str, Any]:
                 resource_meta = metadata.get('resource_metadata', {})
                 license_meta = resource_meta.get('license_info', {})
                 
-                # Get the resource title
-                title = license_meta.get('title') or resource_meta.get('title') or repo_name
+                # Get the resource title - only use resource_metadata/title
+                title = resource_meta.get('title') or repo_name
                 
-                # Check for pdf and docx directories
-                has_pdf = check_directory_exists(repo_name, lang, 'pdf')
-                has_docx = check_directory_exists(repo_name, lang, 'docx')
+                # Check for all format directories generically
+                format_checks = {}
+                for format_name in ['json', 'md', 'pdf', 'docx']:
+                    format_checks[f'has_{format_name}'] = check_directory_exists(repo_name, lang, format_name)
                 
                 resource_data['languages'][lang] = {
                     'code': lang,
@@ -323,8 +327,7 @@ def build_resource_data() -> Dict[str, Any]:
                         'copyright_holder': license_meta.get('copyright', {}).get('holder', {}).get('name'),
                         'license_name': None
                     },
-                    'has_pdf': has_pdf,
-                    'has_docx': has_docx
+                    **format_checks  # Add all format availability flags
                 }
                 
                 # Get license name
@@ -620,16 +623,21 @@ function displayLanguageMetadata() {
     html += '<h3>Access Resource</h3>';
     html += '<p>Browse or download this resource:</p>';
     html += '<ul class="download-list">';
-    html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/tree/main/${selectedLanguage}/json" target="_blank">Browse JSON files</a></li>`;
-    html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/tree/main/${selectedLanguage}/md" target="_blank">Browse Markdown files</a></li>`;
     
-    if (langData.has_pdf) {
-        html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/tree/main/${selectedLanguage}/pdf" target="_blank">Browse PDF files</a></li>`;
-    }
+    // Dynamically check and add links for all available formats
+    const formats = [
+        { key: 'has_json', name: 'JSON', label: 'Browse JSON files' },
+        { key: 'has_md', name: 'Markdown', label: 'Browse Markdown files' },
+        { key: 'has_pdf', name: 'PDF', label: 'Browse PDF files' },
+        { key: 'has_docx', name: 'DOCX', label: 'Browse DOCX files' }
+    ];
     
-    if (langData.has_docx) {
-        html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/tree/main/${selectedLanguage}/docx" target="_blank">Browse DOCX files</a></li>`;
-    }
+    formats.forEach(format => {
+        if (langData[format.key]) {
+            const dirName = format.key.replace('has_', '');
+            html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/tree/main/${selectedLanguage}/${dirName}" target="_blank">${format.label}</a></li>`;
+        }
+    });
     
     html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/releases/latest" target="_blank">Download latest release</a></li>`;
     html += '</ul>';
@@ -656,12 +664,20 @@ def main():
     print("Building BibleAquifer Static Site")
     print("=" * 60)
     
-    # Check for GitHub token
-    if not GITHUB_TOKEN:
-        print("\nWARNING: GITHUB_TOKEN environment variable is not set.")
-        print("You may encounter API rate limits (60 requests/hour).")
-        print("Set GITHUB_TOKEN to increase limits to 5000 requests/hour.")
-        print("Example: export GITHUB_TOKEN=your_token_here\n")
+    # Check for GitHub token - must have manage-aquifer or GITHUB_AQUIFER_API_KEY
+    if not GITHUB_TOKEN and not DEBUG_MODE:
+        print("\nERROR: Required GitHub token not found.")
+        print("Please set one of the following environment variables:")
+        print("  - manage-aquifer")
+        print("  - GITHUB_AQUIFER_API_KEY")
+        print("\nAlternatively, set DEBUG_MODE=true to use test data.")
+        print("\nExample: export manage-aquifer=your_token_here")
+        exit(1)
+    
+    if DEBUG_MODE:
+        print("\nDEBUG MODE: Running with test/sample data")
+    elif GITHUB_TOKEN:
+        print(f"\nUsing GitHub token for API access")
     
     # Fetch and process README
     print("\n1. Fetching README from organization profile...")

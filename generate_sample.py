@@ -64,6 +64,8 @@ SAMPLE_RESOURCES = {
                     'copyright_holder': 'unfoldingWord',
                     'license_name': 'CC BY-SA 4.0 license'
                 },
+                'has_json': True,
+                'has_md': True,
                 'has_pdf': False,
                 'has_docx': False
             },
@@ -81,6 +83,8 @@ SAMPLE_RESOURCES = {
                     'copyright_holder': 'unfoldingWord',
                     'license_name': 'CC BY-SA 4.0 license'
                 },
+                'has_json': True,
+                'has_md': True,
                 'has_pdf': False,
                 'has_docx': False
             }
@@ -106,6 +110,8 @@ SAMPLE_RESOURCES = {
                     'copyright_holder': 'BibleAquifer',
                     'license_name': 'CC BY 4.0'
                 },
+                'has_json': True,
+                'has_md': True,
                 'has_pdf': False,
                 'has_docx': False
             }
@@ -131,6 +137,8 @@ SAMPLE_RESOURCES = {
                     'copyright_holder': 'unfoldingWord',
                     'license_name': 'CC BY-SA 4.0 license'
                 },
+                'has_json': True,
+                'has_md': True,
                 'has_pdf': False,
                 'has_docx': False
             }
@@ -156,6 +164,8 @@ SAMPLE_RESOURCES = {
                     'copyright_holder': 'Biblica',
                     'license_name': 'CC BY-SA 4.0'
                 },
+                'has_json': True,
+                'has_md': True,
                 'has_pdf': True,
                 'has_docx': True
             }

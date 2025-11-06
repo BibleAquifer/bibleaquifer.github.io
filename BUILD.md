@@ -31,20 +31,21 @@ The site is now generated statically using a Python script (`build_site.py`) tha
 
 ## Building the Site
 
-### Basic Build (No GitHub Token)
+### Required GitHub Token
 
-Without a GitHub token, you may hit API rate limits:
+The build script requires a GitHub API token to fetch repository data. The script looks for tokens in this order:
+1. `manage-aquifer` environment variable
+2. `GITHUB_AQUIFER_API_KEY` environment variable
+
+If neither token is found, the script will exit with an error.
 
 ```bash
+# Using manage-aquifer token
+export manage-aquifer=your_token_here
 poetry run python build_site.py
-```
 
-### Recommended Build (With GitHub Token)
-
-To avoid rate limits, set a GitHub personal access token:
-
-```bash
-export GITHUB_TOKEN=your_token_here
+# OR using GITHUB_AQUIFER_API_KEY token
+export GITHUB_AQUIFER_API_KEY=your_token_here
 poetry run python build_site.py
 ```
 
@@ -53,9 +54,15 @@ The script will:
 - Generate `catalog.html`
 - Create `resources_data.yaml` (for reference, not used by the site)
 
-### Testing the Build Script
+### Testing the Build Script (Debug Mode)
 
 To test the build script with sample data (doesn't require GitHub API access):
+
+```bash
+DEBUG_MODE=true poetry run python build_site.py
+```
+
+Or use the sample data generator:
 
 ```bash
 poetry run python test_build.py
@@ -142,7 +149,7 @@ jobs:
       - run: poetry install
       - run: poetry run python build_site.py
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          manage-aquifer: ${{ secrets.MANAGE_AQUIFER_TOKEN }}
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "Rebuild site with latest data"
@@ -153,16 +160,23 @@ jobs:
 ### GitHub API Rate Limit
 
 If you see "403 Forbidden" errors:
-- You've hit the GitHub API rate limit (60 requests/hour without auth)
-- Set a GITHUB_TOKEN environment variable with a personal access token
+- You've hit the GitHub API rate limit
+- Ensure you have set the `manage-aquifer` or `GITHUB_AQUIFER_API_KEY` environment variable
 - Wait for the rate limit to reset (check headers in error message)
+
+### Missing Token
+
+If you see "ERROR: Required GitHub token not found":
+- Set the `manage-aquifer` environment variable with your GitHub token
+- OR set the `GITHUB_AQUIFER_API_KEY` environment variable
+- OR run with `DEBUG_MODE=true` to use test data
 
 ### Missing Resources
 
 If resources don't appear in the catalog:
 - Ensure the repository is not in the EXCLUDED_REPOS list
 - Verify the repository has language directories (3-letter codes)
-- Check that `metadata.json` exists in language directories
+- Check that `metadata.json` exists in language directories and contains `resource_metadata/title`
 - Review console output for errors during the build
 
 ### Dependencies
