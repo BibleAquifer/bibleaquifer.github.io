@@ -217,8 +217,14 @@ def test_english_title_priority():
     
     # The dropdown should show "English Title Here" not "Título en Español"
     assert 'English Title Here' in catalog_html
-    # Verify Spanish title is NOT in the dropdown
-    assert 'Título en Español' not in catalog_html or catalog_html.count('Título en Español') == catalog_html.count('RESOURCES_DATA')
+    
+    # Extract the dropdown section and verify Spanish title is not there
+    dropdown_start = catalog_html.find('<select id="resource-select">')
+    dropdown_end = catalog_html.find('</select>', dropdown_start)
+    dropdown_section = catalog_html[dropdown_start:dropdown_end]
+    
+    # Verify Spanish title is NOT in the dropdown options
+    assert 'Título en Español' not in dropdown_section
     print("✓ English title priority works")
 
 
