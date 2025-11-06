@@ -163,11 +163,23 @@ async function loadLanguageMetadata() {
         if (!response.ok) throw new Error('Failed to fetch metadata');
         
         languageMetadata = await response.json();
-        displayLanguageMetadata();
+        await displayLanguageMetadata();
         
     } catch (error) {
         console.error('Error loading language metadata:', error);
         contentDisplayDiv.innerHTML = '<div class="error">Failed to load resource metadata.</div>';
+    }
+}
+
+// Check if a directory exists in the repository
+async function checkDirectoryExists(resourceName, language, dirName) {
+    try {
+        const url = `${GITHUB_API}/repos/${ORG_NAME}/${resourceName}/contents/${language}/${dirName}`;
+        const response = await fetch(url);
+        return response.ok;
+    } catch (error) {
+        console.error(`Error checking directory ${dirName}:`, error);
+        return false;
     }
 }
 
@@ -186,7 +198,7 @@ function displayResourceInfo() {
 }
 
 // Display language metadata
-function displayLanguageMetadata() {
+async function displayLanguageMetadata() {
     if (!languageMetadata) {
         contentDisplayDiv.innerHTML = '<p>No metadata available for this language.</p>';
         return;
@@ -252,6 +264,21 @@ function displayLanguageMetadata() {
         html += '<ul class="download-list">';
         html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/tree/main/${selectedLanguage}/json" target="_blank">Browse JSON files</a></li>`;
         html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/tree/main/${selectedLanguage}/md" target="_blank">Browse Markdown files</a></li>`;
+        
+        // Check for pdf and docx directories concurrently and add links if they exist
+        const [hasPdf, hasDocx] = await Promise.all([
+            checkDirectoryExists(selectedResource.name, selectedLanguage, 'pdf'),
+            checkDirectoryExists(selectedResource.name, selectedLanguage, 'docx')
+        ]);
+        
+        if (hasPdf) {
+            html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/tree/main/${selectedLanguage}/pdf" target="_blank">Browse PDF files</a></li>`;
+        }
+        
+        if (hasDocx) {
+            html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/tree/main/${selectedLanguage}/docx" target="_blank">Browse DOCX files</a></li>`;
+        }
+        
         html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/releases/latest" target="_blank">Download latest release</a></li>`;
         html += '</ul>';
     }
