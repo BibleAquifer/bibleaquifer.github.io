@@ -171,6 +171,18 @@ async function loadLanguageMetadata() {
     }
 }
 
+// Check if a directory exists in the repository
+async function checkDirectoryExists(resourceName, language, dirName) {
+    try {
+        const url = `${GITHUB_API}/repos/${ORG_NAME}/${resourceName}/contents/${language}/${dirName}`;
+        const response = await fetch(url);
+        return response.ok;
+    } catch (error) {
+        console.error(`Error checking directory ${dirName}:`, error);
+        return false;
+    }
+}
+
 // Display resource information
 function displayResourceInfo() {
     if (!selectedResource) return;
@@ -186,7 +198,7 @@ function displayResourceInfo() {
 }
 
 // Display language metadata
-function displayLanguageMetadata() {
+async function displayLanguageMetadata() {
     if (!languageMetadata) {
         contentDisplayDiv.innerHTML = '<p>No metadata available for this language.</p>';
         return;
@@ -252,6 +264,18 @@ function displayLanguageMetadata() {
         html += '<ul class="download-list">';
         html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/tree/main/${selectedLanguage}/json" target="_blank">Browse JSON files</a></li>`;
         html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/tree/main/${selectedLanguage}/md" target="_blank">Browse Markdown files</a></li>`;
+        
+        // Check for pdf and docx directories and add links if they exist
+        const hasPdf = await checkDirectoryExists(selectedResource.name, selectedLanguage, 'pdf');
+        if (hasPdf) {
+            html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/tree/main/${selectedLanguage}/pdf" target="_blank">Browse PDF files</a></li>`;
+        }
+        
+        const hasDocx = await checkDirectoryExists(selectedResource.name, selectedLanguage, 'docx');
+        if (hasDocx) {
+            html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/tree/main/${selectedLanguage}/docx" target="_blank">Browse DOCX files</a></li>`;
+        }
+        
         html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/releases/latest" target="_blank">Download latest release</a></li>`;
         html += '</ul>';
     }
