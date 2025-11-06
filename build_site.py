@@ -20,7 +20,7 @@ ORG_REPO_NAME = '.github'
 README_PATH = 'profile/README.md'
 EXCLUDED_REPOS = ['docs', 'ACAI', 'bibleaquifer.github.io', '.github']
 
-# GitHub token from environment (optional)
+# GitHub token from environment (optional but recommended)
 GITHUB_TOKEN = os.environ.get('GITHUB_TOKEN', '')
 
 def get_headers():
@@ -28,6 +28,24 @@ def get_headers():
     headers = {}
     if GITHUB_TOKEN:
         headers['Authorization'] = f'token {GITHUB_TOKEN}'
+    return headers
+
+
+def check_rate_limit():
+    """Check GitHub API rate limit status"""
+    response = requests.get(f'{GITHUB_API}/rate_limit', headers=get_headers())
+    if response.status_code == 200:
+        data = response.json()
+        core = data.get('resources', {}).get('core', {})
+        remaining = core.get('remaining', 0)
+        reset_time = core.get('reset', 0)
+        if remaining < 10:
+            import time
+            wait_time = max(0, reset_time - time.time())
+            print(f"WARNING: Only {remaining} API calls remaining. Rate limit resets in {wait_time:.0f} seconds.")
+            if wait_time > 0 and wait_time < 3600:  # Only wait if less than 1 hour
+                print(f"Waiting {wait_time:.0f} seconds for rate limit reset...")
+                time.sleep(wait_time + 5)  # Add 5 second buffer
     return headers
 
 # Language code to name mapping
@@ -172,15 +190,37 @@ def format_readme_sections(html: str) -> str:
 
 def fetch_repositories() -> List[Dict[str, Any]]:
     """Fetch all repositories from the organization"""
-    response = requests.get(f'{GITHUB_API}/orgs/{ORG_NAME}/repos?per_page=100', headers=get_headers())
+    all_repos = []
+    page = 1
+    per_page = 100
     
-    if response.status_code == 403:
-        print("WARNING: GitHub API rate limit hit. Waiting 60 seconds...")
-        time.sleep(60)
-        response = requests.get(f'{GITHUB_API}/orgs/{ORG_NAME}/repos?per_page=100', headers=get_headers())
-    
-    response.raise_for_status()
-    repos = response.json()
+    while True:
+        response = requests.get(
+            f'{GITHUB_API}/orgs/{ORG_NAME}/repos?per_page={per_page}&page={page}',
+            headers=get_headers()
+        )
+        
+        if response.status_code == 403:
+            # Check if it's a rate limit issue
+            check_rate_limit()
+            response = requests.get(
+                f'{GITHUB_API}/orgs/{ORG_NAME}/repos?per_page={per_page}&page={page}',
+                headers=get_headers()
+            )
+        
+        response.raise_for_status()
+        repos = response.json()
+        
+        if not repos:
+            break  # No more pages
+        
+        all_repos.extend(repos)
+        
+        # Check if there are more pages
+        if len(repos) < per_page:
+            break
+        
+        page += 1
     
     # Filter repos that are data repositories
     return [
@@ -189,7 +229,7 @@ def fetch_repositories() -> List[Dict[str, Any]]:
             'description': repo.get('description', ''),
             'url': repo['html_url']
         }
-        for repo in repos
+        for repo in all_repos
         if repo['name'] not in EXCLUDED_REPOS and not repo.get('archived', False)
     ]
 
@@ -615,6 +655,13 @@ def main():
     print("=" * 60)
     print("Building BibleAquifer Static Site")
     print("=" * 60)
+    
+    # Check for GitHub token
+    if not GITHUB_TOKEN:
+        print("\nWARNING: GITHUB_TOKEN environment variable is not set.")
+        print("You may encounter API rate limits (60 requests/hour).")
+        print("Set GITHUB_TOKEN to increase limits to 5000 requests/hour.")
+        print("Example: export GITHUB_TOKEN=your_token_here\n")
     
     # Fetch and process README
     print("\n1. Fetching README from organization profile...")
