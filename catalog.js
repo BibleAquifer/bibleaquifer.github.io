@@ -163,7 +163,7 @@ async function loadLanguageMetadata() {
         if (!response.ok) throw new Error('Failed to fetch metadata');
         
         languageMetadata = await response.json();
-        displayLanguageMetadata();
+        await displayLanguageMetadata();
         
     } catch (error) {
         console.error('Error loading language metadata:', error);
