@@ -265,13 +265,16 @@ async function displayLanguageMetadata() {
         html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/tree/main/${selectedLanguage}/json" target="_blank">Browse JSON files</a></li>`;
         html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/tree/main/${selectedLanguage}/md" target="_blank">Browse Markdown files</a></li>`;
         
-        // Check for pdf and docx directories and add links if they exist
-        const hasPdf = await checkDirectoryExists(selectedResource.name, selectedLanguage, 'pdf');
+        // Check for pdf and docx directories concurrently and add links if they exist
+        const [hasPdf, hasDocx] = await Promise.all([
+            checkDirectoryExists(selectedResource.name, selectedLanguage, 'pdf'),
+            checkDirectoryExists(selectedResource.name, selectedLanguage, 'docx')
+        ]);
+        
         if (hasPdf) {
             html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/tree/main/${selectedLanguage}/pdf" target="_blank">Browse PDF files</a></li>`;
         }
         
-        const hasDocx = await checkDirectoryExists(selectedResource.name, selectedLanguage, 'docx');
         if (hasDocx) {
             html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/tree/main/${selectedLanguage}/docx" target="_blank">Browse DOCX files</a></li>`;
         }
