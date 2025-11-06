@@ -21,7 +21,8 @@ README_PATH = 'profile/README.md'
 EXCLUDED_REPOS = ['docs', 'ACAI', 'bibleaquifer.github.io', '.github']
 
 # Debug/test mode flag
-DEBUG_MODE = os.environ.get('DEBUG_MODE', '').lower() in ('true', '1', 'yes')
+# DEBUG_MODE = os.environ.get('DEBUG_MODE', '').lower() in ('true', '1', 'yes')
+DEBUG_MODE = False
 
 # GitHub token from environment - try manage-aquifer first, then GITHUB_AQUIFER_API_KEY
 GITHUB_TOKEN = os.environ.get('manage-aquifer', '') or os.environ.get('GITHUB_AQUIFER_API_KEY', '')
@@ -584,7 +585,7 @@ function displayLanguageMetadata() {
         html += `<em>${langData.citation.title}</em>`;
         
         if (langData.citation.copyright_holder) {
-            html += `. © ${langData.citation.copyright_dates || ''} ${langData.citation.copyright_holder}`;
+            html += `. &copy; ${langData.citation.copyright_dates || ''} ${langData.citation.copyright_holder}`;
         }
         
         if (langData.citation.license_name) {
