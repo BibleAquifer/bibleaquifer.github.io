@@ -49,7 +49,8 @@ SAMPLE_RESOURCES = {
                     'title': 'unfoldingWord® Translation Notes',
                     'copyright_dates': '2022',
                     'copyright_holder': 'unfoldingWord',
-                    'license_name': 'CC BY-SA 4.0 license'
+                    'license_name': 'CC BY-SA 4.0 license',
+                    'adaptation_notice': 'This resource has been adapted from the original English version.'
                 },
                 'has_pdf': False,
                 'has_docx': False
@@ -91,6 +92,48 @@ SAMPLE_RESOURCES = {
                     'title': 'Open Bible Dictionary',
                     'copyright_dates': '2023',
                     'copyright_holder': 'BibleAquifer',
+                    'license_name': 'CC BY 4.0'
+                },
+                'has_pdf': False,
+                'has_docx': False
+            }
+        }
+    },
+    'TestResourceSpanishFirst': {
+        'name': 'TestResourceSpanishFirst',
+        'title': 'English Title Here',
+        'description': 'Test resource with Spanish before English',
+        'url': 'https://github.com/BibleAquifer/TestResourceSpanishFirst',
+        'languages': {
+            'spa': {
+                'code': 'spa',
+                'name': 'Spanish',
+                'title': 'Título en Español',
+                'version': '1.0.0',
+                'resource_type': 'Test',
+                'content_type': 'Html',
+                'language': 'spa',
+                'citation': {
+                    'title': 'Título en Español',
+                    'copyright_dates': '2024',
+                    'copyright_holder': 'Test Org',
+                    'license_name': 'CC BY 4.0'
+                },
+                'has_pdf': False,
+                'has_docx': False
+            },
+            'eng': {
+                'code': 'eng',
+                'name': 'English',
+                'title': 'English Title Here',
+                'version': '1.0.0',
+                'resource_type': 'Test',
+                'content_type': 'Html',
+                'language': 'eng',
+                'citation': {
+                    'title': 'English Title Here',
+                    'copyright_dates': '2024',
+                    'copyright_holder': 'Test Org',
                     'license_name': 'CC BY 4.0'
                 },
                 'has_pdf': False,
@@ -167,6 +210,35 @@ def test_language_name():
     print("✓ Language name conversion works")
 
 
+def test_english_title_priority():
+    """Test that English title is used in dropdown even when not first language"""
+    print("Testing English title priority...")
+    catalog_html = generate_catalog_html(SAMPLE_RESOURCES)
+    
+    # The dropdown should show "English Title Here" not "Título en Español"
+    assert 'English Title Here' in catalog_html
+    
+    # Extract the dropdown section and verify Spanish title is not there
+    dropdown_start = catalog_html.find('<select id="resource-select">')
+    dropdown_end = catalog_html.find('</select>', dropdown_start)
+    dropdown_section = catalog_html[dropdown_start:dropdown_end]
+    
+    # Verify Spanish title is NOT in the dropdown options
+    assert 'Título en Español' not in dropdown_section
+    print("✓ English title priority works")
+
+
+def test_adaptation_notice_display():
+    """Test that adaptation notice is included in citation"""
+    print("Testing adaptation notice display...")
+    catalog_html = generate_catalog_html(SAMPLE_RESOURCES)
+    
+    # Check that the adaptation notice is included in the generated HTML
+    assert 'adaptation_notice' in catalog_html
+    assert 'This resource has been adapted from the original English version.' in catalog_html
+    print("✓ Adaptation notice display works")
+
+
 def main():
     """Run all tests"""
     print("=" * 60)
@@ -181,6 +253,8 @@ def main():
         test_catalog_generation()
         test_yaml_compatibility()
         test_language_name()
+        test_english_title_priority()
+        test_adaptation_notice_display()
         
         print()
         print("=" * 60)

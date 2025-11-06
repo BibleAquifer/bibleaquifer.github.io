@@ -309,6 +309,9 @@ def build_resource_data() -> Dict[str, Any]:
                 # Get the resource title - only use resource_metadata/title
                 title = resource_meta.get('title') or repo_name
                 
+                # Get adaptation notice if available
+                adaptation_notice = resource_meta.get('adaptation_notice')
+                
                 # Check for all format directories generically
                 format_checks = {}
                 for format_name in ['json', 'md', 'pdf', 'docx']:
@@ -326,7 +329,8 @@ def build_resource_data() -> Dict[str, Any]:
                         'title': license_meta.get('title'),
                         'copyright_dates': license_meta.get('copyright', {}).get('dates'),
                         'copyright_holder': license_meta.get('copyright', {}).get('holder', {}).get('name'),
-                        'license_name': None
+                        'license_name': None,
+                        'adaptation_notice': adaptation_notice
                     },
                     **format_checks  # Add all format availability flags
                 }
@@ -340,16 +344,29 @@ def build_resource_data() -> Dict[str, Any]:
                         resource_data['languages'][lang]['citation']['license_name'] = \
                             first_license[lang_code].get('name')
                 
-                # Set the resource title from the first language's metadata if not set
+                # Set the resource title from English metadata if available, otherwise use first language
                 if 'title' not in resource_data:
-                    resource_data['title'] = title
+                    if lang == 'eng':
+                        # Prioritize English title
+                        resource_data['title'] = title
+                    else:
+                        # Temporarily store title from non-English language
+                        resource_data['_temp_title'] = title
         
         # Only add resources that have at least one language with metadata
         if resource_data['languages']:
-            # Default title to formatted repo name if no metadata title found
+            # If we didn't find English title, use the temporary title from first language
             if 'title' not in resource_data:
-                # Convert camelCase to Title Case
-                resource_data['title'] = re.sub(r'([A-Z])', r' \1', repo_name).strip()
+                if '_temp_title' in resource_data:
+                    resource_data['title'] = resource_data['_temp_title']
+                    del resource_data['_temp_title']
+                else:
+                    # Default title to formatted repo name if no metadata title found
+                    # Convert camelCase to Title Case
+                    resource_data['title'] = re.sub(r'([A-Z])', r' \1', repo_name).strip()
+            # Clean up temporary title if it exists
+            elif '_temp_title' in resource_data:
+                del resource_data['_temp_title']
             
             resources[repo_name] = resource_data
     
@@ -593,6 +610,12 @@ function displayLanguageMetadata() {
         }
         
         html += '.</p>';
+        
+        // Add adaptation notice if available
+        if (langData.citation.adaptation_notice) {
+            html += `<p class="adaptation-notice">${langData.citation.adaptation_notice}</p>`;
+        }
+        
         html += '<hr style="margin: 1.5rem 0;">';
     }
     
