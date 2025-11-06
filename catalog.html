@@ -31,7 +31,28 @@
             <div class="control-group">
                 <label for="resource-select">Select Resource:</label>
                 <select id="resource-select">
-                    <option value="">Loading resources...</option>
+                    <option value="">Select a resource...</option>
+                    <option value="AquiferOpenStudyNotesProfiles">Aquifer Open Study Notes (Profiles)</option>
+                    <option value="AquiferOpenStudyNotesThemes">Aquifer Open Study Notes (Themes)</option>
+                    <option value="AquiferOpenBibleDictionary">Bible Dictionary (Tyndale)</option>
+                    <option value="FIAImages">Images (SRV)</option>
+                    <option value="UBSImages">Images (UBS)</option>
+                    <option value="BiblicaStudyNotesKeyTerms">Key Terms (Biblica)</option>
+                    <option value="FIAKeyTerms">Key Terms (SRV)</option>
+                    <option value="FIAMaps">Maps (SRV)</option>
+                    <option value="UWOpenBibleStories">Open Bible Stories (unfoldingWord)</option>
+                    <option value="SILOpenTranslatorsNotes">Open Translator's Notes (SIL)</option>
+                    <option value="BiblicaStudyNotes">Study Notes (Biblica)</option>
+                    <option value="AquiferOpenStudyNotes">Study Notes (Tyndale)</option>
+                    <option value="AquiferOpenStudyNotesBookIntroSummaries">Study Notes - Book Intro Summaries (Tyndale)</option>
+                    <option value="BiblicaStudyNotesBookIntros">Study Notes - Book Intros (Biblica)</option>
+                    <option value="AquiferOpenStudyNotesBookIntros">Study Notes - Book Intros (Tyndale)</option>
+                    <option value="FIATranslationGuide">Translation Guide (SRV)</option>
+                    <option value="UWTranslationManual">Translation Manual (unfoldingWord)</option>
+                    <option value="UWTranslationNotes">Translation Notes (unfoldingWord)</option>
+                    <option value="UWTranslationQuestions">Translation Questions (unfoldingWord)</option>
+                    <option value="UWTranslationWords">Translation Words (unfoldingWord)</option>
+                    <option value="VideoBibleDictionary">Videos (Video Bible Dictionary)</option>
                 </select>
             </div>
             <div class="control-group">
@@ -59,6 +80,3921 @@
         </div>
     </footer>
 
-    <script src="catalog.js"></script>
+    <script>
+// Resource data embedded from YAML
+const RESOURCES_DATA = {
+  "AquiferOpenBibleDictionary": {
+    "name": "AquiferOpenBibleDictionary",
+    "description": "Aquifer resource repository for AquiferOpenBibleDictionary, containing resource-level metadata, article-level metadata, and content files in JSON and Markdown formats.",
+    "url": "https://github.com/BibleAquifer/AquiferOpenBibleDictionary",
+    "languages": {
+      "apd": {
+        "code": "apd",
+        "name": "Sudanese Arabic",
+        "title": "Bible Dictionary (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Bible Dictionary",
+        "content_type": "Html",
+        "language": "apd",
+        "citation": {
+          "title": "Tyndale Open Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "arb": {
+        "code": "arb",
+        "name": "Arabic",
+        "title": "Bible Dictionary (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Bible Dictionary",
+        "content_type": "Html",
+        "language": "arb",
+        "citation": {
+          "title": "Tyndale Open Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "eng": {
+        "code": "eng",
+        "name": "English",
+        "title": "Aquifer Open Bible Dictionary",
+        "version": "1.0.0",
+        "resource_type": "Bible Dictionary",
+        "content_type": "Html",
+        "language": "eng",
+        "citation": {
+          "title": "Tyndale Open Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": "CC BY-SA 4.0 license"
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "fra": {
+        "code": "fra",
+        "name": "French",
+        "title": "Bible Dictionary (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Bible Dictionary",
+        "content_type": "Html",
+        "language": "fra",
+        "citation": {
+          "title": "Tyndale Open Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "hin": {
+        "code": "hin",
+        "name": "Hindi",
+        "title": "Bible Dictionary (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Bible Dictionary",
+        "content_type": "Html",
+        "language": "hin",
+        "citation": {
+          "title": "Tyndale Open Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "ind": {
+        "code": "ind",
+        "name": "Indonesian",
+        "title": "Bible Dictionary (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Bible Dictionary",
+        "content_type": "Html",
+        "language": "ind",
+        "citation": {
+          "title": "Tyndale Open Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "jpn": {
+        "code": "jpn",
+        "name": "Japanese",
+        "title": "Bible Dictionary (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Bible Dictionary",
+        "content_type": "Html",
+        "language": "jpn",
+        "citation": {
+          "title": "Tyndale Open Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "nep": {
+        "code": "nep",
+        "name": "Nepali",
+        "title": "Aquifer Open Bible Dictionary",
+        "version": "1.0.0",
+        "resource_type": "Bible Dictionary",
+        "content_type": "Html",
+        "language": "nep",
+        "citation": {
+          "title": "Tyndale Open Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "nld": {
+        "code": "nld",
+        "name": "Dutch",
+        "title": "Aquifer Open Bible Dictionary",
+        "version": "1.0.0",
+        "resource_type": "Bible Dictionary",
+        "content_type": "Html",
+        "language": "nld",
+        "citation": {
+          "title": "Tyndale Open Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "por": {
+        "code": "por",
+        "name": "Portuguese",
+        "title": "Bible Dictionary (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Bible Dictionary",
+        "content_type": "Html",
+        "language": "por",
+        "citation": {
+          "title": "Tyndale Open Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "rus": {
+        "code": "rus",
+        "name": "Russian",
+        "title": "Bible Dictionary (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Bible Dictionary",
+        "content_type": "Html",
+        "language": "rus",
+        "citation": {
+          "title": "Tyndale Open Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "spa": {
+        "code": "spa",
+        "name": "Spanish",
+        "title": "Bible Dictionary (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Bible Dictionary",
+        "content_type": "Html",
+        "language": "spa",
+        "citation": {
+          "title": "Tyndale Open Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "swh": {
+        "code": "swh",
+        "name": "Swahili",
+        "title": "Bible Dictionary (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Bible Dictionary",
+        "content_type": "Html",
+        "language": "swh",
+        "citation": {
+          "title": "Tyndale Open Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "tpi": {
+        "code": "tpi",
+        "name": "Tok Pisin",
+        "title": "Bible Dictionary (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Bible Dictionary",
+        "content_type": "Html",
+        "language": "tpi",
+        "citation": {
+          "title": "Tyndale Open Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "zht": {
+        "code": "zht",
+        "name": "Chinese (Traditional)",
+        "title": "Bible Dictionary (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Bible Dictionary",
+        "content_type": "Html",
+        "language": "zht",
+        "citation": {
+          "title": "Tyndale Open Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      }
+    },
+    "title": "Bible Dictionary (Tyndale)"
+  },
+  "AquiferOpenStudyNotes": {
+    "name": "AquiferOpenStudyNotes",
+    "description": "Aquifer resource repository for AquiferOpenStudyNotes, containing resource-level metadata, article-level metadata, and content files in JSON and Markdown formats.",
+    "url": "https://github.com/BibleAquifer/AquiferOpenStudyNotes",
+    "languages": {
+      "arb": {
+        "code": "arb",
+        "name": "Arabic",
+        "title": "Study Notes (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "arb",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "eng": {
+        "code": "eng",
+        "name": "English",
+        "title": "Aquifer Open Study Notes",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "eng",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": "CC BY-SA 4.0 license"
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "fra": {
+        "code": "fra",
+        "name": "French",
+        "title": "Study Notes (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "fra",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "hin": {
+        "code": "hin",
+        "name": "Hindi",
+        "title": "Study Notes (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "hin",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "ind": {
+        "code": "ind",
+        "name": "Indonesian",
+        "title": "Study Notes (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "ind",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "jpn": {
+        "code": "jpn",
+        "name": "Japanese",
+        "title": "Study Notes (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "jpn",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": false,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "por": {
+        "code": "por",
+        "name": "Portuguese",
+        "title": "Study Notes (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "por",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "rus": {
+        "code": "rus",
+        "name": "Russian",
+        "title": "Study Notes (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "rus",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "spa": {
+        "code": "spa",
+        "name": "Spanish",
+        "title": "Study Notes (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "spa",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "swh": {
+        "code": "swh",
+        "name": "Swahili",
+        "title": "Study Notes (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "swh",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "zht": {
+        "code": "zht",
+        "name": "Chinese (Traditional)",
+        "title": "Study Notes (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "zht",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      }
+    },
+    "title": "Study Notes (Tyndale)"
+  },
+  "AquiferOpenStudyNotesBookIntros": {
+    "name": "AquiferOpenStudyNotesBookIntros",
+    "description": "Aquifer resource repository for AquiferOpenStudyNotesBookIntros, containing resource-level metadata, article-level metadata, and content files in JSON and Markdown formats.",
+    "url": "https://github.com/BibleAquifer/AquiferOpenStudyNotesBookIntros",
+    "languages": {
+      "arb": {
+        "code": "arb",
+        "name": "Arabic",
+        "title": "Study Notes - Book Intros (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "arb",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "eng": {
+        "code": "eng",
+        "name": "English",
+        "title": "Aquifer Open Study Notes (Book Intros)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "eng",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": "CC BY-SA 4.0 license"
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "fra": {
+        "code": "fra",
+        "name": "French",
+        "title": "Study Notes - Book Intros (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "fra",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "hin": {
+        "code": "hin",
+        "name": "Hindi",
+        "title": "Study Notes - Book Intros (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "hin",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "ind": {
+        "code": "ind",
+        "name": "Indonesian",
+        "title": "Study Notes - Book Intros (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "ind",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "por": {
+        "code": "por",
+        "name": "Portuguese",
+        "title": "Study Notes - Book Intros (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "por",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "rus": {
+        "code": "rus",
+        "name": "Russian",
+        "title": "Study Notes - Book Intros (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "rus",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "spa": {
+        "code": "spa",
+        "name": "Spanish",
+        "title": "Study Notes - Book Intros (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "spa",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "swh": {
+        "code": "swh",
+        "name": "Swahili",
+        "title": "Study Notes - Book Intros (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "swh",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "zht": {
+        "code": "zht",
+        "name": "Chinese (Traditional)",
+        "title": "Study Notes - Book Intros (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "zht",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      }
+    },
+    "title": "Study Notes - Book Intros (Tyndale)"
+  },
+  "AquiferOpenStudyNotesBookIntroSummaries": {
+    "name": "AquiferOpenStudyNotesBookIntroSummaries",
+    "description": "Aquifer resource repository for AquiferOpenStudyNotesBookIntroSummaries, containing resource-level metadata, article-level metadata, and content files in JSON and Markdown formats.",
+    "url": "https://github.com/BibleAquifer/AquiferOpenStudyNotesBookIntroSummaries",
+    "languages": {
+      "arb": {
+        "code": "arb",
+        "name": "Arabic",
+        "title": "Study Notes - Book Intro Summaries (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "arb",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "eng": {
+        "code": "eng",
+        "name": "English",
+        "title": "Aquifer Open Study Notes (Book Intro Summaries)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "eng",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": "CC BY-SA 4.0 license"
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "fra": {
+        "code": "fra",
+        "name": "French",
+        "title": "Study Notes - Book Intro Summaries (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "fra",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "hin": {
+        "code": "hin",
+        "name": "Hindi",
+        "title": "Study Notes - Book Intro Summaries (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "hin",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "ind": {
+        "code": "ind",
+        "name": "Indonesian",
+        "title": "Study Notes - Book Intro Summaries (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "ind",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "nep": {
+        "code": "nep",
+        "name": "Nepali",
+        "title": "Aquifer Open Study Notes (Book Intro Summaries)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "nep",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "por": {
+        "code": "por",
+        "name": "Portuguese",
+        "title": "Study Notes - Book Intro Summaries (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "por",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "rus": {
+        "code": "rus",
+        "name": "Russian",
+        "title": "Study Notes - Book Intro Summaries (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "rus",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "spa": {
+        "code": "spa",
+        "name": "Spanish",
+        "title": "Study Notes - Book Intro Summaries (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "spa",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "swh": {
+        "code": "swh",
+        "name": "Swahili",
+        "title": "Study Notes - Book Intro Summaries (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "swh",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "zht": {
+        "code": "zht",
+        "name": "Chinese (Traditional)",
+        "title": "Study Notes - Book Intro Summaries (Tyndale)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "zht",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      }
+    },
+    "title": "Study Notes - Book Intro Summaries (Tyndale)"
+  },
+  "AquiferOpenStudyNotesProfiles": {
+    "name": "AquiferOpenStudyNotesProfiles",
+    "description": "Aquifer resource repository for AquiferOpenStudyNotesProfiles, containing resource-level metadata, article-level metadata, and content files in JSON and Markdown formats.",
+    "url": "https://github.com/BibleAquifer/AquiferOpenStudyNotesProfiles",
+    "languages": {
+      "arb": {
+        "code": "arb",
+        "name": "Arabic",
+        "title": "Aquifer Open Study Notes (Profiles)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "arb",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "eng": {
+        "code": "eng",
+        "name": "English",
+        "title": "Aquifer Open Study Notes (Profiles)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "eng",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": "CC BY-SA 4.0 license"
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "fra": {
+        "code": "fra",
+        "name": "French",
+        "title": "Aquifer Open Study Notes (Profiles)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "fra",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "hin": {
+        "code": "hin",
+        "name": "Hindi",
+        "title": "Aquifer Open Study Notes (Profiles)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "hin",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "por": {
+        "code": "por",
+        "name": "Portuguese",
+        "title": "Aquifer Open Study Notes (Profiles)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "por",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "spa": {
+        "code": "spa",
+        "name": "Spanish",
+        "title": "Aquifer Open Study Notes (Profiles)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "spa",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "swh": {
+        "code": "swh",
+        "name": "Swahili",
+        "title": "Aquifer Open Study Notes (Profiles)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "swh",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "zht": {
+        "code": "zht",
+        "name": "Chinese (Traditional)",
+        "title": "Aquifer Open Study Notes (Profiles)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "zht",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      }
+    },
+    "title": "Aquifer Open Study Notes (Profiles)"
+  },
+  "AquiferOpenStudyNotesThemes": {
+    "name": "AquiferOpenStudyNotesThemes",
+    "description": "Aquifer resource repository for AquiferOpenStudyNotesThemes, containing resource-level metadata, article-level metadata, and content files in JSON and Markdown formats.",
+    "url": "https://github.com/BibleAquifer/AquiferOpenStudyNotesThemes",
+    "languages": {
+      "arb": {
+        "code": "arb",
+        "name": "Arabic",
+        "title": "Aquifer Open Study Notes (Themes)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "arb",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "eng": {
+        "code": "eng",
+        "name": "English",
+        "title": "Aquifer Open Study Notes (Themes)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "eng",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": "CC BY-SA 4.0 license"
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "fra": {
+        "code": "fra",
+        "name": "French",
+        "title": "Aquifer Open Study Notes (Themes)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "fra",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "hin": {
+        "code": "hin",
+        "name": "Hindi",
+        "title": "Aquifer Open Study Notes (Themes)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "hin",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "ind": {
+        "code": "ind",
+        "name": "Indonesian",
+        "title": "Aquifer Open Study Notes (Themes)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "ind",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "por": {
+        "code": "por",
+        "name": "Portuguese",
+        "title": "Aquifer Open Study Notes (Themes)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "por",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "rus": {
+        "code": "rus",
+        "name": "Russian",
+        "title": "Aquifer Open Study Notes (Themes)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "rus",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "swh": {
+        "code": "swh",
+        "name": "Swahili",
+        "title": "Aquifer Open Study Notes (Themes)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "swh",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "zht": {
+        "code": "zht",
+        "name": "Chinese (Traditional)",
+        "title": "Aquifer Open Study Notes (Themes)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "zht",
+        "citation": {
+          "title": "Tyndale Open Study Notes",
+          "copyright_dates": "2019",
+          "copyright_holder": "Tyndale House Publishers",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      }
+    },
+    "title": "Aquifer Open Study Notes (Themes)"
+  },
+  "BiblicaStudyNotes": {
+    "name": "BiblicaStudyNotes",
+    "description": "Aquifer resource repository for BiblicaStudyNotes, containing resource-level metadata, article-level metadata, and content files in JSON and Markdown formats.",
+    "url": "https://github.com/BibleAquifer/BiblicaStudyNotes",
+    "languages": {
+      "apd": {
+        "code": "apd",
+        "name": "Sudanese Arabic",
+        "title": "Study Notes (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "apd",
+        "citation": {
+          "title": "Biblica Study Notes",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "arb": {
+        "code": "arb",
+        "name": "Arabic",
+        "title": "Study Notes (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "arb",
+        "citation": {
+          "title": "Biblica Study Notes",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "eng": {
+        "code": "eng",
+        "name": "English",
+        "title": "Study Notes (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "eng",
+        "citation": {
+          "title": "Biblica Study Notes",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica Inc.",
+          "license_name": "CC BY-SA 4.0 license"
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": true,
+        "has_docx": true
+      },
+      "fra": {
+        "code": "fra",
+        "name": "French",
+        "title": "Study Notes (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "fra",
+        "citation": {
+          "title": "Biblica Study Notes",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": true,
+        "has_docx": true
+      },
+      "hin": {
+        "code": "hin",
+        "name": "Hindi",
+        "title": "Study Notes (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "hin",
+        "citation": {
+          "title": "Biblica Study Notes",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": true,
+        "has_docx": true
+      },
+      "ind": {
+        "code": "ind",
+        "name": "Indonesian",
+        "title": "Study Notes (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "ind",
+        "citation": {
+          "title": "Biblica Study Notes",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": true,
+        "has_docx": true
+      },
+      "nld": {
+        "code": "nld",
+        "name": "Dutch",
+        "title": "Study Notes (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "nld",
+        "citation": {
+          "title": "Biblica Study Notes",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": true,
+        "has_docx": true
+      },
+      "por": {
+        "code": "por",
+        "name": "Portuguese",
+        "title": "Study Notes (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "por",
+        "citation": {
+          "title": "Biblica Study Notes",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": true,
+        "has_docx": true
+      },
+      "rus": {
+        "code": "rus",
+        "name": "Russian",
+        "title": "Study Notes (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "rus",
+        "citation": {
+          "title": "Biblica Study Notes",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": true,
+        "has_docx": true
+      },
+      "spa": {
+        "code": "spa",
+        "name": "Spanish",
+        "title": "Study Notes (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "spa",
+        "citation": {
+          "title": "Biblica Study Notes",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": true,
+        "has_docx": true
+      },
+      "swh": {
+        "code": "swh",
+        "name": "Swahili",
+        "title": "Study Notes (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "swh",
+        "citation": {
+          "title": "Biblica Study Notes",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": true,
+        "has_docx": true
+      },
+      "zht": {
+        "code": "zht",
+        "name": "Chinese (Traditional)",
+        "title": "Study Notes (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "zht",
+        "citation": {
+          "title": "Biblica Study Notes",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": true,
+        "has_docx": true
+      }
+    },
+    "title": "Study Notes (Biblica)"
+  },
+  "BiblicaStudyNotesBookIntros": {
+    "name": "BiblicaStudyNotesBookIntros",
+    "description": "Aquifer resource repository for BiblicaStudyNotesBookIntros, containing resource-level metadata, article-level metadata, and content files in JSON and Markdown formats.",
+    "url": "https://github.com/BibleAquifer/BiblicaStudyNotesBookIntros",
+    "languages": {
+      "arb": {
+        "code": "arb",
+        "name": "Arabic",
+        "title": "Study Notes - Book Intros (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "arb",
+        "citation": {
+          "title": "Biblica Study Notes",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "eng": {
+        "code": "eng",
+        "name": "English",
+        "title": "Study Notes - Book Intros (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "eng",
+        "citation": {
+          "title": "Biblica Study Notes",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica Inc.",
+          "license_name": "CC BY-SA 4.0 license"
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "fra": {
+        "code": "fra",
+        "name": "French",
+        "title": "Study Notes - Book Intros (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "fra",
+        "citation": {
+          "title": "Biblica Study Notes",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "por": {
+        "code": "por",
+        "name": "Portuguese",
+        "title": "Study Notes - Book Intros (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "por",
+        "citation": {
+          "title": "Biblica Study Notes",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "rus": {
+        "code": "rus",
+        "name": "Russian",
+        "title": "Study Notes - Book Intros (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "rus",
+        "citation": {
+          "title": "Biblica Study Notes",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "spa": {
+        "code": "spa",
+        "name": "Spanish",
+        "title": "Study Notes - Book Intros (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "spa",
+        "citation": {
+          "title": "Biblica Study Notes",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "swh": {
+        "code": "swh",
+        "name": "Swahili",
+        "title": "Study Notes - Book Intros (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "swh",
+        "citation": {
+          "title": "Biblica Study Notes",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "zht": {
+        "code": "zht",
+        "name": "Chinese (Traditional)",
+        "title": "Study Notes - Book Intros (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "zht",
+        "citation": {
+          "title": "Biblica Study Notes",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      }
+    },
+    "title": "Study Notes - Book Intros (Biblica)"
+  },
+  "BiblicaStudyNotesKeyTerms": {
+    "name": "BiblicaStudyNotesKeyTerms",
+    "description": "Aquifer resource repository for BiblicaStudyNotesKeyTerms, containing resource-level metadata, article-level metadata, and content files in JSON and Markdown formats.",
+    "url": "https://github.com/BibleAquifer/BiblicaStudyNotesKeyTerms",
+    "languages": {
+      "arb": {
+        "code": "arb",
+        "name": "Arabic",
+        "title": "Key Terms (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "arb",
+        "citation": {
+          "title": "Biblica Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica, Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "eng": {
+        "code": "eng",
+        "name": "English",
+        "title": "Key Terms (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "eng",
+        "citation": {
+          "title": "Biblica Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica, Inc.",
+          "license_name": "CC BY-SA 4.0 license"
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "fra": {
+        "code": "fra",
+        "name": "French",
+        "title": "Key Terms (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "fra",
+        "citation": {
+          "title": "Biblica Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica, Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "hin": {
+        "code": "hin",
+        "name": "Hindi",
+        "title": "Key Terms (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "hin",
+        "citation": {
+          "title": "Biblica Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica, Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "ind": {
+        "code": "ind",
+        "name": "Indonesian",
+        "title": "Key Terms (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "ind",
+        "citation": {
+          "title": "Biblica Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica, Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "nld": {
+        "code": "nld",
+        "name": "Dutch",
+        "title": "Key Terms (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "nld",
+        "citation": {
+          "title": "Biblica Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica, Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "por": {
+        "code": "por",
+        "name": "Portuguese",
+        "title": "Key Terms (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "por",
+        "citation": {
+          "title": "Biblica Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica, Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "rus": {
+        "code": "rus",
+        "name": "Russian",
+        "title": "Key Terms (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "rus",
+        "citation": {
+          "title": "Biblica Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica, Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "spa": {
+        "code": "spa",
+        "name": "Spanish",
+        "title": "Key Terms (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "spa",
+        "citation": {
+          "title": "Biblica Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica, Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "swh": {
+        "code": "swh",
+        "name": "Swahili",
+        "title": "Key Terms (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "swh",
+        "citation": {
+          "title": "Biblica Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica, Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "zht": {
+        "code": "zht",
+        "name": "Chinese (Traditional)",
+        "title": "Key Terms (Biblica)",
+        "version": "1.0.0",
+        "resource_type": "Study Notes",
+        "content_type": "Html",
+        "language": "zht",
+        "citation": {
+          "title": "Biblica Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica, Inc.",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      }
+    },
+    "title": "Key Terms (Biblica)"
+  },
+  "SILOpenTranslatorsNotes": {
+    "name": "SILOpenTranslatorsNotes",
+    "description": "Aquifer resource repository for SILOpenTranslatorsNotes, containing resource-level metadata, article-level metadata, and content files in JSON and Markdown formats.",
+    "url": "https://github.com/BibleAquifer/SILOpenTranslatorsNotes",
+    "languages": {
+      "eng": {
+        "code": "eng",
+        "name": "English",
+        "title": "Open Translator's Notes (SIL)",
+        "version": "1.0.0",
+        "resource_type": "Translation Guide",
+        "content_type": "Html",
+        "language": "eng",
+        "citation": {
+          "title": "Open Translator's Notes",
+          "copyright_dates": "2024",
+          "copyright_holder": "SIL International",
+          "license_name": "CC BY-SA 4.0 license"
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      }
+    },
+    "title": "Open Translator's Notes (SIL)"
+  },
+  "UWOpenBibleStories": {
+    "name": "UWOpenBibleStories",
+    "description": "Aquifer resource repository for UWOpenBibleStories, containing resource-level metadata, article-level metadata, and content files in JSON and Markdown formats.",
+    "url": "https://github.com/BibleAquifer/UWOpenBibleStories",
+    "languages": {
+      "arb": {
+        "code": "arb",
+        "name": "Arabic",
+        "title": "Open Bible Stories (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Foundational Bible Stories",
+        "content_type": "Html",
+        "language": "arb",
+        "citation": {
+          "title": "unfoldingWord\u00ae Open Bible Stories",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "eng": {
+        "code": "eng",
+        "name": "English",
+        "title": "Open Bible Stories (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Foundational Bible Stories",
+        "content_type": "Html",
+        "language": "eng",
+        "citation": {
+          "title": "unfoldingWord\u00ae Open Bible Stories",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": "CC BY-SA 4.0 license"
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "fra": {
+        "code": "fra",
+        "name": "French",
+        "title": "Open Bible Stories (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Foundational Bible Stories",
+        "content_type": "Html",
+        "language": "fra",
+        "citation": {
+          "title": "unfoldingWord\u00ae Open Bible Stories",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "hin": {
+        "code": "hin",
+        "name": "Hindi",
+        "title": "Open Bible Stories (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Foundational Bible Stories",
+        "content_type": "Html",
+        "language": "hin",
+        "citation": {
+          "title": "unfoldingWord\u00ae Open Bible Stories",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "ind": {
+        "code": "ind",
+        "name": "Indonesian",
+        "title": "Open Bible Stories (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Foundational Bible Stories",
+        "content_type": "Html",
+        "language": "ind",
+        "citation": {
+          "title": "unfoldingWord\u00ae Open Bible Stories",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "nep": {
+        "code": "nep",
+        "name": "Nepali",
+        "title": "Open Bible Stories (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Foundational Bible Stories",
+        "content_type": "Html",
+        "language": "nep",
+        "citation": {
+          "title": "unfoldingWord\u00ae Open Bible Stories",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "por": {
+        "code": "por",
+        "name": "Portuguese",
+        "title": "Open Bible Stories (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Foundational Bible Stories",
+        "content_type": "Html",
+        "language": "por",
+        "citation": {
+          "title": "unfoldingWord\u00ae Open Bible Stories",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "rus": {
+        "code": "rus",
+        "name": "Russian",
+        "title": "Open Bible Stories (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Foundational Bible Stories",
+        "content_type": "Html",
+        "language": "rus",
+        "citation": {
+          "title": "unfoldingWord\u00ae Open Bible Stories",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "spa": {
+        "code": "spa",
+        "name": "Spanish",
+        "title": "Open Bible Stories (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Foundational Bible Stories",
+        "content_type": "Html",
+        "language": "spa",
+        "citation": {
+          "title": "unfoldingWord\u00ae Open Bible Stories",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "swh": {
+        "code": "swh",
+        "name": "Swahili",
+        "title": "Open Bible Stories (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Foundational Bible Stories",
+        "content_type": "Html",
+        "language": "swh",
+        "citation": {
+          "title": "unfoldingWord\u00ae Open Bible Stories",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "tpi": {
+        "code": "tpi",
+        "name": "Tok Pisin",
+        "title": "Open Bible Stories (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Foundational Bible Stories",
+        "content_type": "Html",
+        "language": "tpi",
+        "citation": {
+          "title": "unfoldingWord\u00ae Open Bible Stories",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "zhs": {
+        "code": "zhs",
+        "name": "ZHS",
+        "title": "Open Bible Stories (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Foundational Bible Stories",
+        "content_type": "Html",
+        "language": "zhs",
+        "citation": {
+          "title": "unfoldingWord\u00ae Open Bible Stories",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      }
+    },
+    "title": "Open Bible Stories (unfoldingWord)"
+  },
+  "UWTranslationManual": {
+    "name": "UWTranslationManual",
+    "description": "Aquifer resource repository for UWTranslationManual, containing resource-level metadata, article-level metadata, and content files in JSON and Markdown formats.",
+    "url": "https://github.com/BibleAquifer/UWTranslationManual",
+    "languages": {
+      "arb": {
+        "code": "arb",
+        "name": "Arabic",
+        "title": "Translation Manual (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Bible Translation Manual",
+        "content_type": "Html",
+        "language": "arb",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Academy",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "eng": {
+        "code": "eng",
+        "name": "English",
+        "title": "Translation Manual (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Bible Translation Manual",
+        "content_type": "Html",
+        "language": "eng",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Academy",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": "CC BY-SA 4.0 license"
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "hin": {
+        "code": "hin",
+        "name": "Hindi",
+        "title": "Translation Manual (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Bible Translation Manual",
+        "content_type": "Html",
+        "language": "hin",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Academy",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "ind": {
+        "code": "ind",
+        "name": "Indonesian",
+        "title": "Translation Manual (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Bible Translation Manual",
+        "content_type": "Html",
+        "language": "ind",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Academy",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "nep": {
+        "code": "nep",
+        "name": "Nepali",
+        "title": "Translation Manual (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Bible Translation Manual",
+        "content_type": "Html",
+        "language": "nep",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Academy",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "por": {
+        "code": "por",
+        "name": "Portuguese",
+        "title": "Translation Manual (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Bible Translation Manual",
+        "content_type": "Html",
+        "language": "por",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Academy",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "spa": {
+        "code": "spa",
+        "name": "Spanish",
+        "title": "Translation Manual (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Bible Translation Manual",
+        "content_type": "Html",
+        "language": "spa",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Academy",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "zht": {
+        "code": "zht",
+        "name": "Chinese (Traditional)",
+        "title": "Translation Manual (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Bible Translation Manual",
+        "content_type": "Html",
+        "language": "zht",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Academy",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      }
+    },
+    "title": "Translation Manual (unfoldingWord)"
+  },
+  "UWTranslationNotes": {
+    "name": "UWTranslationNotes",
+    "description": "Aquifer resource repository for UWTranslationNotes, containing resource-level metadata, article-level metadata, and content files in JSON and Markdown formats.",
+    "url": "https://github.com/BibleAquifer/UWTranslationNotes",
+    "languages": {
+      "arb": {
+        "code": "arb",
+        "name": "Arabic",
+        "title": "Translation Notes (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Translation Guide",
+        "content_type": "Html",
+        "language": "arb",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Notes",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "eng": {
+        "code": "eng",
+        "name": "English",
+        "title": "Translation Notes (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Translation Guide",
+        "content_type": "Html",
+        "language": "eng",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Notes",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": "CC BY-SA 4.0 license"
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "fra": {
+        "code": "fra",
+        "name": "French",
+        "title": "Translation Notes (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Translation Guide",
+        "content_type": "Html",
+        "language": "fra",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Notes",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "hin": {
+        "code": "hin",
+        "name": "Hindi",
+        "title": "Translation Notes (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Translation Guide",
+        "content_type": "Html",
+        "language": "hin",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Notes",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "ind": {
+        "code": "ind",
+        "name": "Indonesian",
+        "title": "Translation Notes (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Translation Guide",
+        "content_type": "Html",
+        "language": "ind",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Notes",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "por": {
+        "code": "por",
+        "name": "Portuguese",
+        "title": "Translation Notes (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Translation Guide",
+        "content_type": "Html",
+        "language": "por",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Notes",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "zht": {
+        "code": "zht",
+        "name": "Chinese (Traditional)",
+        "title": "Translation Notes (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Translation Guide",
+        "content_type": "Html",
+        "language": "zht",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Notes",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      }
+    },
+    "title": "Translation Notes (unfoldingWord)"
+  },
+  "UWTranslationQuestions": {
+    "name": "UWTranslationQuestions",
+    "description": "Aquifer resource repository for UWTranslationQuestions, containing resource-level metadata, article-level metadata, and content files in JSON and Markdown formats.",
+    "url": "https://github.com/BibleAquifer/UWTranslationQuestions",
+    "languages": {
+      "eng": {
+        "code": "eng",
+        "name": "English",
+        "title": "Translation Questions (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Comprehension Testing",
+        "content_type": "Html",
+        "language": "eng",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Questions",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": "CC BY-SA 4.0 license"
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "fra": {
+        "code": "fra",
+        "name": "French",
+        "title": "Translation Questions (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Comprehension Testing",
+        "content_type": "Html",
+        "language": "fra",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Questions",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "hin": {
+        "code": "hin",
+        "name": "Hindi",
+        "title": "Translation Questions (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Comprehension Testing",
+        "content_type": "Html",
+        "language": "hin",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Questions",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "por": {
+        "code": "por",
+        "name": "Portuguese",
+        "title": "Translation Questions (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Comprehension Testing",
+        "content_type": "Html",
+        "language": "por",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Questions",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      }
+    },
+    "title": "Translation Questions (unfoldingWord)"
+  },
+  "UWTranslationWords": {
+    "name": "UWTranslationWords",
+    "description": "Aquifer resource repository for UWTranslationWords, containing resource-level metadata, article-level metadata, and content files in JSON and Markdown formats.",
+    "url": "https://github.com/BibleAquifer/UWTranslationWords",
+    "languages": {
+      "arb": {
+        "code": "arb",
+        "name": "Arabic",
+        "title": "Translation Words (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Translation Glossary",
+        "content_type": "Html",
+        "language": "arb",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Words",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "eng": {
+        "code": "eng",
+        "name": "English",
+        "title": "Translation Words (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Translation Glossary",
+        "content_type": "Html",
+        "language": "eng",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Words",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": "CC BY-SA 4.0 license"
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "fra": {
+        "code": "fra",
+        "name": "French",
+        "title": "Translation Words (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Translation Glossary",
+        "content_type": "Html",
+        "language": "fra",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Words",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "hin": {
+        "code": "hin",
+        "name": "Hindi",
+        "title": "Translation Words (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Translation Glossary",
+        "content_type": "Html",
+        "language": "hin",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Words",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "ind": {
+        "code": "ind",
+        "name": "Indonesian",
+        "title": "Translation Words (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Translation Glossary",
+        "content_type": "Html",
+        "language": "ind",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Words",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "jpn": {
+        "code": "jpn",
+        "name": "Japanese",
+        "title": "Translation Words (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Translation Glossary",
+        "content_type": "Html",
+        "language": "jpn",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Words",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "por": {
+        "code": "por",
+        "name": "Portuguese",
+        "title": "Translation Words (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Translation Glossary",
+        "content_type": "Html",
+        "language": "por",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Words",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "spa": {
+        "code": "spa",
+        "name": "Spanish",
+        "title": "Translation Words (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Translation Glossary",
+        "content_type": "Html",
+        "language": "spa",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Words",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "swh": {
+        "code": "swh",
+        "name": "Swahili",
+        "title": "Translation Words (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Translation Glossary",
+        "content_type": "Html",
+        "language": "swh",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Words",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "zht": {
+        "code": "zht",
+        "name": "Chinese (Traditional)",
+        "title": "Translation Words (unfoldingWord)",
+        "version": "1.0.0",
+        "resource_type": "Translation Glossary",
+        "content_type": "Html",
+        "language": "zht",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Words",
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      }
+    },
+    "title": "Translation Words (unfoldingWord)"
+  },
+  "UBSImages": {
+    "name": "UBSImages",
+    "description": "Aquifer resource repository for UBSImages, containing resource-level metadata, article-level metadata, and content files in JSON and Markdown formats.",
+    "url": "https://github.com/BibleAquifer/UBSImages",
+    "languages": {
+      "apd": {
+        "code": "apd",
+        "name": "Sudanese Arabic",
+        "title": "Images (UBS)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "apd",
+        "citation": {
+          "title": "UBS Images",
+          "copyright_dates": null,
+          "copyright_holder": "United Bible Societies",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "arb": {
+        "code": "arb",
+        "name": "Arabic",
+        "title": "Images (UBS)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "arb",
+        "citation": {
+          "title": "UBS Images",
+          "copyright_dates": null,
+          "copyright_holder": "United Bible Societies",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "bis": {
+        "code": "bis",
+        "name": "BIS",
+        "title": "Images (UBS)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "bis",
+        "citation": {
+          "title": "UBS Images",
+          "copyright_dates": null,
+          "copyright_holder": "United Bible Societies",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "eng": {
+        "code": "eng",
+        "name": "English",
+        "title": "Images (UBS)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "eng",
+        "citation": {
+          "title": "UBS Images",
+          "copyright_dates": null,
+          "copyright_holder": "United Bible Societies",
+          "license_name": "Public Domain CC0"
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "fra": {
+        "code": "fra",
+        "name": "French",
+        "title": "Images (UBS)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "fra",
+        "citation": {
+          "title": "UBS Images",
+          "copyright_dates": null,
+          "copyright_holder": "United Bible Societies",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "hau": {
+        "code": "hau",
+        "name": "HAU",
+        "title": "Images (UBS)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "hau",
+        "citation": {
+          "title": "UBS Images",
+          "copyright_dates": null,
+          "copyright_holder": "United Bible Societies",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "hin": {
+        "code": "hin",
+        "name": "Hindi",
+        "title": "Images (UBS)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "hin",
+        "citation": {
+          "title": "UBS Images",
+          "copyright_dates": null,
+          "copyright_holder": "United Bible Societies",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "ibo": {
+        "code": "ibo",
+        "name": "IBO",
+        "title": "Images (UBS)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "ibo",
+        "citation": {
+          "title": "UBS Images",
+          "copyright_dates": null,
+          "copyright_holder": "United Bible Societies",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "ind": {
+        "code": "ind",
+        "name": "Indonesian",
+        "title": "Images (UBS)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "ind",
+        "citation": {
+          "title": "UBS Images",
+          "copyright_dates": null,
+          "copyright_holder": "United Bible Societies",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "por": {
+        "code": "por",
+        "name": "Portuguese",
+        "title": "Images (UBS)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "por",
+        "citation": {
+          "title": "UBS Images",
+          "copyright_dates": null,
+          "copyright_holder": "United Bible Societies",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "rus": {
+        "code": "rus",
+        "name": "Russian",
+        "title": "Images (UBS)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "rus",
+        "citation": {
+          "title": "UBS Images",
+          "copyright_dates": null,
+          "copyright_holder": "United Bible Societies",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "spa": {
+        "code": "spa",
+        "name": "Spanish",
+        "title": "Images (UBS)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "spa",
+        "citation": {
+          "title": "UBS Images",
+          "copyright_dates": null,
+          "copyright_holder": "United Bible Societies",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "swh": {
+        "code": "swh",
+        "name": "Swahili",
+        "title": "Images (UBS)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "swh",
+        "citation": {
+          "title": "UBS Images",
+          "copyright_dates": null,
+          "copyright_holder": "United Bible Societies",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "tpi": {
+        "code": "tpi",
+        "name": "Tok Pisin",
+        "title": "Images (UBS)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "tpi",
+        "citation": {
+          "title": "UBS Images",
+          "copyright_dates": null,
+          "copyright_holder": "United Bible Societies",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "vie": {
+        "code": "vie",
+        "name": "VIE",
+        "title": "Images (UBS)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "vie",
+        "citation": {
+          "title": "UBS Images",
+          "copyright_dates": null,
+          "copyright_holder": "United Bible Societies",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "zhs": {
+        "code": "zhs",
+        "name": "ZHS",
+        "title": "Images (UBS)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "zhs",
+        "citation": {
+          "title": "UBS Images",
+          "copyright_dates": null,
+          "copyright_holder": "United Bible Societies",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "zht": {
+        "code": "zht",
+        "name": "Chinese (Traditional)",
+        "title": "Images (UBS)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "zht",
+        "citation": {
+          "title": "UBS Images",
+          "copyright_dates": null,
+          "copyright_holder": "United Bible Societies",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "zlm": {
+        "code": "zlm",
+        "name": "ZLM",
+        "title": "Images (UBS)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "zlm",
+        "citation": {
+          "title": "UBS Images",
+          "copyright_dates": null,
+          "copyright_holder": "United Bible Societies",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      }
+    },
+    "title": "Images (UBS)"
+  },
+  "FIAImages": {
+    "name": "FIAImages",
+    "description": "Aquifer resource repository for FIAImages, containing resource-level metadata, article-level metadata, and content files in JSON and Markdown formats.",
+    "url": "https://github.com/BibleAquifer/FIAImages",
+    "languages": {
+      "eng": {
+        "code": "eng",
+        "name": "English",
+        "title": "Images (SRV)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "eng",
+        "citation": {
+          "title": "Familiarization, Internalization, Articulation (Fia) Images",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": "CC BY-SA 4.0 license"
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      }
+    },
+    "title": "Images (SRV)"
+  },
+  "FIAMaps": {
+    "name": "FIAMaps",
+    "description": "Aquifer resource repository for FIAMaps, containing resource-level metadata, article-level metadata, and content files in JSON and Markdown formats.",
+    "url": "https://github.com/BibleAquifer/FIAMaps",
+    "languages": {
+      "eng": {
+        "code": "eng",
+        "name": "English",
+        "title": "Maps (SRV)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "eng",
+        "citation": {
+          "title": "Familiarization, Internalization, Articulation (Fia) Maps",
+          "copyright_dates": "2023",
+          "copyright_holder": "Biblica Inc.",
+          "license_name": "CC BY-SA 4.0 license"
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      }
+    },
+    "title": "Maps (SRV)"
+  },
+  "FIAKeyTerms": {
+    "name": "FIAKeyTerms",
+    "description": "Aquifer resource repository for FIAKeyTerms, containing resource-level metadata, article-level metadata, and content files in JSON and Markdown formats.",
+    "url": "https://github.com/BibleAquifer/FIAKeyTerms",
+    "languages": {
+      "eng": {
+        "code": "eng",
+        "name": "English",
+        "title": "Key Terms (SRV)",
+        "version": "1.0.0",
+        "resource_type": "Translation Glossary",
+        "content_type": "Html",
+        "language": "eng",
+        "citation": {
+          "title": "Familiarization, Internalization, Articulation (Fia) Terms",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": "CC BY-SA 4.0 license"
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "jpn": {
+        "code": "jpn",
+        "name": "Japanese",
+        "title": "Key Terms (SRV)",
+        "version": "1.0.0",
+        "resource_type": "Translation Glossary",
+        "content_type": "Html",
+        "language": "jpn",
+        "citation": {
+          "title": "Familiarization, Internalization, Articulation (Fia) Terms",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      }
+    },
+    "title": "Key Terms (SRV)"
+  },
+  "FIATranslationGuide": {
+    "name": "FIATranslationGuide",
+    "description": "Aquifer resource repository for FIATranslationGuide, containing resource-level metadata, article-level metadata, and content files in JSON and Markdown formats.",
+    "url": "https://github.com/BibleAquifer/FIATranslationGuide",
+    "languages": {
+      "arb": {
+        "code": "arb",
+        "name": "Arabic",
+        "title": "Translation Guide (SRV)",
+        "version": "1.0.0",
+        "resource_type": "Translation Guide",
+        "content_type": "Html",
+        "language": "arb",
+        "citation": {
+          "title": "Familiarization, Internalization, Articulation (Fia)",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "eng": {
+        "code": "eng",
+        "name": "English",
+        "title": "Familiarization, Internalization, Articulation (FIA) ",
+        "version": "1.0.0",
+        "resource_type": "Translation Guide",
+        "content_type": "Html",
+        "language": "eng",
+        "citation": {
+          "title": "Familiarization, Internalization, Articulation (Fia)",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": "CC BY-SA 4.0 license"
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "fra": {
+        "code": "fra",
+        "name": "French",
+        "title": "Translation Guide (SRV)",
+        "version": "1.0.0",
+        "resource_type": "Translation Guide",
+        "content_type": "Html",
+        "language": "fra",
+        "citation": {
+          "title": "Familiarization, Internalization, Articulation (Fia)",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "hin": {
+        "code": "hin",
+        "name": "Hindi",
+        "title": "Translation Guide (SRV)",
+        "version": "1.0.0",
+        "resource_type": "Translation Guide",
+        "content_type": "Html",
+        "language": "hin",
+        "citation": {
+          "title": "Familiarization, Internalization, Articulation (Fia)",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "ind": {
+        "code": "ind",
+        "name": "Indonesian",
+        "title": "Translation Guide (SRV)",
+        "version": "1.0.0",
+        "resource_type": "Translation Guide",
+        "content_type": "Html",
+        "language": "ind",
+        "citation": {
+          "title": "Familiarization, Internalization, Articulation (Fia)",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "por": {
+        "code": "por",
+        "name": "Portuguese",
+        "title": "Translation Guide (SRV)",
+        "version": "1.0.0",
+        "resource_type": "Translation Guide",
+        "content_type": "Html",
+        "language": "por",
+        "citation": {
+          "title": "Familiarization, Internalization, Articulation (Fia)",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "rus": {
+        "code": "rus",
+        "name": "Russian",
+        "title": "Translation Guide (SRV)",
+        "version": "1.0.0",
+        "resource_type": "Translation Guide",
+        "content_type": "Html",
+        "language": "rus",
+        "citation": {
+          "title": "Familiarization, Internalization, Articulation (Fia)",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "spa": {
+        "code": "spa",
+        "name": "Spanish",
+        "title": "Translation Guide (SRV)",
+        "version": "1.0.0",
+        "resource_type": "Translation Guide",
+        "content_type": "Html",
+        "language": "spa",
+        "citation": {
+          "title": "Familiarization, Internalization, Articulation (Fia)",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "swh": {
+        "code": "swh",
+        "name": "Swahili",
+        "title": "Translation Guide (SRV)",
+        "version": "1.0.0",
+        "resource_type": "Translation Guide",
+        "content_type": "Html",
+        "language": "swh",
+        "citation": {
+          "title": "Familiarization, Internalization, Articulation (Fia)",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "tpi": {
+        "code": "tpi",
+        "name": "Tok Pisin",
+        "title": "Translation Guide (SRV)",
+        "version": "1.0.0",
+        "resource_type": "Translation Guide",
+        "content_type": "Html",
+        "language": "tpi",
+        "citation": {
+          "title": "Familiarization, Internalization, Articulation (Fia)",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "zhs": {
+        "code": "zhs",
+        "name": "ZHS",
+        "title": "Translation Guide (SRV)",
+        "version": "1.0.0",
+        "resource_type": "Translation Guide",
+        "content_type": "Html",
+        "language": "zhs",
+        "citation": {
+          "title": "Familiarization, Internalization, Articulation (Fia)",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      }
+    },
+    "title": "Translation Guide (SRV)"
+  },
+  "VideoBibleDictionary": {
+    "name": "VideoBibleDictionary",
+    "description": "Aquifer resource repository for VideoBibleDictionary, containing resource-level metadata, article-level metadata, and content files in JSON and Markdown formats.",
+    "url": "https://github.com/BibleAquifer/VideoBibleDictionary",
+    "languages": {
+      "apd": {
+        "code": "apd",
+        "name": "Sudanese Arabic",
+        "title": "Videos (Video Bible Dictionary)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "apd",
+        "citation": {
+          "title": "Video Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "arb": {
+        "code": "arb",
+        "name": "Arabic",
+        "title": "Videos (Video Bible Dictionary)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "arb",
+        "citation": {
+          "title": "Video Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "bis": {
+        "code": "bis",
+        "name": "BIS",
+        "title": "Videos (Video Bible Dictionary)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "bis",
+        "citation": {
+          "title": "Video Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "eng": {
+        "code": "eng",
+        "name": "English",
+        "title": "Videos (Video Bible Dictionary)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "eng",
+        "citation": {
+          "title": "Video Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": "CC BY-SA 4.0 license"
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "fra": {
+        "code": "fra",
+        "name": "French",
+        "title": "Videos (Video Bible Dictionary)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "fra",
+        "citation": {
+          "title": "Video Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "hau": {
+        "code": "hau",
+        "name": "HAU",
+        "title": "Videos (Video Bible Dictionary)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "hau",
+        "citation": {
+          "title": "Video Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "hin": {
+        "code": "hin",
+        "name": "Hindi",
+        "title": "Videos (Video Bible Dictionary)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "hin",
+        "citation": {
+          "title": "Video Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "ibo": {
+        "code": "ibo",
+        "name": "IBO",
+        "title": "Videos (Video Bible Dictionary)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "ibo",
+        "citation": {
+          "title": "Video Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "ind": {
+        "code": "ind",
+        "name": "Indonesian",
+        "title": "Videos (Video Bible Dictionary)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "ind",
+        "citation": {
+          "title": "Video Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "por": {
+        "code": "por",
+        "name": "Portuguese",
+        "title": "Videos (Video Bible Dictionary)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "por",
+        "citation": {
+          "title": "Video Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "rus": {
+        "code": "rus",
+        "name": "Russian",
+        "title": "Videos (Video Bible Dictionary)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "rus",
+        "citation": {
+          "title": "Video Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "spa": {
+        "code": "spa",
+        "name": "Spanish",
+        "title": "Videos (Video Bible Dictionary)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "spa",
+        "citation": {
+          "title": "Video Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "swh": {
+        "code": "swh",
+        "name": "Swahili",
+        "title": "Videos (Video Bible Dictionary)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "swh",
+        "citation": {
+          "title": "Video Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "tpi": {
+        "code": "tpi",
+        "name": "Tok Pisin",
+        "title": "Videos (Video Bible Dictionary)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "tpi",
+        "citation": {
+          "title": "Video Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "vie": {
+        "code": "vie",
+        "name": "VIE",
+        "title": "Videos (Video Bible Dictionary)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "vie",
+        "citation": {
+          "title": "Video Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "zhs": {
+        "code": "zhs",
+        "name": "ZHS",
+        "title": "Videos (Video Bible Dictionary)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "zhs",
+        "citation": {
+          "title": "Video Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "zht": {
+        "code": "zht",
+        "name": "Chinese (Traditional)",
+        "title": "Videos (Video Bible Dictionary)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "zht",
+        "citation": {
+          "title": "Video Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      },
+      "zlm": {
+        "code": "zlm",
+        "name": "ZLM",
+        "title": "Videos (Video Bible Dictionary)",
+        "version": "1.0.0",
+        "resource_type": "Images, Maps, Videos",
+        "content_type": "Html",
+        "language": "zlm",
+        "citation": {
+          "title": "Video Bible Dictionary",
+          "copyright_dates": "2023",
+          "copyright_holder": "SRV Partners",
+          "license_name": null
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": false,
+        "has_docx": false
+      }
+    },
+    "title": "Videos (Video Bible Dictionary)"
+  }
+};
+const ORG_NAME = 'BibleAquifer';
+
+// DOM elements
+const resourceSelect = document.getElementById('resource-select');
+const languageSelect = document.getElementById('language-select');
+const resourceMetadataDiv = document.getElementById('resource-metadata');
+const contentDisplayDiv = document.getElementById('content-display');
+const resourceInfoSection = document.getElementById('resource-info');
+const contentViewerSection = document.getElementById('content-viewer');
+
+// State
+let selectedResource = null;
+let selectedLanguage = null;
+
+// Setup event listeners
+resourceSelect.addEventListener('change', handleResourceChange);
+languageSelect.addEventListener('change', handleLanguageChange);
+
+// Handle resource selection
+function handleResourceChange() {
+    const resourceId = resourceSelect.value;
+    
+    if (!resourceId) {
+        languageSelect.innerHTML = '<option value="">Select a resource first</option>';
+        languageSelect.disabled = true;
+        resourceMetadataDiv.innerHTML = '';
+        contentDisplayDiv.innerHTML = '';
+        resourceInfoSection.classList.add('hidden');
+        contentViewerSection.classList.add('hidden');
+        return;
+    }
+    
+    selectedResource = RESOURCES_DATA[resourceId];
+    
+    // Populate language dropdown
+    languageSelect.innerHTML = '<option value="">Select a language...</option>';
+    
+    const languages = Object.values(selectedResource.languages).sort((a, b) => 
+        a.name.localeCompare(b.name)
+    );
+    
+    const hasEng = languages.some(lang => lang.code === 'eng');
+    
+    languages.forEach(lang => {
+        const option = document.createElement('option');
+        option.value = lang.code;
+        option.textContent = lang.name;
+        if (lang.code === 'eng' && hasEng) {
+            option.selected = true;
+        }
+        languageSelect.appendChild(option);
+    });
+    
+    languageSelect.disabled = false;
+    
+    // Display resource info
+    displayResourceInfo();
+    
+    // Auto-load English if available
+    if (hasEng) {
+        selectedLanguage = 'eng';
+        displayLanguageMetadata();
+    }
+}
+
+// Handle language selection
+function handleLanguageChange() {
+    selectedLanguage = languageSelect.value;
+    
+    if (!selectedLanguage) {
+        contentDisplayDiv.innerHTML = '';
+        contentViewerSection.classList.add('hidden');
+        return;
+    }
+    
+    displayLanguageMetadata();
+}
+
+// Display resource information
+function displayResourceInfo() {
+    if (!selectedResource) return;
+    
+    resourceMetadataDiv.innerHTML = `
+        <h3>${selectedResource.title}</h3>
+        <p>${selectedResource.description || 'No description available'}</p>
+        <p><a href="${selectedResource.url}" target="_blank">View on GitHub</a></p>
+    `;
+    
+    resourceInfoSection.classList.remove('hidden');
+}
+
+// Display language metadata
+function displayLanguageMetadata() {
+    if (!selectedResource || !selectedLanguage) return;
+    
+    const langData = selectedResource.languages[selectedLanguage];
+    if (!langData) {
+        contentDisplayDiv.innerHTML = '<p>No metadata available for this language.</p>';
+        return;
+    }
+    
+    let html = '';
+    
+    // Display citation if available
+    if (langData.citation && langData.citation.title) {
+        html += '<h3>Citation</h3>';
+        html += '<p class="citation">';
+        html += `<em>${langData.citation.title}</em>`;
+        
+        if (langData.citation.copyright_holder) {
+            html += `. &copy; ${langData.citation.copyright_dates || ''} ${langData.citation.copyright_holder}`;
+        }
+        
+        if (langData.citation.license_name) {
+            html += `. Licensed under ${langData.citation.license_name}`;
+        }
+        
+        html += '.</p>';
+        html += '<hr style="margin: 1.5rem 0;">';
+    }
+    
+    // Display key metadata
+    html += '<h3>Resource Information</h3>';
+    html += '<div class="metadata-grid">';
+    
+    const metadataFields = [
+        { label: 'Title', value: langData.title },
+        { label: 'Language', value: langData.language },
+        { label: 'Version', value: langData.version },
+        { label: 'Type', value: langData.resource_type },
+        { label: 'Content Type', value: langData.content_type }
+    ];
+    
+    metadataFields.forEach(field => {
+        if (field.value) {
+            html += `
+                <div class="metadata-label">${field.label}:</div>
+                <div class="metadata-value">${field.value}</div>
+            `;
+        }
+    });
+    
+    html += '</div>';
+    
+    // Add download links
+    html += '<hr style="margin: 1.5rem 0;">';
+    html += '<h3>Access Resource</h3>';
+    html += '<p>Browse or download this resource:</p>';
+    html += '<ul class="download-list">';
+    
+    // Dynamically check and add links for all available formats
+    const formats = [
+        { key: 'has_json', name: 'JSON', label: 'Browse JSON files' },
+        { key: 'has_md', name: 'Markdown', label: 'Browse Markdown files' },
+        { key: 'has_pdf', name: 'PDF', label: 'Browse PDF files' },
+        { key: 'has_docx', name: 'DOCX', label: 'Browse DOCX files' }
+    ];
+    
+    formats.forEach(format => {
+        if (langData[format.key]) {
+            const dirName = format.key.replace('has_', '');
+            html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/tree/main/${selectedLanguage}/${dirName}" target="_blank">${format.label}</a></li>`;
+        }
+    });
+    
+    html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/releases/latest" target="_blank">Download latest release</a></li>`;
+    html += '</ul>';
+    
+    contentDisplayDiv.innerHTML = html;
+    contentViewerSection.classList.remove('hidden');
+}
+    </script>
 </body>
 </html>

@@ -8,45 +8,78 @@ The site is automatically deployed to GitHub Pages at: https://bibleaquifer.gith
 
 ## Site Structure
 
-The site consists of two pages:
+The site consists of two statically-generated pages:
 
 ### Landing Page (`index.html`)
-An informational page that introduces Aquifer Bible Resources with content from the BibleAquifer organization profile. Includes:
+An informational page that introduces Aquifer Bible Resources with content from the BibleAquifer organization profile. Features:
 - Overview of open source Bible resources for the global church
 - Information about resource-level organization
 - Available openly-licensed resources
 - Documentation and schemas
 - Call-to-action button to access the Unified Catalog
+- **Static Content**: README content is embedded during build time (no dynamic loading)
 
 ### Unified Catalog (`catalog.html`)
 An interactive catalog for browsing resources by type and language. Features:
-- **Resource Selection**: Dropdown listing all available BibleAquifer data repositories (displayed using unformatted repository names)
+- **Resource Selection**: Dropdown listing all available BibleAquifer data repositories using proper resource titles from metadata (e.g., "Translation Notes (unfoldingWord)" instead of "UWTranslationNotes")
 - **Language Selection**: Dropdown showing available languages for the selected resource
 - **Default to English**: Automatically selects and loads English ("eng") language when available
 - **Citation Display**: Shows proper citation from resource metadata including title, copyright, and license information
 - **Resource Information**: Displays metadata including language, version, type, and content type
-- **Download Links**: Direct access to browse JSON files, Markdown files, and download the latest release
+- **Download Links**: Direct access to browse JSON, Markdown, PDF, and DOCX files (when available)
+- **Static Generation**: All resource data is embedded in the HTML during build time
 - **Clean UI**: Empty sections remain hidden until populated with data
 
 ## Features
 
+- **Static Site Generation**: Pages are pre-built using a Python script
 - **Two-Page Design**: Informational landing page and interactive catalog
 - **Header Navigation**: Quick access to Unified Catalog, Home, and GitHub Organization
-- **Fast Resource Loading**: Uses repository names directly for instant dropdown population
-- **Dynamic Content**: Fetches data directly from GitHub repositories using the GitHub API
+- **Fast Loading**: All data is embedded in HTML, no API calls needed at runtime
+- **Proper Resource Titles**: Uses actual resource names from metadata instead of repository names
 - **Responsive Design**: Works on desktop and mobile devices
-- **No Dependencies**: Pure vanilla JavaScript, HTML5, and CSS3
+- **No Runtime Dependencies**: Pure vanilla JavaScript, HTML5, and CSS3
 
 ## How It Works
 
-The site dynamically fetches data from BibleAquifer repositories:
+The site is built using `build_site.py`, which:
 
-1. **Resource Discovery**: Loads all repositories from the BibleAquifer organization (excluding `docs`, `ACAI`, `.github`, and `bibleaquifer.github.io`)
-2. **Language Detection**: For each resource, detects available languages by scanning for 3-letter ISO 639-3 language code directories (e.g., `eng`, `spa`, `fra`)
-3. **Auto-Selection**: Automatically selects "eng" (English) language if available
-4. **Metadata Loading**: Loads language-specific metadata from `{language}/metadata.json`
-5. **Citation Extraction**: Pulls citation information from `resource_metadata.license_info` including title, copyright holder, and license
-6. **Resource Access**: Provides links to browse JSON/MD folders and download latest release
+1. **Fetches Organization README**: Retrieves content from `BibleAquifer/.github/profile/README.md`
+2. **Discovers Resources**: Queries GitHub API for all repositories (excluding `docs`, `ACAI`, `.github`, and `bibleaquifer.github.io`)
+3. **Detects Languages**: Scans each repository for 3-letter ISO 639-3 language code directories (e.g., `eng`, `spa`, `fra`)
+4. **Fetches Metadata**: Downloads `metadata.json` for each language to extract:
+   - Resource title from `resource_metadata.title` or `resource_metadata.license_info.title`
+   - Version, type, content type
+   - Citation information (title, copyright, license)
+5. **Checks Formats**: Verifies existence of `pdf` and `docx` directories
+6. **Generates HTML**: Creates `index.html` and `catalog.html` with all data embedded
+
+At runtime, the catalog uses vanilla JavaScript to:
+- Populate dropdowns from embedded data
+- Display resource information when selections change
+- Show download links for available formats
+
+## Building the Site
+
+See [BUILD.md](BUILD.md) for detailed instructions on:
+- Setting up the Python environment with Poetry
+- Running the build script
+- Testing with sample data
+- Deploying updates
+
+Quick start:
+```bash
+# Install dependencies
+pip install poetry
+poetry install
+
+# Build the site (requires GitHub API access)
+export GITHUB_TOKEN=your_token_here
+poetry run python build_site.py
+
+# Test the build script (no API access needed)
+poetry run python test_build.py
+```
 
 ## Repository Structure Expected
 
@@ -72,7 +105,7 @@ RepositoryName/
 
 ## Local Development
 
-To test the site locally:
+To work on the site locally:
 
 1. Clone this repository:
    ```bash
@@ -80,22 +113,32 @@ To test the site locally:
    cd bibleaquifer.github.io
    ```
 
-2. Start a local web server:
+2. Build the site (see [BUILD.md](BUILD.md) for details):
+   ```bash
+   poetry install
+   poetry run python build_site.py
+   ```
+
+3. Start a local web server:
    ```bash
    python3 -m http.server 8080
    ```
-   Or use any other static file server.
 
-3. Open your browser to `http://localhost:8080`
+4. Open your browser to `http://localhost:8080`
 
-**Note**: When running locally, you may encounter CORS (Cross-Origin Resource Sharing) restrictions from the GitHub API. The site will work properly when deployed to GitHub Pages at https://bibleaquifer.github.io
+The generated HTML files are committed to the repository and served by GitHub Pages.
 
 ## Technologies Used
 
+- **Python 3.9+**: Build script and site generator
+- **Poetry**: Python dependency management
+- **Jinja2**: HTML template engine
+- **PyYAML**: YAML data export
+- **Requests**: HTTP library for GitHub API
 - **HTML5**: Structure and semantic markup
 - **CSS3**: Styling with responsive design including flexbox layouts
-- **Vanilla JavaScript**: Dynamic content loading and interaction (no external libraries)
-- **GitHub API**: Fetches repository data and raw content files
+- **Vanilla JavaScript**: Interactive catalog (no external libraries)
+- **GitHub API**: Source of repository and metadata information
 
 ## Supported Languages
 
@@ -134,14 +177,19 @@ Examples of resources available through this interface:
 
 ```
 bibleaquifer.github.io/
-├── index.html          # Landing page with informational content
-├── catalog.html        # Unified catalog page
+├── index.html          # Landing page (generated)
+├── catalog.html        # Unified catalog page (generated)
 ├── styles.css          # Shared CSS styles
-├── catalog.js          # JavaScript for catalog functionality
+├── build_site.py       # Site generation script
+├── test_build.py       # Test script with sample data
+├── pyproject.toml      # Poetry configuration
+├── BUILD.md            # Build instructions
 ├── README.md           # This file
 ├── LICENSE             # License information
 └── .gitignore          # Git ignore rules
 ```
+
+Note: `index.js`, `catalog.js`, and `app.js` are no longer used as the site is now statically generated.
 
 ## Contributing
 
