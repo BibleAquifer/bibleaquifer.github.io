@@ -5,6 +5,7 @@ description = "Static site generator for BibleAquifer"
 authors = [
     {name = "copilot-swe-agent[bot]",email = "198982749+Copilot@users.noreply.github.com"}
 ]
+package-mode = false
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
