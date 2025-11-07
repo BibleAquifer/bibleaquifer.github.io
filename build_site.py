@@ -8,6 +8,8 @@ import json
 import os
 import re
 import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 import time
 import yaml
 from typing import Dict, List, Any, Optional
@@ -19,6 +21,20 @@ ORG_NAME = 'BibleAquifer'
 ORG_REPO_NAME = '.github'
 README_PATH = 'profile/README.md'
 EXCLUDED_REPOS = ['docs', 'ACAI', 'bibleaquifer.github.io', '.github']
+# get set up to do retries on requests
+# Define retry strategy
+retry_strategy = Retry(
+    total=7,                  # total retry attempts
+    backoff_factor=1,         # sleep between retries: {backoff factor} * (2 ** retry count)
+    status_forcelist=[429, 500, 502, 503, 504],  # retry on these statuses
+    allowed_methods=["HEAD", "GET", "OPTIONS", "POST"]  # methods to retry
+)
+
+# Mount to session
+adapter = HTTPAdapter(max_retries=retry_strategy)
+session = requests.Session()
+session.mount("http://", adapter)
+session.mount("https://", adapter)
 
 # Debug/test mode flag
 # DEBUG_MODE = os.environ.get('DEBUG_MODE', '').lower() in ('true', '1', 'yes')
@@ -37,7 +53,12 @@ def get_headers():
 
 def check_rate_limit():
     """Check GitHub API rate limit status"""
-    response = requests.get(f'{GITHUB_API}/rate_limit', headers=get_headers())
+    try:
+        response = session.get(f'{GITHUB_API}/rate_limit', headers=get_headers())
+        response.raise_for_status()
+    except (requests.exceptions.RequestException, requests.exceptions.ConnectionError) as e:
+        print(f"Error checking rate limit: {e}")
+        
     if response.status_code == 200:
         data = response.json()
         core = data.get('resources', {}).get('core', {})
@@ -80,8 +101,11 @@ def get_language_name(code: str) -> str:
 def fetch_readme() -> str:
     """Fetch README.md from organization profile"""
     url = f'https://raw.githubusercontent.com/{ORG_NAME}/{ORG_REPO_NAME}/main/{README_PATH}'
-    response = requests.get(url, headers=get_headers())
-    response.raise_for_status()
+    try:
+        response = session.get(url, headers=get_headers())
+        response.raise_for_status()
+    except (requests.exceptions.RequestException, requests.exceptions.ConnectionError) as e:
+        print(f"Error fetching README.md: {e}")
     return response.text
 
 
@@ -199,10 +223,14 @@ def fetch_repositories() -> List[Dict[str, Any]]:
     per_page = 100
     
     while True:
-        response = requests.get(
-            f'{GITHUB_API}/orgs/{ORG_NAME}/repos?per_page={per_page}&page={page}',
-            headers=get_headers()
-        )
+        try:
+            response = session.get(
+                f'{GITHUB_API}/orgs/{ORG_NAME}/repos?per_page={per_page}&page={page}',
+                headers=get_headers()
+            )
+            response.raise_for_status()
+        except (requests.exceptions.RequestException, requests.exceptions.ConnectionError) as e:
+            print(f"Error retrieving repositories: {e}")
         
         if response.status_code == 403:
             # Check if it's a rate limit issue
@@ -240,7 +268,12 @@ def fetch_repositories() -> List[Dict[str, Any]]:
 
 def fetch_languages(repo_name: str) -> List[str]:
     """Fetch available languages for a repository"""
-    response = requests.get(f'{GITHUB_API}/repos/{ORG_NAME}/{repo_name}/contents', headers=get_headers())
+    try:
+        response = session.get(f'{GITHUB_API}/repos/{ORG_NAME}/{repo_name}/contents', headers=get_headers())
+        response.raise_for_status()
+    except (requests.exceptions.RequestException, requests.exceptions.ConnectionError) as e:
+        print(f"Error retrieving repository languages: {e}")
+
     if response.status_code != 200:
         return []
     
@@ -259,7 +292,11 @@ def fetch_languages(repo_name: str) -> List[str]:
 def fetch_metadata(repo_name: str, language: str) -> Optional[Dict[str, Any]]:
     """Fetch metadata.json for a specific language"""
     url = f'https://raw.githubusercontent.com/{ORG_NAME}/{repo_name}/main/{language}/metadata.json'
-    response = requests.get(url, headers=get_headers())
+    try:
+        response = session.get(url, headers=get_headers())
+        response.raise_for_status()
+    except (requests.exceptions.RequestException, requests.exceptions.ConnectionError) as e:
+        print(f"Error retrieving `{repo_name}/{language}/metadata.json`")
     
     if response.status_code != 200:
         return None
@@ -270,7 +307,12 @@ def fetch_metadata(repo_name: str, language: str) -> Optional[Dict[str, Any]]:
 def check_directory_exists(repo_name: str, language: str, dir_name: str) -> bool:
     """Check if a directory exists in the repository"""
     url = f'{GITHUB_API}/repos/{ORG_NAME}/{repo_name}/contents/{language}/{dir_name}'
-    response = requests.get(url, headers=get_headers())
+    try:
+        response = session.get(url, headers=get_headers())
+        response.raise_for_status()
+    except (requests.exceptions.RequestException, requests.exceptions.ConnectionError) as e:
+        print(f"Error retrieving `{language}/{dir_name}`")
+        
     return response.status_code == 200
 
 
@@ -613,7 +655,7 @@ function displayLanguageMetadata() {
         
         // Add adaptation notice if available
         if (langData.citation.adaptation_notice) {
-            html += `<p class="adaptation-notice">${langData.citation.adaptation_notice}</p>`;
+            html += `<div class="adaptation-notice">${langData.citation.adaptation_notice}</div>`;
         }
         
         html += '<hr style="margin: 1.5rem 0;">';
