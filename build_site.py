@@ -161,6 +161,9 @@ def markdown_to_html(markdown: str) -> str:
     # Convert code `code`
     html = re.sub(r'`([^`]+)`', r'<code>\1</code>', html)
     
+    # standardize emdashes
+    html = re.sub(r'—', r'&mdash;', html)
+    
     # Split into paragraphs and wrap in <p> tags
     lines = html.split('\n')
     result = ''
