@@ -498,33 +498,38 @@ def generate_catalog_html(resources: Dict[str, Any]) -> str:
         </div>
     </nav>
 
-    <main class="container">
-        <section id="catalog-controls">
-            <div class="control-group">
-                <label for="resource-select">Select Resource:</label>
-                <select id="resource-select">
-                    <option value="">Select a resource...</option>
+    <main class="catalog-layout">
+        <aside class="catalog-sidebar">
+            <section id="catalog-controls">
+                <h2>Filters</h2>
+                <div class="control-group">
+                    <label for="resource-select">Select Resource:</label>
+                    <select id="resource-select">
+                        <option value="">Select a resource...</option>
 {%- for resource_id, resource in resources.items() | sort(attribute='1.title') %}
-                    <option value="{{ resource_id }}">{{ resource.title }}</option>
+                        <option value="{{ resource_id }}">{{ resource.title }}</option>
 {%- endfor %}
-                </select>
-            </div>
-            <div class="control-group">
-                <label for="language-select">Select Language:</label>
-                <select id="language-select">
-                    <option value="">Select a resource first</option>
-                </select>
-            </div>
-        </section>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="language-select">Select Language:</label>
+                    <select id="language-select">
+                        <option value="">Select a resource first</option>
+                    </select>
+                </div>
+            </section>
+        </aside>
 
-        <section id="resource-info" class="hidden">
-            <div id="resource-metadata"></div>
-        </section>
+        <div class="catalog-content">
+            <section id="resource-info" class="hidden">
+                <div id="resource-metadata"></div>
+            </section>
 
-        <section id="content-viewer" class="hidden">
-            <h2>Resource Details</h2>
-            <div id="content-display"></div>
-        </section>
+            <section id="content-viewer" class="hidden">
+                <h2>Resource Details</h2>
+                <div id="content-display"></div>
+            </section>
+        </div>
     </main>
 
     <footer>
