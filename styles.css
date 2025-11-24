@@ -65,6 +65,11 @@ header h1 {
 }
 
 main {
+    padding: 2rem 0;
+}
+
+/* Catalog page removes default padding as layout handles it */
+main.catalog-layout {
     padding: 0;
 }
 
@@ -415,8 +420,8 @@ footer p {
 .catalog-sidebar {
     flex: 0 0 300px;
     position: sticky;
-    top: 2rem;
-    max-height: calc(100vh - 4rem);
+    top: 2rem; /* Space from viewport top when sticky */
+    max-height: calc(100vh - 4rem); /* Viewport height minus top/bottom spacing (2rem each) */
     overflow-y: auto;
 }
 
