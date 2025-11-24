@@ -314,7 +314,7 @@ def check_directory_exists(repo_name: str, language: str, dir_name: str) -> bool
         response = session.get(url, headers=get_headers())
         response.raise_for_status()
     except (requests.exceptions.RequestException, requests.exceptions.ConnectionError) as e:
-        print(f"Error retrieving `{language}/{dir_name}`")
+        print(f"Skipping `{language}/{dir_name}` (does not exist)")
         
     return response.status_code == 200
 
@@ -359,7 +359,7 @@ def build_resource_data() -> Dict[str, Any]:
                 
                 # Check for all format directories generically
                 format_checks = {}
-                for format_name in ['json', 'md', 'pdf', 'docx']:
+                for format_name in ['json', 'md', 'pdf', 'docx', 'usx', 'usfm', 'audio']:
                     format_checks[f'has_{format_name}'] = check_directory_exists(repo_name, lang, format_name)
                 
                 resource_data['languages'][lang] = {
@@ -698,7 +698,11 @@ function displayLanguageMetadata() {
         { key: 'has_json', name: 'JSON', label: 'Browse JSON files' },
         { key: 'has_md', name: 'Markdown', label: 'Browse Markdown files' },
         { key: 'has_pdf', name: 'PDF', label: 'Browse PDF files' },
-        { key: 'has_docx', name: 'DOCX', label: 'Browse DOCX files' }
+        { key: 'has_docx', name: 'DOCX', label: 'Browse DOCX files' },
+        { key: 'has_usx', name: 'USX', label: 'Browse USX files' },
+        { key: 'has_usfm', name: 'USFM', label: 'Browse USFM files' },
+        { key: 'has_audio', name: 'audio', label: 'Browse audio timings' }
+        
     ];
     
     formats.forEach(format => {
@@ -767,7 +771,7 @@ def main():
         yaml.dump(resources, f, default_flow_style=False, sort_keys=False)
     
     # Generate HTML files
-    print("\n4. Generating index.html...")
+    print("\n4. Generating index.html...\n")
     index_html = generate_index_html(readme_formatted)
     with open(os.path.join(output_dir, 'index.html'), 'w') as f:
         f.write(index_html)
