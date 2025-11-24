@@ -491,13 +491,13 @@ def generate_catalog_html(resources: Dict[str, Any]) -> str:
             </nav>
         </div>
     </header>
-
+<!--
     <nav class="breadcrumb">
         <div class="container">
             <a href="index.html">Home</a> &gt; Catalog
         </div>
     </nav>
-
+ -->
     <main class="catalog-layout">
         <aside class="catalog-sidebar">
             <section id="catalog-controls">
