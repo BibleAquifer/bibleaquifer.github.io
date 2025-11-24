@@ -68,6 +68,11 @@ main {
     padding: 2rem 0;
 }
 
+/* Catalog page removes default padding as layout handles it */
+main.catalog-layout {
+    padding: 0;
+}
+
 section {
     background: white;
     border-radius: 8px;
@@ -255,6 +260,35 @@ footer p {
     color: #555;
 }
 
+/* Resource header styles */
+.resource-header {
+    margin-bottom: 1.5rem;
+}
+
+.resource-header h3 {
+    color: #2c5aa0;
+    margin-bottom: 0.5rem;
+}
+
+/* Two-column layout for resource details */
+.resource-details-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.resource-info-column,
+.resource-access-column {
+    min-width: 0; /* Prevent overflow */
+}
+
+.resource-info-column h3,
+.resource-access-column h3 {
+    color: #2c5aa0;
+    margin-bottom: 1rem;
+}
+
 @media (max-width: 768px) {
     #controls {
         flex-direction: column;
@@ -266,6 +300,12 @@ footer p {
     
     #article-list {
         grid-template-columns: 1fr;
+    }
+    
+    /* Stack columns on mobile */
+    .resource-details-columns {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
 }
 
@@ -400,4 +440,84 @@ footer p {
     gap: 1rem;
     flex-wrap: wrap;
     align-items: flex-end;
+}
+
+/* Catalog sidebar layout */
+.catalog-layout {
+    display: flex;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 20px;
+    align-items: flex-start;
+}
+
+.catalog-sidebar {
+    flex: 0 0 300px;
+    position: sticky;
+    top: 2rem; /* Space from viewport top when sticky */
+    max-height: calc(100vh - 4rem); /* Viewport height minus top/bottom spacing (2rem each) */
+    overflow-y: auto;
+}
+
+.catalog-sidebar section {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-bottom: 0;
+}
+
+.catalog-sidebar h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    color: #2c5aa0;
+}
+
+.catalog-sidebar .control-group {
+    margin-bottom: 1.5rem;
+}
+
+.catalog-sidebar .control-group:last-child {
+    margin-bottom: 0;
+}
+
+.catalog-sidebar #catalog-controls {
+    display: block;
+}
+
+.catalog-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.catalog-content section {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.catalog-content section:last-child {
+    margin-bottom: 0;
+}
+
+/* Responsive design for mobile */
+@media (max-width: 768px) {
+    .catalog-layout {
+        flex-direction: column;
+        padding: 1rem 20px;
+    }
+    
+    .catalog-sidebar {
+        flex: 0 0 auto;
+        width: 100%;
+        position: static;
+        max-height: none;
+    }
+    
+    .catalog-content {
+        width: 100%;
+    }
 }
