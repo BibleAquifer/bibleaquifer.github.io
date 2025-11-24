@@ -622,12 +622,12 @@ function displayLanguageMetadata() {
     let html = '';
     
     // Display resource title and description at the top
-    html += `<div class="resource-header">`;
-    html += `<h3>${selectedResource.title}</h3>`;
-    html += `<p>${selectedResource.description || 'No description available'}</p>`;
-    html += `<p><a href="${selectedResource.url}" target="_blank">View on GitHub</a></p>`;
-    html += `</div>`;
-    html += '<hr style="margin: 1.5rem 0;">';
+    //    html += `<div class="resource-header">`;
+    //    html += `<h3>${selectedResource.title}</h3>`;
+    //    html += `<p>${selectedResource.description || 'No description available'}</p>`;
+    //    html += `<p><a href="${selectedResource.url}" target="_blank">View on GitHub</a></p>`;
+    //    html += `</div>`;
+    //    html += '<hr style="margin: 1.5rem 0;">';
     
     // Display citation if available
     if (langData.citation && langData.citation.title) {
@@ -664,7 +664,7 @@ function displayLanguageMetadata() {
     const metadataFields = [
         { label: 'Title', value: langData.title },
         { label: 'Language', value: langData.language },
-        { label: 'Version', value: langData.version },
+        { label: 'Schema Version', value: langData.version },
         { label: 'Type', value: langData.resource_type },
         { label: 'Content Type', value: langData.content_type }
     ];
