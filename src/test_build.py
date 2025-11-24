@@ -11,7 +11,8 @@ from build_site import (
     format_readme_sections,
     generate_index_html,
     generate_catalog_html,
-    get_language_name
+    get_language_name,
+    get_first_json_path
 )
 
 # Sample README content
@@ -46,6 +47,7 @@ SAMPLE_RESOURCES = {
                 'resource_type': 'Translation Guide',
                 'content_type': 'Html',
                 'language': 'eng',
+                'first_json_path': 'json/001.content.json',
                 'citation': {
                     'title': 'unfoldingWord® Translation Notes',
                     'copyright_dates': '2022',
@@ -53,6 +55,7 @@ SAMPLE_RESOURCES = {
                     'license_name': 'CC BY-SA 4.0 license',
                     'adaptation_notice': 'This resource has been adapted from the original English version.'
                 },
+                'has_json': True,
                 'has_pdf': False,
                 'has_docx': False
             },
@@ -64,12 +67,14 @@ SAMPLE_RESOURCES = {
                 'resource_type': 'Translation Guide',
                 'content_type': 'Html',
                 'language': 'spa',
+                'first_json_path': 'json/001.content.json',
                 'citation': {
                     'title': 'unfoldingWord® Translation Notes',
                     'copyright_dates': '2022',
                     'copyright_holder': 'unfoldingWord',
                     'license_name': 'CC BY-SA 4.0 license'
                 },
+                'has_json': True,
                 'has_pdf': True,
                 'has_docx': True
             }
@@ -89,12 +94,14 @@ SAMPLE_RESOURCES = {
                 'resource_type': 'Dictionary',
                 'content_type': 'Html',
                 'language': 'eng',
+                'first_json_path': 'json/001.content.json',
                 'citation': {
                     'title': 'Open Bible Dictionary',
                     'copyright_dates': '2023',
                     'copyright_holder': 'BibleAquifer',
                     'license_name': 'CC BY 4.0'
                 },
+                'has_json': True,
                 'has_pdf': False,
                 'has_docx': False
             }
@@ -114,12 +121,14 @@ SAMPLE_RESOURCES = {
                 'resource_type': 'Test',
                 'content_type': 'Html',
                 'language': 'spa',
+                'first_json_path': None,
                 'citation': {
                     'title': 'Título en Español',
                     'copyright_dates': '2024',
                     'copyright_holder': 'Test Org',
                     'license_name': 'CC BY 4.0'
                 },
+                'has_json': False,
                 'has_pdf': False,
                 'has_docx': False
             },
@@ -131,12 +140,14 @@ SAMPLE_RESOURCES = {
                 'resource_type': 'Test',
                 'content_type': 'Html',
                 'language': 'eng',
+                'first_json_path': None,
                 'citation': {
                     'title': 'English Title Here',
                     'copyright_dates': '2024',
                     'copyright_holder': 'Test Org',
                     'license_name': 'CC BY 4.0'
                 },
+                'has_json': False,
                 'has_pdf': False,
                 'has_docx': False
             }
@@ -240,6 +251,77 @@ def test_adaptation_notice_display():
     print("✓ Adaptation notice display works")
 
 
+def test_get_first_json_path():
+    """Test extraction of first JSON file path from metadata"""
+    print("Testing get_first_json_path...")
+    
+    # Test with valid metadata containing JSON ingredient
+    metadata_with_json = {
+        'scripture_burrito': {
+            'ingredients': {
+                'json/001.content.json': {
+                    'mimeType': 'text/json',
+                    'size': 1904110
+                },
+                'json/002.content.json': {
+                    'mimeType': 'text/json',
+                    'size': 500000
+                }
+            }
+        }
+    }
+    result = get_first_json_path(metadata_with_json)
+    assert result == 'json/001.content.json', f"Expected 'json/001.content.json', got '{result}'"
+    
+    # Test with metadata without JSON ingredient
+    metadata_without_json = {
+        'scripture_burrito': {
+            'ingredients': {
+                'usfm/01-GEN.usfm': {
+                    'mimeType': 'text/x-usfm',
+                    'size': 100000
+                }
+            }
+        }
+    }
+    result = get_first_json_path(metadata_without_json)
+    assert result is None, f"Expected None, got '{result}'"
+    
+    # Test with empty metadata
+    result = get_first_json_path({})
+    assert result is None
+    
+    # Test with None
+    result = get_first_json_path(None)
+    assert result is None
+    
+    print("✓ get_first_json_path works")
+
+
+def test_preview_tab_in_catalog():
+    """Test that preview tab is generated in catalog HTML"""
+    print("Testing preview tab in catalog...")
+    catalog_html = generate_catalog_html(SAMPLE_RESOURCES)
+    
+    # Check for tab structure
+    assert 'class="tabs"' in catalog_html
+    assert 'data-tab="details"' in catalog_html
+    assert 'data-tab="preview"' in catalog_html
+    assert 'Resource Details' in catalog_html
+    assert 'Resource Preview' in catalog_html
+    
+    # Check for preview-related elements
+    assert 'id="tab-details"' in catalog_html
+    assert 'id="tab-preview"' in catalog_html
+    assert 'id="preview-display"' in catalog_html
+    
+    # Check for preview loading JavaScript
+    assert 'loadPreview' in catalog_html
+    assert 'first_json_path' in catalog_html
+    
+    print("✓ Preview tab in catalog works")
+
+
 def main():
     """Run all tests"""
     print("=" * 60)
@@ -256,6 +338,8 @@ def main():
         test_language_name()
         test_english_title_priority()
         test_adaptation_notice_display()
+        test_get_first_json_path()
+        test_preview_tab_in_catalog()
         
         print()
         print("=" * 60)

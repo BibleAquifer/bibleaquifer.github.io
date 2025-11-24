@@ -319,6 +319,24 @@ def check_directory_exists(repo_name: str, language: str, dir_name: str) -> bool
     return response.status_code == 200
 
 
+def get_first_json_path(metadata: Dict[str, Any]) -> Optional[str]:
+    """Extract the first JSON file path from metadata's scripture_burrito/ingredients.
+    
+    Returns the path to the first ingredient with mimeType 'text/json', or None if not found.
+    """
+    if not metadata:
+        return None
+    
+    scripture_burrito = metadata.get('scripture_burrito', {})
+    ingredients = scripture_burrito.get('ingredients', {})
+    
+    for path, info in ingredients.items():
+        if isinstance(info, dict) and info.get('mimeType') == 'text/json':
+            return path
+    
+    return None
+
+
 def build_resource_data() -> Dict[str, Any]:
     """Build complete resource data structure"""
     print("Fetching repositories...")
@@ -371,6 +389,9 @@ def build_resource_data() -> Dict[str, Any]:
                 for format_name in ['json', 'md', 'pdf', 'docx', 'usx', 'usfm', 'audio']:
                     format_checks[f'has_{format_name}'] = check_directory_exists(repo_name, lang, format_name)
                 
+                # Get first JSON file path for preview
+                first_json_path = get_first_json_path(metadata)
+                
                 resource_data['languages'][lang] = {
                     'code': lang,
                     'name': get_language_name(lang),
@@ -379,6 +400,7 @@ def build_resource_data() -> Dict[str, Any]:
                     'resource_type': resource_meta.get('resource_type') or resource_meta.get('aquifer_type'),
                     'content_type': resource_meta.get('content_type'),
                     'language': resource_meta.get('language'),
+                    'first_json_path': first_json_path,
                     'citation': {
                         'title': license_meta.get('title'),
                         'copyright_dates': license_meta.get('copyright', {}).get('dates'),
@@ -534,8 +556,18 @@ def generate_catalog_html(resources: Dict[str, Any]) -> str:
 
         <div class="catalog-content">
             <section id="content-viewer" class="hidden">
-                <h2>Resource Details</h2>
-                <div id="content-display"></div>
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="details">Resource Details</button>
+                    <button class="tab-btn" data-tab="preview">Resource Preview</button>
+                </div>
+                <div id="tab-details" class="tab-content active">
+                    <div id="content-display"></div>
+                </div>
+                <div id="tab-preview" class="tab-content">
+                    <div id="preview-display">
+                        <p class="loading-message">Select a resource to see a preview.</p>
+                    </div>
+                </div>
             </section>
         </div>
     </main>
@@ -557,14 +589,105 @@ const resourceSelect = document.getElementById('resource-select');
 const languageSelect = document.getElementById('language-select');
 const contentDisplayDiv = document.getElementById('content-display');
 const contentViewerSection = document.getElementById('content-viewer');
+const previewDisplayDiv = document.getElementById('preview-display');
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
 
 // State
 let selectedResource = null;
 let selectedLanguage = null;
+let previewLoaded = false;
+let previewCache = {};
 
 // Setup event listeners
 resourceSelect.addEventListener('change', handleResourceChange);
 languageSelect.addEventListener('change', handleLanguageChange);
+
+// Tab switching
+tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        const tabId = btn.dataset.tab;
+        switchToTab(tabId);
+    });
+});
+
+// Switch to a specific tab
+function switchToTab(tabId) {
+    // Update active states
+    tabBtns.forEach(b => b.classList.remove('active'));
+    tabContents.forEach(c => c.classList.remove('active'));
+    
+    const targetBtn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+    if (targetBtn) {
+        targetBtn.classList.add('active');
+    }
+    document.getElementById('tab-' + tabId).classList.add('active');
+    
+    // Load preview if switching to preview tab
+    if (tabId === 'preview' && selectedResource && selectedLanguage) {
+        loadPreview();
+    }
+}
+
+// Load preview content dynamically
+async function loadPreview() {
+    if (!selectedResource || !selectedLanguage) {
+        previewDisplayDiv.innerHTML = '<p class="loading-message">Select a resource to see a preview.</p>';
+        return;
+    }
+    
+    const langData = selectedResource.languages[selectedLanguage];
+    if (!langData) {
+        previewDisplayDiv.innerHTML = '<p class="no-preview">No preview available for this selection.</p>';
+        return;
+    }
+    
+    // Check if we have a JSON path for preview
+    const jsonPath = langData.first_json_path;
+    if (!jsonPath || !langData.has_json) {
+        previewDisplayDiv.innerHTML = '<p class="no-preview">No preview available. This resource does not have JSON content files.</p>';
+        return;
+    }
+    
+    // Check cache first - use delimiter-separated key
+    const cacheKey = `${selectedResource.name}:${selectedLanguage}:${jsonPath}`;
+    if (previewCache[cacheKey]) {
+        previewDisplayDiv.innerHTML = previewCache[cacheKey];
+        return;
+    }
+    
+    // Show loading message
+    previewDisplayDiv.innerHTML = '<p class="loading-message">Loading preview...</p>';
+    
+    try {
+        // Construct URL to raw JSON file
+        const url = `https://raw.githubusercontent.com/${ORG_NAME}/${selectedResource.name}/main/${selectedLanguage}/${jsonPath}`;
+        
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Failed to fetch preview content');
+        }
+        
+        const data = await response.json();
+        
+        // Extract title and content from the first item in the list
+        // SECURITY NOTE: content is trusted HTML from the BibleAquifer organization's own 
+        // JSON files. This is intentionally rendered as HTML to support rich formatting 
+        // (headings, paragraphs, links, etc.) in the preview.
+        if (Array.isArray(data) && data.length > 0 && data[0].content) {
+            const title = data[0].title || '';
+            const titleHtml = title ? `<p><b>${title}</b></p>` : '';
+            const previewHtml = '<div class="preview-content">' + titleHtml + data[0].content + '</div>';
+            previewCache[cacheKey] = previewHtml;
+            previewDisplayDiv.innerHTML = previewHtml;
+        } else {
+            previewDisplayDiv.innerHTML = '<p class="no-preview">No preview content found in the JSON file.</p>';
+        }
+    } catch (error) {
+        console.error('Error loading preview:', error);
+        previewDisplayDiv.innerHTML = '<p class="error-message">Error loading preview. Please try again later.</p>';
+    }
+}
 
 // Handle resource selection
 function handleResourceChange() {
@@ -574,6 +697,7 @@ function handleResourceChange() {
         languageSelect.innerHTML = '<option value="">Select a resource first</option>';
         languageSelect.disabled = true;
         contentDisplayDiv.innerHTML = '';
+        previewDisplayDiv.innerHTML = '<p class="loading-message">Select a resource to see a preview.</p>';
         contentViewerSection.classList.add('hidden');
         return;
     }
@@ -601,6 +725,12 @@ function handleResourceChange() {
     
     languageSelect.disabled = false;
     
+    // Switch to Details tab when resource changes
+    switchToTab('details');
+    
+    // Reset preview display
+    previewDisplayDiv.innerHTML = '<p class="loading-message">Loading preview...</p>';
+    
     // Auto-load English if available
     if (hasEng) {
         selectedLanguage = 'eng';
@@ -614,9 +744,16 @@ function handleLanguageChange() {
     
     if (!selectedLanguage) {
         contentDisplayDiv.innerHTML = '';
+        previewDisplayDiv.innerHTML = '<p class="loading-message">Select a resource to see a preview.</p>';
         contentViewerSection.classList.add('hidden');
         return;
     }
+    
+    // Switch to Details tab when language changes
+    switchToTab('details');
+    
+    // Reset preview when language changes
+    previewDisplayDiv.innerHTML = '<p class="loading-message">Loading preview...</p>';
     
     displayLanguageMetadata();
 }

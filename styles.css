@@ -503,6 +503,113 @@ footer p {
     margin-bottom: 0;
 }
 
+/* Tab styles for catalog content viewer */
+.tabs {
+    display: flex;
+    border-bottom: 2px solid #e0e0e0;
+    margin-bottom: 1.5rem;
+}
+
+.tab-btn {
+    padding: 0.75rem 1.5rem;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    color: #666;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.tab-btn:hover {
+    color: #2c5aa0;
+    background: #f8f9fa;
+}
+
+.tab-btn.active {
+    color: #2c5aa0;
+    border-bottom-color: #2c5aa0;
+    background: none;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Preview content styles */
+#preview-display {
+    min-height: 200px;
+}
+
+.preview-content {
+    padding: 1rem;
+    background: #fafafa;
+    border-radius: 4px;
+    line-height: 1.8;
+}
+
+.preview-content h1,
+.preview-content h2,
+.preview-content h3 {
+    color: #2c5aa0;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.preview-content h1 {
+    font-size: 1.5rem;
+}
+
+.preview-content h2 {
+    font-size: 1.3rem;
+}
+
+.preview-content h3 {
+    font-size: 1.1rem;
+}
+
+.preview-content p {
+    margin-bottom: 1rem;
+}
+
+.preview-content a {
+    color: #2c5aa0;
+    text-decoration: none;
+}
+
+.preview-content a:hover {
+    text-decoration: underline;
+}
+
+.loading-message {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    padding: 2rem;
+}
+
+.no-preview {
+    text-align: center;
+    color: #666;
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+
+.error-message {
+    text-align: center;
+    color: #c00;
+    padding: 2rem;
+    background: #fee;
+    border-radius: 4px;
+}
+
 /* Responsive design for mobile */
 @media (max-width: 768px) {
     .catalog-layout {
@@ -519,5 +626,15 @@ footer p {
     
     .catalog-content {
         width: 100%;
+    }
+    
+    .tabs {
+        flex-wrap: wrap;
+    }
+    
+    .tab-btn {
+        flex: 1;
+        text-align: center;
+        padding: 0.75rem 0.5rem;
     }
 }
