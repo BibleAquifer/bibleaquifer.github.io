@@ -102,7 +102,6 @@ SAMPLE_RESOURCES = {
                     'license_name': 'CC BY 4.0'
                 },
                 'has_json': True,
-                'has_json': True,
                 'has_pdf': False,
                 'has_docx': False
             }

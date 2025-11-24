@@ -642,8 +642,8 @@ async function loadPreview() {
         return;
     }
     
-    // Check cache first
-    const cacheKey = selectedResource.name + '/' + selectedLanguage + '/' + jsonPath;
+    // Check cache first - use JSON.stringify for a robust cache key
+    const cacheKey = JSON.stringify({repo: selectedResource.name, lang: selectedLanguage, path: jsonPath});
     if (previewCache[cacheKey]) {
         previewDisplayDiv.innerHTML = previewCache[cacheKey];
         return;
@@ -664,6 +664,7 @@ async function loadPreview() {
         const data = await response.json();
         
         // Extract content from the first item in the list
+        // Note: content is trusted HTML from the repository's own JSON files
         if (Array.isArray(data) && data.length > 0 && data[0].content) {
             const previewHtml = '<div class="preview-content">' + data[0].content + '</div>';
             previewCache[cacheKey] = previewHtml;
