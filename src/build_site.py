@@ -607,20 +607,27 @@ languageSelect.addEventListener('change', handleLanguageChange);
 tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         const tabId = btn.dataset.tab;
-        
-        // Update active states
-        tabBtns.forEach(b => b.classList.remove('active'));
-        tabContents.forEach(c => c.classList.remove('active'));
-        
-        btn.classList.add('active');
-        document.getElementById('tab-' + tabId).classList.add('active');
-        
-        // Load preview if switching to preview tab
-        if (tabId === 'preview' && selectedResource && selectedLanguage) {
-            loadPreview();
-        }
+        switchToTab(tabId);
     });
 });
+
+// Switch to a specific tab
+function switchToTab(tabId) {
+    // Update active states
+    tabBtns.forEach(b => b.classList.remove('active'));
+    tabContents.forEach(c => c.classList.remove('active'));
+    
+    const targetBtn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+    if (targetBtn) {
+        targetBtn.classList.add('active');
+    }
+    document.getElementById('tab-' + tabId).classList.add('active');
+    
+    // Load preview if switching to preview tab
+    if (tabId === 'preview' && selectedResource && selectedLanguage) {
+        loadPreview();
+    }
+}
 
 // Load preview content dynamically
 async function loadPreview() {
@@ -663,12 +670,14 @@ async function loadPreview() {
         
         const data = await response.json();
         
-        // Extract content from the first item in the list
+        // Extract title and content from the first item in the list
         // SECURITY NOTE: content is trusted HTML from the BibleAquifer organization's own 
         // JSON files. This is intentionally rendered as HTML to support rich formatting 
         // (headings, paragraphs, links, etc.) in the preview.
         if (Array.isArray(data) && data.length > 0 && data[0].content) {
-            const previewHtml = '<div class="preview-content">' + data[0].content + '</div>';
+            const title = data[0].title || '';
+            const titleHtml = title ? `<p><b>${title}</b></p>` : '';
+            const previewHtml = '<div class="preview-content">' + titleHtml + data[0].content + '</div>';
             previewCache[cacheKey] = previewHtml;
             previewDisplayDiv.innerHTML = previewHtml;
         } else {
@@ -716,6 +725,12 @@ function handleResourceChange() {
     
     languageSelect.disabled = false;
     
+    // Switch to Details tab when resource changes
+    switchToTab('details');
+    
+    // Reset preview display
+    previewDisplayDiv.innerHTML = '<p class="loading-message">Loading preview...</p>';
+    
     // Auto-load English if available
     if (hasEng) {
         selectedLanguage = 'eng';
@@ -734,16 +749,13 @@ function handleLanguageChange() {
         return;
     }
     
+    // Switch to Details tab when language changes
+    switchToTab('details');
+    
     // Reset preview when language changes
     previewDisplayDiv.innerHTML = '<p class="loading-message">Loading preview...</p>';
     
     displayLanguageMetadata();
-    
-    // If preview tab is active, load preview
-    const previewTab = document.querySelector('.tab-btn[data-tab="preview"]');
-    if (previewTab && previewTab.classList.contains('active')) {
-        loadPreview();
-    }
 }
 
 // Display language metadata
