@@ -642,8 +642,8 @@ async function loadPreview() {
         return;
     }
     
-    // Check cache first - use JSON.stringify for a robust cache key
-    const cacheKey = JSON.stringify({repo: selectedResource.name, lang: selectedLanguage, path: jsonPath});
+    // Check cache first - use delimiter-separated key
+    const cacheKey = `${selectedResource.name}:${selectedLanguage}:${jsonPath}`;
     if (previewCache[cacheKey]) {
         previewDisplayDiv.innerHTML = previewCache[cacheKey];
         return;
@@ -654,7 +654,7 @@ async function loadPreview() {
     
     try {
         // Construct URL to raw JSON file
-        const url = 'https://raw.githubusercontent.com/' + ORG_NAME + '/' + selectedResource.name + '/main/' + selectedLanguage + '/' + jsonPath;
+        const url = `https://raw.githubusercontent.com/${ORG_NAME}/${selectedResource.name}/main/${selectedLanguage}/${jsonPath}`;
         
         const response = await fetch(url);
         if (!response.ok) {
@@ -664,7 +664,9 @@ async function loadPreview() {
         const data = await response.json();
         
         // Extract content from the first item in the list
-        // Note: content is trusted HTML from the repository's own JSON files
+        // SECURITY NOTE: content is trusted HTML from the BibleAquifer organization's own 
+        // JSON files. This is intentionally rendered as HTML to support rich formatting 
+        // (headings, paragraphs, links, etc.) in the preview.
         if (Array.isArray(data) && data.length > 0 && data[0].content) {
             const previewHtml = '<div class="preview-content">' + data[0].content + '</div>';
             previewCache[cacheKey] = previewHtml;
