@@ -521,10 +521,6 @@ def generate_catalog_html(resources: Dict[str, Any]) -> str:
         </aside>
 
         <div class="catalog-content">
-            <section id="resource-info" class="hidden">
-                <div id="resource-metadata"></div>
-            </section>
-
             <section id="content-viewer" class="hidden">
                 <h2>Resource Details</h2>
                 <div id="content-display"></div>
@@ -547,9 +543,7 @@ const ORG_NAME = '{{ org_name }}';
 // DOM elements
 const resourceSelect = document.getElementById('resource-select');
 const languageSelect = document.getElementById('language-select');
-const resourceMetadataDiv = document.getElementById('resource-metadata');
 const contentDisplayDiv = document.getElementById('content-display');
-const resourceInfoSection = document.getElementById('resource-info');
 const contentViewerSection = document.getElementById('content-viewer');
 
 // State
@@ -567,9 +561,7 @@ function handleResourceChange() {
     if (!resourceId) {
         languageSelect.innerHTML = '<option value="">Select a resource first</option>';
         languageSelect.disabled = true;
-        resourceMetadataDiv.innerHTML = '';
         contentDisplayDiv.innerHTML = '';
-        resourceInfoSection.classList.add('hidden');
         contentViewerSection.classList.add('hidden');
         return;
     }
@@ -597,9 +589,6 @@ function handleResourceChange() {
     
     languageSelect.disabled = false;
     
-    // Display resource info
-    displayResourceInfo();
-    
     // Auto-load English if available
     if (hasEng) {
         selectedLanguage = 'eng';
@@ -620,19 +609,6 @@ function handleLanguageChange() {
     displayLanguageMetadata();
 }
 
-// Display resource information
-function displayResourceInfo() {
-    if (!selectedResource) return;
-    
-    resourceMetadataDiv.innerHTML = `
-        <h3>${selectedResource.title}</h3>
-        <p>${selectedResource.description || 'No description available'}</p>
-        <p><a href="${selectedResource.url}" target="_blank">View on GitHub</a></p>
-    `;
-    
-    resourceInfoSection.classList.remove('hidden');
-}
-
 // Display language metadata
 function displayLanguageMetadata() {
     if (!selectedResource || !selectedLanguage) return;
@@ -644,6 +620,14 @@ function displayLanguageMetadata() {
     }
     
     let html = '';
+    
+    // Display resource title and description at the top
+    html += `<div class="resource-header">`;
+    html += `<h3>${selectedResource.title}</h3>`;
+    html += `<p>${selectedResource.description || 'No description available'}</p>`;
+    html += `<p><a href="${selectedResource.url}" target="_blank">View on GitHub</a></p>`;
+    html += `</div>`;
+    html += '<hr style="margin: 1.5rem 0;">';
     
     // Display citation if available
     if (langData.citation && langData.citation.title) {
@@ -669,7 +653,11 @@ function displayLanguageMetadata() {
         html += '<hr style="margin: 1.5rem 0;">';
     }
     
-    // Display key metadata
+    // Create two-column layout for Resource Information and Access Resource
+    html += '<div class="resource-details-columns">';
+    
+    // Left column: Resource Information
+    html += '<div class="resource-info-column">';
     html += '<h3>Resource Information</h3>';
     html += '<div class="metadata-grid">';
     
@@ -691,9 +679,10 @@ function displayLanguageMetadata() {
     });
     
     html += '</div>';
+    html += '</div>'; // Close resource-info-column
     
-    // Add download links
-    html += '<hr style="margin: 1.5rem 0;">';
+    // Right column: Access Resource
+    html += '<div class="resource-access-column">';
     html += '<h3>Access Resource</h3>';
     html += '<p>Browse or download this resource:</p>';
     html += '<ul class="download-list">';
@@ -719,6 +708,8 @@ function displayLanguageMetadata() {
     
     html += `<li><a href="https://github.com/${ORG_NAME}/${selectedResource.name}/releases/latest" target="_blank">Download latest release</a></li>`;
     html += '</ul>';
+    html += '</div>'; // Close resource-access-column
+    html += '</div>'; // Close resource-details-columns
     
     contentDisplayDiv.innerHTML = html;
     contentViewerSection.classList.remove('hidden');

@@ -260,6 +260,35 @@ footer p {
     color: #555;
 }
 
+/* Resource header styles */
+.resource-header {
+    margin-bottom: 1.5rem;
+}
+
+.resource-header h3 {
+    color: #2c5aa0;
+    margin-bottom: 0.5rem;
+}
+
+/* Two-column layout for resource details */
+.resource-details-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.resource-info-column,
+.resource-access-column {
+    min-width: 0; /* Prevent overflow */
+}
+
+.resource-info-column h3,
+.resource-access-column h3 {
+    color: #2c5aa0;
+    margin-bottom: 1rem;
+}
+
 @media (max-width: 768px) {
     #controls {
         flex-direction: column;
@@ -271,6 +300,12 @@ footer p {
     
     #article-list {
         grid-template-columns: 1fr;
+    }
+    
+    /* Stack columns on mobile */
+    .resource-details-columns {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
 }
 
