@@ -6,7 +6,7 @@ This implementation converts the BibleAquifer website from a dynamic, client-sid
 
 ## Key Features Implemented
 
-### 1. Static Site Generation (`build_site.py`)
+### 1. Static Site Generation (`src/build_site.py`)
 
 The main build script that:
 - Fetches the organization README from `.github/profile/README.md`
@@ -43,8 +43,8 @@ All data is embedded at build time:
 - Python 3.9+ required
 
 **Helper scripts:**
-- `generate_sample.py` - Generate HTML with sample data (no API needed)
-- `test_build.py` - Test suite for build functionality
+- `src/generate_sample.py` - Generate HTML with sample data (no API needed)
+- `src/test_build.py` - Test suite for build functionality
 
 **Documentation:**
 - `BUILD.md` - Detailed build instructions
@@ -60,9 +60,9 @@ All data is embedded at build time:
 ## Files Changed
 
 ### Added
-- `build_site.py` - Main site generation script (650+ lines)
-- `generate_sample.py` - Sample data generator
-- `test_build.py` - Test suite
+- `src/build_site.py` - Main site generation script (650+ lines)
+- `src/generate_sample.py` - Sample data generator
+- `src/test_build.py` - Test suite
 - `pyproject.toml` - Poetry configuration
 - `BUILD.md` - Build documentation
 - `.gitignore` updates - Exclude Python artifacts
@@ -148,20 +148,20 @@ The visual design remains **exactly the same** as before. Only the implementatio
 poetry install
 
 # Generate with sample data (no API access needed)
-poetry run python generate_sample.py
+poetry run python src/generate_sample.py
 
 # Generate with real data (requires GITHUB_TOKEN)
 export GITHUB_TOKEN=your_token_here
-poetry run python build_site.py
+poetry run python src/build_site.py
 
 # Test
-poetry run python test_build.py
+poetry run python src/test_build.py
 ```
 
 ### Local Development
 ```bash
 # Build the site
-poetry run python generate_sample.py
+poetry run python src/generate_sample.py
 
 # Serve locally
 python3 -m http.server 8080

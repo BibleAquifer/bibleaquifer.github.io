@@ -4,7 +4,7 @@ This document explains how to build the BibleAquifer static site from source.
 
 ## Overview
 
-The site is now generated statically using a Python script (`build_site.py`) that:
+The site is now generated statically using a Python script (`src/build_site.py`) that:
 1. Fetches the organization README from `.github` repository
 2. Queries the GitHub API to discover all resources
 3. Fetches metadata.json for each language in each resource
@@ -42,11 +42,11 @@ If neither token is found, the script will exit with an error.
 ```bash
 # Using manage-aquifer token
 export manage-aquifer=your_token_here
-poetry run python build_site.py
+poetry run python src/build_site.py
 
 # OR using GITHUB_AQUIFER_API_KEY token
 export GITHUB_AQUIFER_API_KEY=your_token_here
-poetry run python build_site.py
+poetry run python src/build_site.py
 ```
 
 The script will:
@@ -59,16 +59,22 @@ The script will:
 To test the build script with sample data (doesn't require GitHub API access):
 
 ```bash
-DEBUG_MODE=true poetry run python build_site.py
+DEBUG_MODE=true poetry run python src/build_site.py
 ```
 
 Or use the sample data generator:
 
 ```bash
-poetry run python test_build.py
+poetry run python src/generate_sample.py
 ```
 
-This will create test files: `test_index.html`, `test_catalog.html`, and `test_resources.yaml`.
+Or run the test suite:
+
+```bash
+poetry run python src/test_build.py
+```
+
+This will create test files: `src/test_index.html`, `src/test_catalog.html`, and `src/test_resources.yaml`.
 
 ## Output Files
 
@@ -113,9 +119,9 @@ Resources are displayed in the catalog using their proper titles from metadata.j
 
 ## Development Workflow
 
-1. Make changes to `build_site.py` or templates
-2. Test with `poetry run python test_build.py`
-3. Build the site with `poetry run python build_site.py`
+1. Make changes to `src/build_site.py` or templates
+2. Test with `poetry run python src/test_build.py`
+3. Build the site with `poetry run python src/build_site.py`
 4. Test locally with a web server: `python3 -m http.server 8080`
 5. Commit the generated HTML files
 
@@ -147,7 +153,7 @@ jobs:
           python-version: '3.9'
       - run: pip install poetry
       - run: poetry install
-      - run: poetry run python build_site.py
+      - run: poetry run python src/build_site.py
         env:
           manage-aquifer: ${{ secrets.MANAGE_AQUIFER_TOKEN }}
       - uses: stefanzweifel/git-auto-commit-action@v4
@@ -188,7 +194,8 @@ poetry install
 
 ## Files
 
-- `build_site.py` - Main build script
-- `test_build.py` - Test script with sample data
+- `src/build_site.py` - Main build script
+- `src/generate_sample.py` - Generate site with sample data
+- `src/test_build.py` - Test script with sample data
 - `pyproject.toml` - Poetry configuration and dependencies
 - `.gitignore` - Excludes Python artifacts and generated YAML

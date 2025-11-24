@@ -762,18 +762,19 @@ def main():
     
     # Save resource data to YAML for reference
     print("\n3. Saving resource data to YAML...")
-    with open('resources_data.yaml', 'w') as f:
+    output_dir = os.path.join(os.path.dirname(__file__), '..')
+    with open(os.path.join(output_dir, 'resources_data.yaml'), 'w') as f:
         yaml.dump(resources, f, default_flow_style=False, sort_keys=False)
     
     # Generate HTML files
     print("\n4. Generating index.html...")
     index_html = generate_index_html(readme_formatted)
-    with open('index.html', 'w') as f:
+    with open(os.path.join(output_dir, 'index.html'), 'w') as f:
         f.write(index_html)
     
     print("5. Generating catalog.html...")
     catalog_html = generate_catalog_html(resources)
-    with open('catalog.html', 'w') as f:
+    with open(os.path.join(output_dir, 'catalog.html'), 'w') as f:
         f.write(catalog_html)
     
     print("\n" + "=" * 60)

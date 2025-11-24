@@ -42,7 +42,7 @@ An interactive catalog for browsing resources by type and language. Features:
 
 ## How It Works
 
-The site is built using `build_site.py`, which:
+The site is built using `src/build_site.py`, which:
 
 1. **Fetches Organization README**: Retrieves content from `BibleAquifer/.github/profile/README.md`
 2. **Discovers Resources**: Queries GitHub API for all repositories (excluding `docs`, `ACAI`, `.github`, and `bibleaquifer.github.io`)
@@ -75,10 +75,13 @@ poetry install
 
 # Build the site (requires GitHub API access)
 export GITHUB_TOKEN=your_token_here
-poetry run python build_site.py
+poetry run python src/build_site.py
 
 # Test the build script (no API access needed)
-poetry run python test_build.py
+poetry run python src/test_build.py
+
+# Generate with sample data
+poetry run python src/generate_sample.py
 ```
 
 ## Repository Structure Expected
@@ -116,7 +119,7 @@ To work on the site locally:
 2. Build the site (see [BUILD.md](BUILD.md) for details):
    ```bash
    poetry install
-   poetry run python build_site.py
+   poetry run python src/build_site.py
    ```
 
 3. Start a local web server:
@@ -177,16 +180,18 @@ Examples of resources available through this interface:
 
 ```
 bibleaquifer.github.io/
-├── index.html          # Landing page (generated)
-├── catalog.html        # Unified catalog page (generated)
-├── styles.css          # Shared CSS styles
-├── build_site.py       # Site generation script
-├── test_build.py       # Test script with sample data
-├── pyproject.toml      # Poetry configuration
-├── BUILD.md            # Build instructions
-├── README.md           # This file
-├── LICENSE             # License information
-└── .gitignore          # Git ignore rules
+├── src/
+│   ├── build_site.py       # Site generation script
+│   ├── generate_sample.py  # Sample data generator
+│   └── test_build.py       # Test script with sample data
+├── index.html              # Landing page (generated)
+├── catalog.html            # Unified catalog page (generated)
+├── styles.css              # Shared CSS styles
+├── pyproject.toml          # Poetry configuration
+├── BUILD.md                # Build instructions
+├── README.md               # This file
+├── LICENSE                 # License information
+└── .gitignore              # Git ignore rules
 ```
 
 Note: `index.js`, `catalog.js`, and `app.js` are no longer used as the site is now statically generated.
