@@ -341,6 +341,9 @@ def build_resource_data() -> Dict[str, Any]:
             'url': repo['url'],
             'languages': {}
         }
+        # for metadata that may be missing outside of English versions (e.g. adaptation_notice)
+        english_metadata = fetch_metadata(repo_name, "eng")
+
         
         # Fetch metadata for each language
         for lang in languages:
@@ -352,10 +355,16 @@ def build_resource_data() -> Dict[str, Any]:
                 license_meta = resource_meta.get('license_info', {})
                 
                 # Get the resource title - only use resource_metadata/title
-                title = resource_meta.get('title') or repo_name
+                if lang == "eng":
+                    title = resource_meta.get('title') or repo_name
+                else:
+                    title = resource_meta.get('aquifer_name') or resource_meta.get('title')
                 
                 # Get adaptation notice if available
                 adaptation_notice = resource_meta.get('adaptation_notice')
+                # if empty and there is English metadata, then get the English
+                if (adaptation_notice == "") and (english_metadata is not None):
+                    adaptation_notice = english_metadata["resource_metadata"].get('adaptation_notice')
                 
                 # Check for all format directories generically
                 format_checks = {}
@@ -388,6 +397,9 @@ def build_resource_data() -> Dict[str, Any]:
                     if isinstance(first_license, dict) and lang_code in first_license:
                         resource_data['languages'][lang]['citation']['license_name'] = \
                             first_license[lang_code].get('name')
+                    elif isinstance(first_license, dict) and "eng" in first_license:
+                        resource_data['languages'][lang]['citation']['license_name'] = \
+                            first_license["eng"].get('name')
                 
                 # Set the resource title from English metadata if available, otherwise use first language
                 if 'title' not in resource_data:
