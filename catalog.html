@@ -72,8 +72,18 @@
 
         <div class="catalog-content">
             <section id="content-viewer" class="hidden">
-                <h2>Resource Details</h2>
-                <div id="content-display"></div>
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="details">Resource Details</button>
+                    <button class="tab-btn" data-tab="preview">Resource Preview</button>
+                </div>
+                <div id="tab-details" class="tab-content active">
+                    <div id="content-display"></div>
+                </div>
+                <div id="tab-preview" class="tab-content">
+                    <div id="preview-display">
+                        <p class="loading-message">Select a resource to see a preview.</p>
+                    </div>
+                </div>
             </section>
         </div>
     </main>
@@ -101,6 +111,7 @@ const RESOURCES_DATA = {
         "resource_type": "Bible Dictionary",
         "content_type": "Html",
         "language": "apd",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Bible Dictionary",
           "copyright_dates": "2023",
@@ -124,6 +135,7 @@ const RESOURCES_DATA = {
         "resource_type": "Bible Dictionary",
         "content_type": "Html",
         "language": "arb",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Bible Dictionary",
           "copyright_dates": "2023",
@@ -147,6 +159,7 @@ const RESOURCES_DATA = {
         "resource_type": "Bible Dictionary",
         "content_type": "Html",
         "language": "eng",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Bible Dictionary",
           "copyright_dates": "2023",
@@ -170,6 +183,7 @@ const RESOURCES_DATA = {
         "resource_type": "Bible Dictionary",
         "content_type": "Html",
         "language": "fra",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Bible Dictionary",
           "copyright_dates": "2023",
@@ -193,6 +207,7 @@ const RESOURCES_DATA = {
         "resource_type": "Bible Dictionary",
         "content_type": "Html",
         "language": "hin",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Bible Dictionary",
           "copyright_dates": "2023",
@@ -216,6 +231,7 @@ const RESOURCES_DATA = {
         "resource_type": "Bible Dictionary",
         "content_type": "Html",
         "language": "ind",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Bible Dictionary",
           "copyright_dates": "2023",
@@ -239,6 +255,7 @@ const RESOURCES_DATA = {
         "resource_type": "Bible Dictionary",
         "content_type": "Html",
         "language": "nep",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Bible Dictionary",
           "copyright_dates": "2023",
@@ -262,6 +279,7 @@ const RESOURCES_DATA = {
         "resource_type": "Bible Dictionary",
         "content_type": "Html",
         "language": "nld",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Bible Dictionary",
           "copyright_dates": "2023",
@@ -285,6 +303,7 @@ const RESOURCES_DATA = {
         "resource_type": "Bible Dictionary",
         "content_type": "Html",
         "language": "por",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Bible Dictionary",
           "copyright_dates": "2023",
@@ -308,6 +327,7 @@ const RESOURCES_DATA = {
         "resource_type": "Bible Dictionary",
         "content_type": "Html",
         "language": "rus",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Bible Dictionary",
           "copyright_dates": "2023",
@@ -331,6 +351,7 @@ const RESOURCES_DATA = {
         "resource_type": "Bible Dictionary",
         "content_type": "Html",
         "language": "swh",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Bible Dictionary",
           "copyright_dates": "2023",
@@ -354,6 +375,7 @@ const RESOURCES_DATA = {
         "resource_type": "Bible Dictionary",
         "content_type": "Html",
         "language": "zht",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Bible Dictionary",
           "copyright_dates": "2023",
@@ -385,6 +407,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "arb",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -408,6 +431,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "eng",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -431,6 +455,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "fra",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -454,6 +479,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "hin",
+        "first_json_path": "json/05.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -477,6 +503,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "ind",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -500,6 +527,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "por",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -523,6 +551,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "rus",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -546,6 +575,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "spa",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -569,6 +599,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "swh",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -592,6 +623,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "zht",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -623,6 +655,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "arb",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -646,6 +679,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "eng",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -669,6 +703,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "fra",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -692,6 +727,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "hin",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -715,6 +751,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "ind",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -738,6 +775,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "por",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -761,6 +799,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "rus",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -784,6 +823,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "spa",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -807,6 +847,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "swh",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -830,6 +871,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "zht",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -861,6 +903,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "arb",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -884,6 +927,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "eng",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -907,6 +951,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "fra",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -930,6 +975,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "hin",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -953,6 +999,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "ind",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -976,6 +1023,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "nep",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -999,6 +1047,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "por",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -1022,6 +1071,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "rus",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -1045,6 +1095,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "spa",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -1068,6 +1119,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "swh",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -1091,6 +1143,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "zht",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -1122,6 +1175,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "arb",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -1145,6 +1199,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "eng",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -1168,6 +1223,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "fra",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -1191,6 +1247,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "hin",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -1214,6 +1271,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "por",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -1237,6 +1295,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "spa",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -1260,6 +1319,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "swh",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -1283,6 +1343,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "zht",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -1314,6 +1375,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "arb",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -1337,6 +1399,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "eng",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -1360,6 +1423,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "fra",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -1383,6 +1447,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "hin",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -1406,6 +1471,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "ind",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -1429,6 +1495,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "por",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -1452,6 +1519,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "rus",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -1475,6 +1543,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "swh",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -1498,6 +1567,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "zht",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Tyndale Open Study Notes",
           "copyright_dates": "2019",
@@ -1529,6 +1599,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "apd",
+        "first_json_path": "json/41.content.json",
         "citation": {
           "title": "Biblica Study Notes",
           "copyright_dates": "2023",
@@ -1552,6 +1623,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "arb",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Biblica Study Notes",
           "copyright_dates": "2023",
@@ -1575,6 +1647,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "eng",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Biblica Study Notes",
           "copyright_dates": "2023",
@@ -1598,6 +1671,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "fra",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Biblica Study Notes",
           "copyright_dates": "2023",
@@ -1621,6 +1695,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "hin",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Biblica Study Notes",
           "copyright_dates": "2023",
@@ -1644,6 +1719,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "ind",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Biblica Study Notes",
           "copyright_dates": "2023",
@@ -1667,6 +1743,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "nld",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Biblica Study Notes",
           "copyright_dates": "2023",
@@ -1690,6 +1767,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "por",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Biblica Study Notes",
           "copyright_dates": "2023",
@@ -1713,6 +1791,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "rus",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Biblica Study Notes",
           "copyright_dates": "2023",
@@ -1736,6 +1815,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "spa",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Biblica Study Notes",
           "copyright_dates": "2023",
@@ -1759,6 +1839,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "swh",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Biblica Study Notes",
           "copyright_dates": "2023",
@@ -1782,6 +1863,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "zht",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Biblica Study Notes",
           "copyright_dates": "2023",
@@ -1813,6 +1895,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "arb",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Biblica Study Notes",
           "copyright_dates": "2023",
@@ -1836,6 +1919,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "eng",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Biblica Study Notes",
           "copyright_dates": "2023",
@@ -1859,6 +1943,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "fra",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Biblica Study Notes",
           "copyright_dates": "2023",
@@ -1882,6 +1967,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "por",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Biblica Study Notes",
           "copyright_dates": "2023",
@@ -1905,6 +1991,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "rus",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Biblica Study Notes",
           "copyright_dates": "2023",
@@ -1928,6 +2015,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "spa",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Biblica Study Notes",
           "copyright_dates": "2023",
@@ -1951,6 +2039,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "swh",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Biblica Study Notes",
           "copyright_dates": "2023",
@@ -1974,6 +2063,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "zht",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Biblica Study Notes",
           "copyright_dates": "2023",
@@ -2005,6 +2095,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "arb",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Biblica Bible Dictionary",
           "copyright_dates": "2023",
@@ -2028,6 +2119,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "eng",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Biblica Bible Dictionary",
           "copyright_dates": "2023",
@@ -2051,6 +2143,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "fra",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Biblica Bible Dictionary",
           "copyright_dates": "2023",
@@ -2074,6 +2167,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "hin",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Biblica Bible Dictionary",
           "copyright_dates": "2023",
@@ -2097,6 +2191,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "ind",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Biblica Bible Dictionary",
           "copyright_dates": "2023",
@@ -2120,6 +2215,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "nld",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Biblica Bible Dictionary",
           "copyright_dates": "2023",
@@ -2143,6 +2239,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "por",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Biblica Bible Dictionary",
           "copyright_dates": "2023",
@@ -2166,6 +2263,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "rus",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Biblica Bible Dictionary",
           "copyright_dates": "2023",
@@ -2189,6 +2287,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "spa",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Biblica Bible Dictionary",
           "copyright_dates": "2023",
@@ -2212,6 +2311,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "swh",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Biblica Bible Dictionary",
           "copyright_dates": "2023",
@@ -2235,6 +2335,7 @@ const RESOURCES_DATA = {
         "resource_type": "Study Notes",
         "content_type": "Html",
         "language": "zht",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Biblica Bible Dictionary",
           "copyright_dates": "2023",
@@ -2266,6 +2367,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Guide",
         "content_type": "Html",
         "language": "eng",
+        "first_json_path": "json/06.content.json",
         "citation": {
           "title": "Open Translator's Notes",
           "copyright_dates": "2024",
@@ -2297,6 +2399,7 @@ const RESOURCES_DATA = {
         "resource_type": "Foundational Bible Stories",
         "content_type": "Html",
         "language": "arb",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Open Bible Stories",
           "copyright_dates": "2022",
@@ -2320,6 +2423,7 @@ const RESOURCES_DATA = {
         "resource_type": "Foundational Bible Stories",
         "content_type": "Html",
         "language": "eng",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Open Bible Stories",
           "copyright_dates": "2022",
@@ -2343,6 +2447,7 @@ const RESOURCES_DATA = {
         "resource_type": "Foundational Bible Stories",
         "content_type": "Html",
         "language": "fra",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Open Bible Stories",
           "copyright_dates": "2022",
@@ -2366,6 +2471,7 @@ const RESOURCES_DATA = {
         "resource_type": "Foundational Bible Stories",
         "content_type": "Html",
         "language": "hin",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Open Bible Stories",
           "copyright_dates": "2022",
@@ -2389,6 +2495,7 @@ const RESOURCES_DATA = {
         "resource_type": "Foundational Bible Stories",
         "content_type": "Html",
         "language": "ind",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Open Bible Stories",
           "copyright_dates": "2022",
@@ -2412,6 +2519,7 @@ const RESOURCES_DATA = {
         "resource_type": "Foundational Bible Stories",
         "content_type": "Html",
         "language": "nep",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Open Bible Stories",
           "copyright_dates": "2022",
@@ -2435,6 +2543,7 @@ const RESOURCES_DATA = {
         "resource_type": "Foundational Bible Stories",
         "content_type": "Html",
         "language": "por",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Open Bible Stories",
           "copyright_dates": "2022",
@@ -2458,6 +2567,7 @@ const RESOURCES_DATA = {
         "resource_type": "Foundational Bible Stories",
         "content_type": "Html",
         "language": "rus",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Open Bible Stories",
           "copyright_dates": "2022",
@@ -2481,6 +2591,7 @@ const RESOURCES_DATA = {
         "resource_type": "Foundational Bible Stories",
         "content_type": "Html",
         "language": "spa",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Open Bible Stories",
           "copyright_dates": "2022",
@@ -2504,6 +2615,7 @@ const RESOURCES_DATA = {
         "resource_type": "Foundational Bible Stories",
         "content_type": "Html",
         "language": "swh",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Open Bible Stories",
           "copyright_dates": "2022",
@@ -2527,6 +2639,7 @@ const RESOURCES_DATA = {
         "resource_type": "Foundational Bible Stories",
         "content_type": "Html",
         "language": "tpi",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Open Bible Stories",
           "copyright_dates": "2022",
@@ -2550,6 +2663,7 @@ const RESOURCES_DATA = {
         "resource_type": "Foundational Bible Stories",
         "content_type": "Html",
         "language": "zhs",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Open Bible Stories",
           "copyright_dates": "2022",
@@ -2581,6 +2695,7 @@ const RESOURCES_DATA = {
         "resource_type": "Bible Translation Manual",
         "content_type": "Html",
         "language": "arb",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Academy",
           "copyright_dates": "2022",
@@ -2604,6 +2719,7 @@ const RESOURCES_DATA = {
         "resource_type": "Bible Translation Manual",
         "content_type": "Html",
         "language": "eng",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Academy",
           "copyright_dates": "2022",
@@ -2627,6 +2743,7 @@ const RESOURCES_DATA = {
         "resource_type": "Bible Translation Manual",
         "content_type": "Html",
         "language": "hin",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Academy",
           "copyright_dates": "2022",
@@ -2650,6 +2767,7 @@ const RESOURCES_DATA = {
         "resource_type": "Bible Translation Manual",
         "content_type": "Html",
         "language": "ind",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Academy",
           "copyright_dates": "2022",
@@ -2673,6 +2791,7 @@ const RESOURCES_DATA = {
         "resource_type": "Bible Translation Manual",
         "content_type": "Html",
         "language": "nep",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Academy",
           "copyright_dates": "2022",
@@ -2696,6 +2815,7 @@ const RESOURCES_DATA = {
         "resource_type": "Bible Translation Manual",
         "content_type": "Html",
         "language": "por",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Academy",
           "copyright_dates": "2022",
@@ -2719,6 +2839,7 @@ const RESOURCES_DATA = {
         "resource_type": "Bible Translation Manual",
         "content_type": "Html",
         "language": "zht",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Academy",
           "copyright_dates": "2022",
@@ -2750,6 +2871,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Guide",
         "content_type": "Html",
         "language": "arb",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Notes",
           "copyright_dates": "2022",
@@ -2773,6 +2895,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Guide",
         "content_type": "Html",
         "language": "eng",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Notes",
           "copyright_dates": "2022",
@@ -2796,6 +2919,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Guide",
         "content_type": "Html",
         "language": "fra",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Notes",
           "copyright_dates": "2022",
@@ -2819,6 +2943,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Guide",
         "content_type": "Html",
         "language": "hin",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Notes",
           "copyright_dates": "2022",
@@ -2842,6 +2967,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Guide",
         "content_type": "Html",
         "language": "ind",
+        "first_json_path": "json/40.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Notes",
           "copyright_dates": "2022",
@@ -2865,6 +2991,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Guide",
         "content_type": "Html",
         "language": "por",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Notes",
           "copyright_dates": "2022",
@@ -2888,6 +3015,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Guide",
         "content_type": "Html",
         "language": "spa",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Notes",
           "copyright_dates": "2022",
@@ -2911,6 +3039,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Guide",
         "content_type": "Html",
         "language": "zht",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Notes",
           "copyright_dates": "2022",
@@ -2942,6 +3071,7 @@ const RESOURCES_DATA = {
         "resource_type": "Comprehension Testing",
         "content_type": "Html",
         "language": "arb",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Questions",
           "copyright_dates": "2022",
@@ -2965,6 +3095,7 @@ const RESOURCES_DATA = {
         "resource_type": "Comprehension Testing",
         "content_type": "Html",
         "language": "eng",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Questions",
           "copyright_dates": "2022",
@@ -2988,6 +3119,7 @@ const RESOURCES_DATA = {
         "resource_type": "Comprehension Testing",
         "content_type": "Html",
         "language": "fra",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Questions",
           "copyright_dates": "2022",
@@ -3011,6 +3143,7 @@ const RESOURCES_DATA = {
         "resource_type": "Comprehension Testing",
         "content_type": "Html",
         "language": "hin",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Questions",
           "copyright_dates": "2022",
@@ -3034,6 +3167,7 @@ const RESOURCES_DATA = {
         "resource_type": "Comprehension Testing",
         "content_type": "Html",
         "language": "ind",
+        "first_json_path": "json/51.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Questions",
           "copyright_dates": "2022",
@@ -3057,6 +3191,7 @@ const RESOURCES_DATA = {
         "resource_type": "Comprehension Testing",
         "content_type": "Html",
         "language": "nep",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Questions",
           "copyright_dates": "2022",
@@ -3080,6 +3215,7 @@ const RESOURCES_DATA = {
         "resource_type": "Comprehension Testing",
         "content_type": "Html",
         "language": "por",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Questions",
           "copyright_dates": "2022",
@@ -3103,6 +3239,7 @@ const RESOURCES_DATA = {
         "resource_type": "Comprehension Testing",
         "content_type": "Html",
         "language": "zht",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Questions",
           "copyright_dates": "2022",
@@ -3134,6 +3271,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Glossary",
         "content_type": "Html",
         "language": "arb",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Words",
           "copyright_dates": "2022",
@@ -3157,6 +3295,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Glossary",
         "content_type": "Html",
         "language": "eng",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Words",
           "copyright_dates": "2022",
@@ -3180,6 +3319,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Glossary",
         "content_type": "Html",
         "language": "fra",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Words",
           "copyright_dates": "2022",
@@ -3203,6 +3343,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Glossary",
         "content_type": "Html",
         "language": "hin",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Words",
           "copyright_dates": "2022",
@@ -3226,6 +3367,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Glossary",
         "content_type": "Html",
         "language": "ind",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Words",
           "copyright_dates": "2022",
@@ -3249,6 +3391,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Glossary",
         "content_type": "Html",
         "language": "por",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Words",
           "copyright_dates": "2022",
@@ -3272,6 +3415,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Glossary",
         "content_type": "Html",
         "language": "swh",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Words",
           "copyright_dates": "2022",
@@ -3295,6 +3439,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Glossary",
         "content_type": "Html",
         "language": "zht",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Words",
           "copyright_dates": "2022",
@@ -3326,6 +3471,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "apd",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "UBS Images",
           "copyright_dates": null,
@@ -3349,6 +3495,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "arb",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "UBS Images",
           "copyright_dates": null,
@@ -3372,6 +3519,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "bis",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "UBS Images",
           "copyright_dates": null,
@@ -3395,6 +3543,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "eng",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "UBS Images",
           "copyright_dates": null,
@@ -3418,6 +3567,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "fra",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "UBS Images",
           "copyright_dates": null,
@@ -3441,6 +3591,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "hau",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "UBS Images",
           "copyright_dates": null,
@@ -3464,6 +3615,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "hin",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "UBS Images",
           "copyright_dates": null,
@@ -3487,6 +3639,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "ibo",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "UBS Images",
           "copyright_dates": null,
@@ -3510,6 +3663,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "ind",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "UBS Images",
           "copyright_dates": null,
@@ -3533,6 +3687,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "por",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "UBS Images",
           "copyright_dates": null,
@@ -3556,6 +3711,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "rus",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "UBS Images",
           "copyright_dates": null,
@@ -3579,6 +3735,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "spa",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "UBS Images",
           "copyright_dates": null,
@@ -3602,6 +3759,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "swh",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "UBS Images",
           "copyright_dates": null,
@@ -3625,6 +3783,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "tpi",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "UBS Images",
           "copyright_dates": null,
@@ -3648,6 +3807,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "vie",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "UBS Images",
           "copyright_dates": null,
@@ -3671,6 +3831,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "zhs",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "UBS Images",
           "copyright_dates": null,
@@ -3694,6 +3855,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "zht",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "UBS Images",
           "copyright_dates": null,
@@ -3717,6 +3879,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "zlm",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "UBS Images",
           "copyright_dates": null,
@@ -3748,6 +3911,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "eng",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "Familiarization, Internalization, Articulation (Fia) Images",
           "copyright_dates": "2023",
@@ -3779,6 +3943,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "eng",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "Familiarization, Internalization, Articulation (Fia) Maps",
           "copyright_dates": "2023",
@@ -3810,6 +3975,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Glossary",
         "content_type": "Html",
         "language": "eng",
+        "first_json_path": "json/001.content.json",
         "citation": {
           "title": "Familiarization, Internalization, Articulation (Fia) Terms",
           "copyright_dates": "2023",
@@ -3841,6 +4007,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Guide",
         "content_type": "Html",
         "language": "arb",
+        "first_json_path": "json/41.content.json",
         "citation": {
           "title": "Familiarization, Internalization, Articulation (Fia)",
           "copyright_dates": "2023",
@@ -3864,6 +4031,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Guide",
         "content_type": "Html",
         "language": "eng",
+        "first_json_path": "json/01.content.json",
         "citation": {
           "title": "Familiarization, Internalization, Articulation (Fia)",
           "copyright_dates": "2023",
@@ -3887,6 +4055,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Guide",
         "content_type": "Html",
         "language": "fra",
+        "first_json_path": "json/41.content.json",
         "citation": {
           "title": "Familiarization, Internalization, Articulation (Fia)",
           "copyright_dates": "2023",
@@ -3910,6 +4079,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Guide",
         "content_type": "Html",
         "language": "hin",
+        "first_json_path": "json/42.content.json",
         "citation": {
           "title": "Familiarization, Internalization, Articulation (Fia)",
           "copyright_dates": "2023",
@@ -3933,6 +4103,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Guide",
         "content_type": "Html",
         "language": "ind",
+        "first_json_path": "json/42.content.json",
         "citation": {
           "title": "Familiarization, Internalization, Articulation (Fia)",
           "copyright_dates": "2023",
@@ -3956,6 +4127,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Guide",
         "content_type": "Html",
         "language": "por",
+        "first_json_path": "json/41.content.json",
         "citation": {
           "title": "Familiarization, Internalization, Articulation (Fia)",
           "copyright_dates": "2023",
@@ -3979,6 +4151,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Guide",
         "content_type": "Html",
         "language": "rus",
+        "first_json_path": "json/41.content.json",
         "citation": {
           "title": "Familiarization, Internalization, Articulation (Fia)",
           "copyright_dates": "2023",
@@ -4002,6 +4175,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Guide",
         "content_type": "Html",
         "language": "spa",
+        "first_json_path": "json/42.content.json",
         "citation": {
           "title": "Familiarization, Internalization, Articulation (Fia)",
           "copyright_dates": "2023",
@@ -4025,6 +4199,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Guide",
         "content_type": "Html",
         "language": "swh",
+        "first_json_path": "json/42.content.json",
         "citation": {
           "title": "Familiarization, Internalization, Articulation (Fia)",
           "copyright_dates": "2023",
@@ -4048,6 +4223,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Guide",
         "content_type": "Html",
         "language": "tpi",
+        "first_json_path": "json/41.content.json",
         "citation": {
           "title": "Familiarization, Internalization, Articulation (Fia)",
           "copyright_dates": "2023",
@@ -4071,6 +4247,7 @@ const RESOURCES_DATA = {
         "resource_type": "Translation Guide",
         "content_type": "Html",
         "language": "zhs",
+        "first_json_path": "json/42.content.json",
         "citation": {
           "title": "Familiarization, Internalization, Articulation (Fia)",
           "copyright_dates": "2023",
@@ -4102,6 +4279,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "apd",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "Video Bible Dictionary",
           "copyright_dates": "2023",
@@ -4125,6 +4303,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "arb",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "Video Bible Dictionary",
           "copyright_dates": "2023",
@@ -4148,6 +4327,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "bis",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "Video Bible Dictionary",
           "copyright_dates": "2023",
@@ -4171,6 +4351,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "eng",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "Video Bible Dictionary",
           "copyright_dates": "2023",
@@ -4194,6 +4375,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "fra",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "Video Bible Dictionary",
           "copyright_dates": "2023",
@@ -4217,6 +4399,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "hau",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "Video Bible Dictionary",
           "copyright_dates": "2023",
@@ -4240,6 +4423,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "hin",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "Video Bible Dictionary",
           "copyright_dates": "2023",
@@ -4263,6 +4447,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "ibo",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "Video Bible Dictionary",
           "copyright_dates": "2023",
@@ -4286,6 +4471,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "ind",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "Video Bible Dictionary",
           "copyright_dates": "2023",
@@ -4309,6 +4495,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "por",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "Video Bible Dictionary",
           "copyright_dates": "2023",
@@ -4332,6 +4519,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "rus",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "Video Bible Dictionary",
           "copyright_dates": "2023",
@@ -4355,6 +4543,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "spa",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "Video Bible Dictionary",
           "copyright_dates": "2023",
@@ -4378,6 +4567,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "swh",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "Video Bible Dictionary",
           "copyright_dates": "2023",
@@ -4401,6 +4591,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "tpi",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "Video Bible Dictionary",
           "copyright_dates": "2023",
@@ -4424,6 +4615,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "vie",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "Video Bible Dictionary",
           "copyright_dates": "2023",
@@ -4447,6 +4639,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "zhs",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "Video Bible Dictionary",
           "copyright_dates": "2023",
@@ -4470,6 +4663,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "zht",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "Video Bible Dictionary",
           "copyright_dates": "2023",
@@ -4493,6 +4687,7 @@ const RESOURCES_DATA = {
         "resource_type": "Images, Maps, Videos",
         "content_type": "Html",
         "language": "zlm",
+        "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "Video Bible Dictionary",
           "copyright_dates": "2023",
@@ -4524,6 +4719,7 @@ const RESOURCES_DATA = {
         "resource_type": "Bible",
         "content_type": "Bible",
         "language": "eng",
+        "first_json_path": "audio/01GENBSB.timing.json",
         "citation": {
           "title": "Berean Standard Bible",
           "copyright_dates": null,
@@ -4555,6 +4751,7 @@ const RESOURCES_DATA = {
         "resource_type": "Bible",
         "content_type": "Bible",
         "language": "eng",
+        "first_json_path": null,
         "citation": {
           "title": "unfoldingWord\u00ae Literal Text",
           "copyright_dates": "2022",
@@ -4586,6 +4783,7 @@ const RESOURCES_DATA = {
         "resource_type": "Bible",
         "content_type": "Bible",
         "language": "swh",
+        "first_json_path": "audio/01GENOKCV.timing.json",
         "citation": {
           "title": "Open Kiswahili Contemporary Version",
           "copyright_dates": "2015",
@@ -4617,6 +4815,7 @@ const RESOURCES_DATA = {
         "resource_type": "Bible",
         "content_type": "Bible",
         "language": "hin",
+        "first_json_path": "audio/01GENIRV.timing.json",
         "citation": {
           "title": "Hindi Indian Revised Version",
           "copyright_dates": "2019",
@@ -4643,14 +4842,105 @@ const resourceSelect = document.getElementById('resource-select');
 const languageSelect = document.getElementById('language-select');
 const contentDisplayDiv = document.getElementById('content-display');
 const contentViewerSection = document.getElementById('content-viewer');
+const previewDisplayDiv = document.getElementById('preview-display');
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
 
 // State
 let selectedResource = null;
 let selectedLanguage = null;
+let previewLoaded = false;
+let previewCache = {};
 
 // Setup event listeners
 resourceSelect.addEventListener('change', handleResourceChange);
 languageSelect.addEventListener('change', handleLanguageChange);
+
+// Tab switching
+tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        const tabId = btn.dataset.tab;
+        switchToTab(tabId);
+    });
+});
+
+// Switch to a specific tab
+function switchToTab(tabId) {
+    // Update active states
+    tabBtns.forEach(b => b.classList.remove('active'));
+    tabContents.forEach(c => c.classList.remove('active'));
+    
+    const targetBtn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+    if (targetBtn) {
+        targetBtn.classList.add('active');
+    }
+    document.getElementById('tab-' + tabId).classList.add('active');
+    
+    // Load preview if switching to preview tab
+    if (tabId === 'preview' && selectedResource && selectedLanguage) {
+        loadPreview();
+    }
+}
+
+// Load preview content dynamically
+async function loadPreview() {
+    if (!selectedResource || !selectedLanguage) {
+        previewDisplayDiv.innerHTML = '<p class="loading-message">Select a resource to see a preview.</p>';
+        return;
+    }
+    
+    const langData = selectedResource.languages[selectedLanguage];
+    if (!langData) {
+        previewDisplayDiv.innerHTML = '<p class="no-preview">No preview available for this selection.</p>';
+        return;
+    }
+    
+    // Check if we have a JSON path for preview
+    const jsonPath = langData.first_json_path;
+    if (!jsonPath || !langData.has_json) {
+        previewDisplayDiv.innerHTML = '<p class="no-preview">No preview available. This resource does not have JSON content files.</p>';
+        return;
+    }
+    
+    // Check cache first - use delimiter-separated key
+    const cacheKey = `${selectedResource.name}:${selectedLanguage}:${jsonPath}`;
+    if (previewCache[cacheKey]) {
+        previewDisplayDiv.innerHTML = previewCache[cacheKey];
+        return;
+    }
+    
+    // Show loading message
+    previewDisplayDiv.innerHTML = '<p class="loading-message">Loading preview...</p>';
+    
+    try {
+        // Construct URL to raw JSON file
+        const url = `https://raw.githubusercontent.com/${ORG_NAME}/${selectedResource.name}/main/${selectedLanguage}/${jsonPath}`;
+        
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Failed to fetch preview content');
+        }
+        
+        const data = await response.json();
+        
+        // Extract title and content from the first item in the list
+        // SECURITY NOTE: content is trusted HTML from the BibleAquifer organization's own 
+        // JSON files. This is intentionally rendered as HTML to support rich formatting 
+        // (headings, paragraphs, links, etc.) in the preview.
+        if (Array.isArray(data) && data.length > 0 && data[0].content) {
+            const title = data[0].title || '';
+            const titleHtml = title ? `<p><b>${title}</b></p>` : '';
+            const previewHtml = '<div class="preview-content">' + titleHtml + data[0].content + '</div>';
+            previewCache[cacheKey] = previewHtml;
+            previewDisplayDiv.innerHTML = previewHtml;
+        } else {
+            previewDisplayDiv.innerHTML = '<p class="no-preview">No preview content found in the JSON file.</p>';
+        }
+    } catch (error) {
+        console.error('Error loading preview:', error);
+        previewDisplayDiv.innerHTML = '<p class="error-message">Error loading preview. Please try again later.</p>';
+    }
+}
 
 // Handle resource selection
 function handleResourceChange() {
@@ -4660,6 +4950,7 @@ function handleResourceChange() {
         languageSelect.innerHTML = '<option value="">Select a resource first</option>';
         languageSelect.disabled = true;
         contentDisplayDiv.innerHTML = '';
+        previewDisplayDiv.innerHTML = '<p class="loading-message">Select a resource to see a preview.</p>';
         contentViewerSection.classList.add('hidden');
         return;
     }
@@ -4687,6 +4978,12 @@ function handleResourceChange() {
     
     languageSelect.disabled = false;
     
+    // Switch to Details tab when resource changes
+    switchToTab('details');
+    
+    // Reset preview display
+    previewDisplayDiv.innerHTML = '<p class="loading-message">Loading preview...</p>';
+    
     // Auto-load English if available
     if (hasEng) {
         selectedLanguage = 'eng';
@@ -4700,9 +4997,16 @@ function handleLanguageChange() {
     
     if (!selectedLanguage) {
         contentDisplayDiv.innerHTML = '';
+        previewDisplayDiv.innerHTML = '<p class="loading-message">Select a resource to see a preview.</p>';
         contentViewerSection.classList.add('hidden');
         return;
     }
+    
+    // Switch to Details tab when language changes
+    switchToTab('details');
+    
+    // Reset preview when language changes
+    previewDisplayDiv.innerHTML = '<p class="loading-message">Loading preview...</p>';
     
     displayLanguageMetadata();
 }
