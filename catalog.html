@@ -26,12 +26,14 @@
         </div>
     </nav>
 
-    <main class="container">
-        <section id="catalog-controls">
-            <div class="control-group">
-                <label for="resource-select">Select Resource:</label>
-                <select id="resource-select">
-                    <option value="">Select a resource...</option>
+    <main class="catalog-layout">
+        <aside class="catalog-sidebar">
+            <section id="catalog-controls">
+                <h2>Filters</h2>
+                <div class="control-group">
+                    <label for="resource-select">Select Resource:</label>
+                    <select id="resource-select">
+                        <option value="">Select a resource...</option>
                     <option value="AquiferOpenBibleDictionary">Aquifer Open Bible Dictionary</option>
                     <option value="AquiferOpenStudyNotes">Aquifer Open Study Notes</option>
                     <option value="AquiferOpenStudyNotesBookIntroSummaries">Aquifer Open Study Notes (Book Intro Summaries)</option>
@@ -65,16 +67,19 @@
                     <option value="">Select a resource first</option>
                 </select>
             </div>
-        </section>
+            </section>
+        </aside>
 
-        <section id="resource-info" class="hidden">
-            <div id="resource-metadata"></div>
-        </section>
+        <div class="catalog-content">
+            <section id="resource-info" class="hidden">
+                <div id="resource-metadata"></div>
+            </section>
 
-        <section id="content-viewer" class="hidden">
-            <h2>Resource Details</h2>
-            <div id="content-display"></div>
-        </section>
+            <section id="content-viewer" class="hidden">
+                <h2>Resource Details</h2>
+                <div id="content-display"></div>
+            </section>
+        </div>
     </main>
 
     <footer>
