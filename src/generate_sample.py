@@ -186,13 +186,14 @@ def main():
     
     print("2. Generating index.html...")
     index_html = generate_index_html(readme_formatted)
-    with open('index.html', 'w') as f:
+    output_dir = os.path.join(os.path.dirname(__file__), '..')
+    with open(os.path.join(output_dir, 'index.html'), 'w') as f:
         f.write(index_html)
     print("   ✓ Created index.html")
     
     print("3. Generating catalog.html...")
     catalog_html = generate_catalog_html(SAMPLE_RESOURCES)
-    with open('catalog.html', 'w') as f:
+    with open(os.path.join(output_dir, 'catalog.html'), 'w') as f:
         f.write(catalog_html)
     print("   ✓ Created catalog.html")
     
@@ -203,7 +204,7 @@ def main():
     print("  - index.html")
     print("  - catalog.html")
     print("\nNote: These files use sample data.")
-    print("To generate with real data, run: poetry run python build_site.py")
+    print("To generate with real data, run: poetry run python src/build_site.py")
     print()
 
 

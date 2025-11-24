@@ -4,6 +4,7 @@ Test the build script with sample data to verify functionality
 """
 
 import json
+import os
 import yaml
 from build_site import (
     markdown_to_html,
@@ -268,16 +269,17 @@ def main():
         formatted = format_readme_sections(html)
         index_html = generate_index_html(formatted)
         
-        with open('test_index.html', 'w') as f:
+        output_dir = os.path.dirname(__file__)
+        with open(os.path.join(output_dir, 'test_index.html'), 'w') as f:
             f.write(index_html)
         print("  Created: test_index.html")
         
         catalog_html = generate_catalog_html(SAMPLE_RESOURCES)
-        with open('test_catalog.html', 'w') as f:
+        with open(os.path.join(output_dir, 'test_catalog.html'), 'w') as f:
             f.write(catalog_html)
         print("  Created: test_catalog.html")
         
-        with open('test_resources.yaml', 'w') as f:
+        with open(os.path.join(output_dir, 'test_resources.yaml'), 'w') as f:
             yaml.dump(SAMPLE_RESOURCES, f, default_flow_style=False, sort_keys=False)
         print("  Created: test_resources.yaml")
         
