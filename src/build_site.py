@@ -517,7 +517,7 @@ def generate_catalog_html(resources: Dict[str, Any]) -> str:
         <div class="container header-content">
             <div>
                 <h1>Unified Catalog</h1>
-                <p class="subtitle">Browse Aquifer Bible Resources by Type and Language</p>
+                <p class="subtitle">Browse Aquifer Bible Resources by Resource and Language</p>
             </div>
             <nav class="header-nav">
                 <a href="index.html" class="catalog-link">Home</a>
