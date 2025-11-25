@@ -483,7 +483,7 @@ def generate_index_html(readme_html: str) -> str:
 
         <section class="cta-section">
             <h2>Browse the Catalog</h2>
-            <p>Explore available resources organized by type and language.</p>
+            <p>Explore available resources organized by resource and language.</p>
             <a href="catalog.html" class="cta-button">View Unified Catalog</a>
         </section>
     </main>
