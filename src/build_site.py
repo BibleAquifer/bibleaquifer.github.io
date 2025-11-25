@@ -564,6 +564,15 @@ def generate_catalog_html(resources: Dict[str, Any]) -> str:
                     <div id="content-display"></div>
                 </div>
                 <div id="tab-preview" class="tab-content">
+                    <div class="preview-navigation">
+                        <button id="prev-article-btn" class="nav-btn" disabled>
+                            <span class="nav-arrow">←</span> Previous
+                        </button>
+                        <span id="article-position" class="article-position"></span>
+                        <button id="next-article-btn" class="nav-btn" disabled>
+                            Next <span class="nav-arrow">→</span>
+                        </button>
+                    </div>
                     <div id="preview-display">
                         <p class="loading-message">Select a resource to see a preview.</p>
                     </div>
@@ -592,16 +601,36 @@ const contentViewerSection = document.getElementById('content-viewer');
 const previewDisplayDiv = document.getElementById('preview-display');
 const tabBtns = document.querySelectorAll('.tab-btn');
 const tabContents = document.querySelectorAll('.tab-content');
+const prevArticleBtn = document.getElementById('prev-article-btn');
+const nextArticleBtn = document.getElementById('next-article-btn');
+const articlePositionSpan = document.getElementById('article-position');
 
 // State
 let selectedResource = null;
 let selectedLanguage = null;
 let previewLoaded = false;
 let previewCache = {};
+let currentArticleIndex = 0;
+let currentArticles = [];
 
 // Setup event listeners
 resourceSelect.addEventListener('change', handleResourceChange);
 languageSelect.addEventListener('change', handleLanguageChange);
+
+// Navigation button event listeners
+prevArticleBtn.addEventListener('click', () => {
+    if (currentArticleIndex > 0) {
+        currentArticleIndex--;
+        displayArticle();
+    }
+});
+
+nextArticleBtn.addEventListener('click', () => {
+    if (currentArticleIndex < currentArticles.length - 1) {
+        currentArticleIndex++;
+        displayArticle();
+    }
+});
 
 // Tab switching
 tabBtns.forEach(btn => {
@@ -632,12 +661,14 @@ function switchToTab(tabId) {
 // Load preview content dynamically
 async function loadPreview() {
     if (!selectedResource || !selectedLanguage) {
+        hideNavigation();
         previewDisplayDiv.innerHTML = '<p class="loading-message">Select a resource to see a preview.</p>';
         return;
     }
     
     const langData = selectedResource.languages[selectedLanguage];
     if (!langData) {
+        hideNavigation();
         previewDisplayDiv.innerHTML = '<p class="no-preview">No preview available for this selection.</p>';
         return;
     }
@@ -645,6 +676,7 @@ async function loadPreview() {
     // Check if we have a JSON path for preview
     const jsonPath = langData.first_json_path;
     if (!jsonPath || !langData.has_json) {
+        hideNavigation();
         previewDisplayDiv.innerHTML = '<p class="no-preview">No preview available. This resource does not have JSON content files.</p>';
         return;
     }
@@ -652,11 +684,14 @@ async function loadPreview() {
     // Check cache first - use delimiter-separated key
     const cacheKey = `${selectedResource.name}:${selectedLanguage}:${jsonPath}`;
     if (previewCache[cacheKey]) {
-        previewDisplayDiv.innerHTML = previewCache[cacheKey];
+        currentArticles = previewCache[cacheKey];
+        currentArticleIndex = 0;
+        displayArticle();
         return;
     }
     
-    // Show loading message
+    // Show loading message and hide navigation while loading
+    hideNavigation();
     previewDisplayDiv.innerHTML = '<p class="loading-message">Loading preview...</p>';
     
     try {
@@ -670,23 +705,75 @@ async function loadPreview() {
         
         const data = await response.json();
         
-        // Extract title and content from the first item in the list
+        // Extract articles from the data array
         // SECURITY NOTE: content is trusted HTML from the BibleAquifer organization's own 
         // JSON files. This is intentionally rendered as HTML to support rich formatting 
         // (headings, paragraphs, links, etc.) in the preview.
-        if (Array.isArray(data) && data.length > 0 && data[0].content) {
-            const title = data[0].title || '';
-            const titleHtml = title ? `<p><b>${title}</b></p>` : '';
-            const previewHtml = '<div class="preview-content">' + titleHtml + data[0].content + '</div>';
-            previewCache[cacheKey] = previewHtml;
-            previewDisplayDiv.innerHTML = previewHtml;
+        if (Array.isArray(data) && data.length > 0) {
+            // Store articles in cache and state
+            currentArticles = data;
+            previewCache[cacheKey] = data;
+            currentArticleIndex = 0;
+            displayArticle();
         } else {
+            hideNavigation();
             previewDisplayDiv.innerHTML = '<p class="no-preview">No preview content found in the JSON file.</p>';
         }
     } catch (error) {
         console.error('Error loading preview:', error);
+        hideNavigation();
         previewDisplayDiv.innerHTML = '<p class="error-message">Error loading preview. Please try again later.</p>';
     }
+}
+
+// Display the current article based on index
+function displayArticle() {
+    if (!currentArticles || currentArticles.length === 0) {
+        hideNavigation();
+        previewDisplayDiv.innerHTML = '<p class="no-preview">No articles available.</p>';
+        return;
+    }
+    
+    const article = currentArticles[currentArticleIndex];
+    if (!article || !article.content) {
+        previewDisplayDiv.innerHTML = '<p class="no-preview">Article content not available.</p>';
+        updateNavigationState();
+        return;
+    }
+    
+    const title = article.title || '';
+    const titleHtml = title ? `<p><b>${title}</b></p>` : '';
+    const previewHtml = '<div class="preview-content">' + titleHtml + article.content + '</div>';
+    previewDisplayDiv.innerHTML = previewHtml;
+    
+    updateNavigationState();
+}
+
+// Update navigation button states and position indicator
+function updateNavigationState() {
+    const total = currentArticles.length;
+    const current = currentArticleIndex + 1;
+    
+    // Update position indicator
+    articlePositionSpan.textContent = `Article ${current} of ${total}`;
+    
+    // Update button states
+    prevArticleBtn.disabled = currentArticleIndex === 0;
+    nextArticleBtn.disabled = currentArticleIndex >= total - 1;
+}
+
+// Hide navigation controls
+function hideNavigation() {
+    prevArticleBtn.disabled = true;
+    nextArticleBtn.disabled = true;
+    articlePositionSpan.textContent = '';
+}
+
+// Reset article state when resource or language changes
+function resetArticleState() {
+    currentArticleIndex = 0;
+    currentArticles = [];
+    hideNavigation();
 }
 
 // Handle resource selection
@@ -699,10 +786,12 @@ function handleResourceChange() {
         contentDisplayDiv.innerHTML = '';
         previewDisplayDiv.innerHTML = '<p class="loading-message">Select a resource to see a preview.</p>';
         contentViewerSection.classList.add('hidden');
+        resetArticleState();
         return;
     }
     
     selectedResource = RESOURCES_DATA[resourceId];
+    resetArticleState();
     
     // Populate language dropdown
     languageSelect.innerHTML = '<option value="">Select a language...</option>';
@@ -746,13 +835,15 @@ function handleLanguageChange() {
         contentDisplayDiv.innerHTML = '';
         previewDisplayDiv.innerHTML = '<p class="loading-message">Select a resource to see a preview.</p>';
         contentViewerSection.classList.add('hidden');
+        resetArticleState();
         return;
     }
     
     // Switch to Details tab when language changes
     switchToTab('details');
     
-    // Reset preview when language changes
+    // Reset preview and article state when language changes
+    resetArticleState();
     previewDisplayDiv.innerHTML = '<p class="loading-message">Loading preview...</p>';
     
     displayLanguageMetadata();
@@ -923,7 +1014,7 @@ def main():
     
     print("5. Generating catalog.html...")
     catalog_html = generate_catalog_html(resources)
-    with open(os.path.join(output_dir, 'catalog.html'), 'w') as f:
+    with open(os.path.join(output_dir, 'catalog.html'), 'w', encoding="utf-8") as f:
         f.write(catalog_html)
     
     print("\n" + "=" * 60)

@@ -322,6 +322,36 @@ def test_preview_tab_in_catalog():
     print("✓ Preview tab in catalog works")
 
 
+def test_preview_navigation_in_catalog():
+    """Test that preview navigation controls are generated in catalog HTML"""
+    print("Testing preview navigation in catalog...")
+    catalog_html = generate_catalog_html(SAMPLE_RESOURCES)
+    
+    # Check for navigation HTML elements
+    assert 'class="preview-navigation"' in catalog_html
+    assert 'id="prev-article-btn"' in catalog_html
+    assert 'id="next-article-btn"' in catalog_html
+    assert 'id="article-position"' in catalog_html
+    assert 'Previous' in catalog_html
+    assert 'Next' in catalog_html
+    
+    # Check for navigation JavaScript state variables
+    assert 'currentArticleIndex' in catalog_html
+    assert 'currentArticles' in catalog_html
+    
+    # Check for navigation JavaScript functions
+    assert 'displayArticle' in catalog_html
+    assert 'updateNavigationState' in catalog_html
+    assert 'resetArticleState' in catalog_html
+    assert 'hideNavigation' in catalog_html
+    
+    # Check for button event listeners
+    assert 'prevArticleBtn.addEventListener' in catalog_html
+    assert 'nextArticleBtn.addEventListener' in catalog_html
+    
+    print("✓ Preview navigation in catalog works")
+
+
 def main():
     """Run all tests"""
     print("=" * 60)
@@ -340,6 +370,7 @@ def main():
         test_adaptation_notice_display()
         test_get_first_json_path()
         test_preview_tab_in_catalog()
+        test_preview_navigation_in_catalog()
         
         print()
         print("=" * 60)
