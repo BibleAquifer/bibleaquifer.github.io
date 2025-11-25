@@ -4866,6 +4866,14 @@ let previewCache = {};
 let currentArticleIndex = 0;
 let currentArticles = [];
 
+// Right-to-left language codes
+const RTL_LANGUAGES = ['arb', 'apd', 'heb', 'fas', 'urd', 'prs', 'syr', 'yid'];
+
+// Check if a language code is RTL
+function isRtlLanguage(langCode) {
+    return RTL_LANGUAGES.includes(langCode);
+}
+
 // Setup event listeners
 resourceSelect.addEventListener('change', handleResourceChange);
 languageSelect.addEventListener('change', handleLanguageChange);
@@ -4996,7 +5004,10 @@ function displayArticle() {
     
     const title = article.title || '';
     const titleHtml = title ? `<p><b>${title}</b></p>` : '';
-    const previewHtml = '<div class="preview-content">' + titleHtml + article.content + '</div>';
+    
+    // Apply RTL direction for right-to-left languages
+    const dirAttr = isRtlLanguage(selectedLanguage) ? ' dir="rtl"' : '';
+    const previewHtml = '<div class="preview-content"' + dirAttr + '>' + titleHtml + article.content + '</div>';
     previewDisplayDiv.innerHTML = previewHtml;
     
     updateNavigationState();
