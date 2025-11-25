@@ -24,7 +24,7 @@ body {
 header {
     background: linear-gradient(135deg, #2c5aa0 0%, #1e3a66 100%);
     color: white;
-    padding: 2rem 0;
+    padding: 1rem 0;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
@@ -55,12 +55,12 @@ header {
 }
 
 header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
+    font-size: 2rem;
+    margin-bottom: 0.25rem;
 }
 
 .subtitle {
-    font-size: 1.1rem;
+    font-size: 1rem;
     opacity: 0.9;
 }
 
@@ -227,8 +227,8 @@ h2 {
 footer {
     background: #2c5aa0;
     color: white;
-    padding: 2rem 0;
-    margin-top: 2rem;
+    padding: 1rem 0;
+    margin-top: 1.5rem;
     text-align: center;
 }
 
@@ -242,7 +242,7 @@ footer a:hover {
 }
 
 footer p {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
 }
 
 .metadata-grid {
