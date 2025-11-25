@@ -352,6 +352,28 @@ def test_preview_navigation_in_catalog():
     print("✓ Preview navigation in catalog works")
 
 
+def test_rtl_language_support():
+    """Test that RTL language support is included in catalog HTML"""
+    print("Testing RTL language support...")
+    catalog_html = generate_catalog_html(SAMPLE_RESOURCES)
+    
+    # Check for RTL language codes array
+    assert 'RTL_LANGUAGES' in catalog_html
+    assert "'arb'" in catalog_html  # Arabic
+    assert "'apd'" in catalog_html  # Sudanese Arabic
+    assert "'heb'" in catalog_html  # Hebrew
+    
+    # Check for isRtlLanguage helper function
+    assert 'isRtlLanguage' in catalog_html
+    assert 'RTL_LANGUAGES.includes(langCode)' in catalog_html
+    
+    # Check that displayArticle uses RTL direction
+    assert 'dir="rtl"' in catalog_html
+    assert 'isRtlLanguage(selectedLanguage)' in catalog_html
+    
+    print("✓ RTL language support works")
+
+
 def main():
     """Run all tests"""
     print("=" * 60)
@@ -371,6 +393,7 @@ def main():
         test_get_first_json_path()
         test_preview_tab_in_catalog()
         test_preview_navigation_in_catalog()
+        test_rtl_language_support()
         
         print()
         print("=" * 60)
