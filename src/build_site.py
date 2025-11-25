@@ -332,7 +332,8 @@ def get_first_json_path(metadata: Dict[str, Any]) -> Optional[str]:
     
     for path, info in ingredients.items():
         if isinstance(info, dict) and info.get('mimeType') == 'text/json':
-            return path
+            if "json" in path.lower():
+                return path
     
     return None
 
