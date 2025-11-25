@@ -1014,7 +1014,7 @@ def main():
     
     print("5. Generating catalog.html...")
     catalog_html = generate_catalog_html(resources)
-    with open(os.path.join(output_dir, 'catalog.html'), 'w') as f:
+    with open(os.path.join(output_dir, 'catalog.html'), 'w', encoding="utf-8") as f:
         f.write(catalog_html)
     
     print("\n" + "=" * 60)
