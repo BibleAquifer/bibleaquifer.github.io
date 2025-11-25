@@ -614,7 +614,7 @@ let currentArticleIndex = 0;
 let currentArticles = [];
 
 // Right-to-left language codes
-const RTL_LANGUAGES = ['arb', 'apd', 'heb', 'fas', 'urd', 'ara', 'per', 'prs', 'syr', 'yid'];
+const RTL_LANGUAGES = ['arb', 'apd', 'heb', 'fas', 'urd', 'prs', 'syr', 'yid'];
 
 // Check if a language code is RTL
 function isRtlLanguage(langCode) {
