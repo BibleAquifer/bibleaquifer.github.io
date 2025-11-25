@@ -760,11 +760,6 @@ function updateNavigationState() {
     // Update button states
     prevArticleBtn.disabled = currentArticleIndex === 0;
     nextArticleBtn.disabled = currentArticleIndex >= total - 1;
-    
-    // Show navigation if we have articles
-    if (total > 0) {
-        showNavigation();
-    }
 }
 
 // Hide navigation controls
@@ -772,11 +767,6 @@ function hideNavigation() {
     prevArticleBtn.disabled = true;
     nextArticleBtn.disabled = true;
     articlePositionSpan.textContent = '';
-}
-
-// Show navigation controls (buttons remain enabled/disabled based on state)
-function showNavigation() {
-    // Navigation visibility is handled by updateNavigationState
 }
 
 // Reset article state when resource or language changes
