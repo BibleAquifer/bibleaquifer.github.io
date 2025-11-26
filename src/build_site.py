@@ -84,18 +84,143 @@ LANGUAGE_MAP = {
     'hin': 'Hindi',
     'jpn': 'Japanese',
     'zht': 'Chinese (Traditional)',
+    'zhs': 'Chinese (Simplified)',
     'ind': 'Indonesian',
     'nld': 'Dutch',
     'swh': 'Swahili',
     'nep': 'Nepali',
     'tpi': 'Tok Pisin',
-    'apd': 'Sudanese Arabic'
+    'apd': 'Sudanese Arabic',
+    'hau': 'Hausa',
+    'ibo': 'Igbo',
+    'vie': 'Vietnamese',
+    'zlm': 'Malay',
+    'bis': 'Bislama'
+}
+
+# Bible book code to full name mapping (USFM/Scripture Burrito standard)
+BIBLE_BOOK_MAP = {
+    # Old Testament
+    'GEN': 'Genesis',
+    'EXO': 'Exodus',
+    'LEV': 'Leviticus',
+    'NUM': 'Numbers',
+    'DEU': 'Deuteronomy',
+    'JOS': 'Joshua',
+    'JDG': 'Judges',
+    'RUT': 'Ruth',
+    '1SA': '1 Samuel',
+    '2SA': '2 Samuel',
+    '1KI': '1 Kings',
+    '2KI': '2 Kings',
+    '1CH': '1 Chronicles',
+    '2CH': '2 Chronicles',
+    'EZR': 'Ezra',
+    'NEH': 'Nehemiah',
+    'EST': 'Esther',
+    'JOB': 'Job',
+    'PSA': 'Psalms',
+    'PRO': 'Proverbs',
+    'ECC': 'Ecclesiastes',
+    'SNG': 'Song of Songs',
+    'ISA': 'Isaiah',
+    'JER': 'Jeremiah',
+    'LAM': 'Lamentations',
+    'EZK': 'Ezekiel',
+    'DAN': 'Daniel',
+    'HOS': 'Hosea',
+    'JOL': 'Joel',
+    'AMO': 'Amos',
+    'OBA': 'Obadiah',
+    'JON': 'Jonah',
+    'MIC': 'Micah',
+    'NAM': 'Nahum',
+    'HAB': 'Habakkuk',
+    'ZEP': 'Zephaniah',
+    'HAG': 'Haggai',
+    'ZEC': 'Zechariah',
+    'MAL': 'Malachi',
+    # New Testament
+    'MAT': 'Matthew',
+    'MRK': 'Mark',
+    'LUK': 'Luke',
+    'JHN': 'John',
+    'ACT': 'Acts',
+    'ROM': 'Romans',
+    '1CO': '1 Corinthians',
+    '2CO': '2 Corinthians',
+    'GAL': 'Galatians',
+    'EPH': 'Ephesians',
+    'PHP': 'Philippians',
+    'COL': 'Colossians',
+    '1TH': '1 Thessalonians',
+    '2TH': '2 Thessalonians',
+    '1TI': '1 Timothy',
+    '2TI': '2 Timothy',
+    'TIT': 'Titus',
+    'PHM': 'Philemon',
+    'HEB': 'Hebrews',
+    'JAS': 'James',
+    '1PE': '1 Peter',
+    '2PE': '2 Peter',
+    '1JN': '1 John',
+    '2JN': '2 John',
+    '3JN': '3 John',
+    'JUD': 'Jude',
+    'REV': 'Revelation'
+}
+
+# Languages that use Roman script (for alphabetical label uppercasing)
+ROMAN_SCRIPT_LANGUAGES = {
+    'eng', 'spa', 'fra', 'por', 'nld', 'swh', 'ind', 'tpi', 'vie', 'zlm', 'bis', 'hau', 'ibo', 'nep'
 }
 
 
 def get_language_name(code: str) -> str:
     """Convert 3-letter language code to full name"""
     return LANGUAGE_MAP.get(code, code.upper())
+
+
+def get_bible_book_name(code: str) -> str:
+    """Convert 3-letter Bible book code to full name.
+    
+    Returns the full name if known, otherwise returns the original code.
+    """
+    return BIBLE_BOOK_MAP.get(code.upper(), code)
+
+
+def is_roman_script_language(lang_code: str) -> bool:
+    """Check if a language uses Roman script."""
+    return lang_code in ROMAN_SCRIPT_LANGUAGES
+
+
+def transform_label(label: str, order: str, lang_code: str) -> str:
+    """Transform a label based on the resource order type.
+    
+    Args:
+        label: The original label from the metadata scope
+        order: The resource_metadata/order value ('canonical', 'alphabetical', 'monograph')
+        lang_code: The language code (e.g., 'eng', 'fra')
+    
+    Returns:
+        Transformed label appropriate for the order type
+    """
+    if order == 'canonical':
+        # Convert Bible book codes to full names
+        return get_bible_book_name(label)
+    elif order == 'alphabetical':
+        # Upper-case labels for Roman script languages
+        if is_roman_script_language(lang_code):
+            return label.upper()
+        return label
+    elif order == 'monograph':
+        # For monograph, remove 'json/' prefix if present
+        if label.startswith('json/'):
+            return label[5:]  # Remove 'json/' prefix
+        return label
+    else:
+        # Unknown order type, return label as-is
+        return label
 
 
 def fetch_readme() -> str:
@@ -319,12 +444,22 @@ def check_directory_exists(repo_name: str, language: str, dir_name: str) -> bool
     return response.status_code == 200
 
 
-def get_json_files_with_labels(metadata: Dict[str, Any]) -> List[Dict[str, str]]:
+def get_json_files_with_labels(metadata: Dict[str, Any], order: Optional[str] = None, lang_code: Optional[str] = None) -> List[Dict[str, str]]:
     """Extract all JSON file paths with their labels from metadata's scripture_burrito/ingredients.
     
     Returns a sorted list of dictionaries with 'path' and 'label' keys.
-    The label is the first key in the 'scope' child of the ingredient object.
+    The label is the first key in the 'scope' child of the ingredient object,
+    transformed based on the order type:
+    - 'canonical': Bible book codes converted to full names (GEN -> Genesis)
+    - 'alphabetical': Upper-cased for Roman script languages
+    - 'monograph': Filename with 'json/' prefix removed
+    
     Only includes JSON files matching the pattern json/[0-9]+.content.json.
+    
+    Args:
+        metadata: The metadata dictionary from metadata.json
+        order: The resource_metadata/order value (optional, auto-detected if not provided)
+        lang_code: The language code for the resource (optional, used for alphabetical transform)
     """
     if not metadata:
         return []
@@ -332,8 +467,12 @@ def get_json_files_with_labels(metadata: Dict[str, Any]) -> List[Dict[str, str]]
     scripture_burrito = metadata.get('scripture_burrito', {})
     ingredients = scripture_burrito.get('ingredients', {})
     
+    # Auto-detect order from metadata if not provided
+    if order is None:
+        resource_meta = metadata.get('resource_metadata', {})
+        order = resource_meta.get('order', '')
+    
     # Pattern to match content JSON files: json/[0-9]+.content.json
-    import re
     content_json_pattern = re.compile(r'^json/[0-9]+\.content\.json$')
     
     json_files = []
@@ -343,7 +482,10 @@ def get_json_files_with_labels(metadata: Dict[str, Any]) -> List[Dict[str, str]]
             if content_json_pattern.match(path):
                 # Extract label from the first key in 'scope'
                 scope = info.get('scope', {})
-                label = list(scope.keys())[0] if scope else path
+                raw_label = list(scope.keys())[0] if scope else path
+                
+                # Transform label based on order type
+                label = transform_label(raw_label, order, lang_code or '')
                 json_files.append({'path': path, 'label': label})
     
     # Sort by path to ensure consistent ordering
@@ -414,7 +556,8 @@ def build_resource_data() -> Dict[str, Any]:
                     format_checks[f'has_{format_name}'] = check_directory_exists(repo_name, lang, format_name)
                 
                 # Get all JSON file paths with labels for preview file selector
-                json_files = get_json_files_with_labels(metadata)
+                # Pass language code for proper label transformation
+                json_files = get_json_files_with_labels(metadata, lang_code=lang)
                 first_json_path = json_files[0]['path'] if json_files else None
                 
                 resource_data['languages'][lang] = {
@@ -496,7 +639,7 @@ def generate_index_html(readme_html: str) -> str:
                 <p class="subtitle">Access trustworthy and openly-licensed Bible content in multiple languages</p>
             </div>
             <nav class="header-nav">
-                <a href="catalog.html" class="catalog-link">Unified Catalog</a>
+                <a href="catalog.html" class="catalog-link">Aquifer Catalog</a>
                 <a href="https://github.com/BibleAquifer" target="_blank" class="catalog-link">Github Org</a>
             </nav>
         </div>
@@ -510,7 +653,7 @@ def generate_index_html(readme_html: str) -> str:
         <section class="cta-section">
             <h2>Browse the Catalog</h2>
             <p>Explore available resources organized by resource and language.</p>
-            <a href="catalog.html" class="cta-button">View Unified Catalog</a>
+            <a href="catalog.html" class="cta-button">View Aquifer Catalog</a>
         </section>
     </main>
 
@@ -535,14 +678,14 @@ def generate_catalog_html(resources: Dict[str, Any]) -> str:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unified Catalog - Aquifer Bible Resources</title>
+    <title>Aquifer Catalog - Aquifer Bible Resources</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
         <div class="container header-content">
             <div>
-                <h1>Unified Catalog</h1>
+                <h1>Aquifer Catalog</h1>
                 <p class="subtitle">Browse Aquifer Bible Resources by Resource and Language</p>
             </div>
             <nav class="header-nav">
