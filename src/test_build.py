@@ -472,6 +472,11 @@ def test_get_json_files_with_labels():
                 'usfm/01-GEN.usfm': {
                     'mimeType': 'text/x-usfm',
                     'size': 100000
+                },
+                # Audio JSON files should be ignored
+                'audio/timing/01.json': {
+                    'mimeType': 'text/json',
+                    'size': 5000
                 }
             }
         }
@@ -487,7 +492,7 @@ def test_get_json_files_with_labels():
     metadata_no_scope = {
         'scripture_burrito': {
             'ingredients': {
-                'json/test.content.json': {
+                'json/99.content.json': {
                     'mimeType': 'text/json',
                     'size': 100
                 }
@@ -496,7 +501,25 @@ def test_get_json_files_with_labels():
     }
     result = get_json_files_with_labels(metadata_no_scope)
     assert len(result) == 1
-    assert result[0]['label'] == 'json/test.content.json'
+    assert result[0]['label'] == 'json/99.content.json'
+    
+    # Test that non-matching JSON files are ignored
+    metadata_non_matching = {
+        'scripture_burrito': {
+            'ingredients': {
+                'audio/timing/01.json': {
+                    'mimeType': 'text/json',
+                    'size': 100
+                },
+                'json/metadata.json': {
+                    'mimeType': 'text/json',
+                    'size': 200
+                }
+            }
+        }
+    }
+    result = get_json_files_with_labels(metadata_non_matching)
+    assert len(result) == 0, f"Expected 0 JSON files (non-matching patterns), got {len(result)}"
     
     # Test with empty metadata
     result = get_json_files_with_labels({})

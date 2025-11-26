@@ -324,6 +324,7 @@ def get_json_files_with_labels(metadata: Dict[str, Any]) -> List[Dict[str, str]]
     
     Returns a sorted list of dictionaries with 'path' and 'label' keys.
     The label is the first key in the 'scope' child of the ingredient object.
+    Only includes JSON files matching the pattern json/[0-9]+.content.json.
     """
     if not metadata:
         return []
@@ -331,10 +332,15 @@ def get_json_files_with_labels(metadata: Dict[str, Any]) -> List[Dict[str, str]]
     scripture_burrito = metadata.get('scripture_burrito', {})
     ingredients = scripture_burrito.get('ingredients', {})
     
+    # Pattern to match content JSON files: json/[0-9]+.content.json
+    import re
+    content_json_pattern = re.compile(r'^json/[0-9]+\.content\.json$')
+    
     json_files = []
     for path, info in ingredients.items():
         if isinstance(info, dict) and info.get('mimeType') == 'text/json':
-            if "json" in path.lower():
+            # Only include files matching the content JSON pattern
+            if content_json_pattern.match(path):
                 # Extract label from the first key in 'scope'
                 scope = info.get('scope', {})
                 label = list(scope.keys())[0] if scope else path
