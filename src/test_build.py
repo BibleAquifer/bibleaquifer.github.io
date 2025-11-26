@@ -15,7 +15,10 @@ from build_site import (
     get_first_json_path,
     get_json_files_with_labels,
     generate_nav_files,
-    get_catalog_resources
+    get_catalog_resources,
+    get_bible_book_name,
+    is_roman_script_language,
+    transform_label
 )
 
 # Sample README content
@@ -38,6 +41,10 @@ Check out our `documentation` for more information."""
 # Note: JSON file path formats vary by resource type to match actual repository structures:
 # - Study notes/Bible resources use 2-digit format: json/01.content.json
 # - Dictionary resources use 3-digit format: json/001.content.json
+# Labels are transformed based on resource_metadata/order:
+# - canonical: Bible book codes -> full names (GEN -> Genesis)
+# - alphabetical: lower-case -> UPPER-CASE for Roman script languages
+# - monograph: path stripped of 'json/' prefix
 SAMPLE_RESOURCES = {
     'UWTranslationNotes': {
         'name': 'UWTranslationNotes',
@@ -55,9 +62,9 @@ SAMPLE_RESOURCES = {
                 'language': 'eng',
                 'first_json_path': 'json/01.content.json',
                 'json_files': [
-                    {'path': 'json/01.content.json', 'label': 'GEN'},
-                    {'path': 'json/02.content.json', 'label': 'EXO'},
-                    {'path': 'json/03.content.json', 'label': 'LEV'}
+                    {'path': 'json/01.content.json', 'label': 'Genesis'},
+                    {'path': 'json/02.content.json', 'label': 'Exodus'},
+                    {'path': 'json/03.content.json', 'label': 'Leviticus'}
                 ],
                 'citation': {
                     'title': 'unfoldingWord® Translation Notes',
@@ -80,8 +87,8 @@ SAMPLE_RESOURCES = {
                 'language': 'spa',
                 'first_json_path': 'json/01.content.json',
                 'json_files': [
-                    {'path': 'json/01.content.json', 'label': 'GEN'},
-                    {'path': 'json/02.content.json', 'label': 'EXO'}
+                    {'path': 'json/01.content.json', 'label': 'Genesis'},
+                    {'path': 'json/02.content.json', 'label': 'Exodus'}
                 ],
                 'citation': {
                     'title': 'unfoldingWord® Translation Notes',
@@ -111,9 +118,9 @@ SAMPLE_RESOURCES = {
                 'language': 'eng',
                 'first_json_path': 'json/001.content.json',
                 'json_files': [
-                    {'path': 'json/001.content.json', 'label': 'a'},
-                    {'path': 'json/002.content.json', 'label': 'b'},
-                    {'path': 'json/003.content.json', 'label': 'c'}
+                    {'path': 'json/001.content.json', 'label': 'A'},
+                    {'path': 'json/002.content.json', 'label': 'B'},
+                    {'path': 'json/003.content.json', 'label': 'C'}
                 ],
                 'citation': {
                     'title': 'Open Bible Dictionary',
@@ -191,7 +198,7 @@ SAMPLE_RESOURCES = {
                 'language': 'hin',
                 'first_json_path': 'json/01.content.json',
                 'json_files': [
-                    {'path': 'json/01.content.json', 'label': 'GEN'}
+                    {'path': 'json/01.content.json', 'label': 'Genesis'}
                 ],
                 'citation': {
                     'title': 'Hindi Indian Revised Version',
@@ -598,7 +605,8 @@ def test_nav_files_generation():
             data = json.load(f)
         assert isinstance(data, list), "Nav file should contain a list"
         assert len(data) == 3, "Should have 3 JSON files"
-        assert data[0]['label'] == 'GEN', "First file should have label GEN"
+        # Labels should be full Bible book names for canonical order resources
+        assert data[0]['label'] == 'Genesis', "First file should have label Genesis"
         
     finally:
         # Clean up
@@ -623,6 +631,217 @@ def test_catalog_resources_without_json_files():
     assert 'first_json_path' in uw_eng, "first_json_path should still be present"
     
     print("✓ Catalog resources without json_files works")
+
+
+def test_get_bible_book_name():
+    """Test Bible book code to name conversion"""
+    print("Testing get_bible_book_name...")
+    
+    # Test Old Testament books
+    assert get_bible_book_name('GEN') == 'Genesis'
+    assert get_bible_book_name('EXO') == 'Exodus'
+    assert get_bible_book_name('LEV') == 'Leviticus'
+    assert get_bible_book_name('PSA') == 'Psalms'
+    assert get_bible_book_name('MAL') == 'Malachi'
+    
+    # Test numbered books
+    assert get_bible_book_name('1SA') == '1 Samuel'
+    assert get_bible_book_name('2SA') == '2 Samuel'
+    assert get_bible_book_name('1KI') == '1 Kings'
+    assert get_bible_book_name('2KI') == '2 Kings'
+    assert get_bible_book_name('1CH') == '1 Chronicles'
+    assert get_bible_book_name('2CH') == '2 Chronicles'
+    
+    # Test New Testament books
+    assert get_bible_book_name('MAT') == 'Matthew'
+    assert get_bible_book_name('MRK') == 'Mark'
+    assert get_bible_book_name('JHN') == 'John'
+    assert get_bible_book_name('ACT') == 'Acts'
+    assert get_bible_book_name('REV') == 'Revelation'
+    
+    # Test numbered NT books
+    assert get_bible_book_name('1CO') == '1 Corinthians'
+    assert get_bible_book_name('2CO') == '2 Corinthians'
+    assert get_bible_book_name('1TH') == '1 Thessalonians'
+    assert get_bible_book_name('1PE') == '1 Peter'
+    assert get_bible_book_name('1JN') == '1 John'
+    assert get_bible_book_name('2JN') == '2 John'
+    assert get_bible_book_name('3JN') == '3 John'
+    
+    # Test case insensitivity
+    assert get_bible_book_name('gen') == 'Genesis'
+    assert get_bible_book_name('Gen') == 'Genesis'
+    
+    # Test unknown codes return as-is
+    assert get_bible_book_name('XXX') == 'XXX'
+    assert get_bible_book_name('unknown') == 'unknown'
+    
+    print("✓ get_bible_book_name works")
+
+
+def test_is_roman_script_language():
+    """Test Roman script language detection"""
+    print("Testing is_roman_script_language...")
+    
+    # Test Roman script languages
+    assert is_roman_script_language('eng') == True
+    assert is_roman_script_language('fra') == True
+    assert is_roman_script_language('por') == True
+    assert is_roman_script_language('swh') == True
+    assert is_roman_script_language('ind') == True
+    assert is_roman_script_language('nld') == True
+    
+    # Test non-Roman script languages
+    assert is_roman_script_language('arb') == False
+    assert is_roman_script_language('hin') == False
+    assert is_roman_script_language('rus') == False
+    assert is_roman_script_language('zht') == False
+    assert is_roman_script_language('apd') == False
+    
+    print("✓ is_roman_script_language works")
+
+
+def test_transform_label():
+    """Test label transformation based on order type"""
+    print("Testing transform_label...")
+    
+    # Test canonical order - Bible book codes to full names
+    assert transform_label('GEN', 'canonical', 'eng') == 'Genesis'
+    assert transform_label('EXO', 'canonical', 'eng') == 'Exodus'
+    assert transform_label('1SA', 'canonical', 'eng') == '1 Samuel'
+    assert transform_label('REV', 'canonical', 'eng') == 'Revelation'
+    
+    # Test alphabetical order - upper-case for Roman script languages
+    assert transform_label('a', 'alphabetical', 'eng') == 'A'
+    assert transform_label('b', 'alphabetical', 'fra') == 'B'
+    assert transform_label('z', 'alphabetical', 'por') == 'Z'
+    assert transform_label('a', 'alphabetical', 'swh') == 'A'
+    
+    # Test alphabetical order - no change for non-Roman script languages
+    assert transform_label('a', 'alphabetical', 'arb') == 'a'
+    assert transform_label('ב', 'alphabetical', 'heb') == 'ב'
+    assert transform_label('а', 'alphabetical', 'rus') == 'а'
+    
+    # Test monograph order - strip json/ prefix
+    assert transform_label('json/001.content.json', 'monograph', 'eng') == '001.content.json'
+    assert transform_label('json/050.content.json', 'monograph', 'eng') == '050.content.json'
+    assert transform_label('filename.json', 'monograph', 'eng') == 'filename.json'
+    
+    # Test unknown order - return as-is
+    assert transform_label('GEN', 'unknown', 'eng') == 'GEN'
+    assert transform_label('a', '', 'eng') == 'a'
+    
+    print("✓ transform_label works")
+
+
+def test_get_json_files_with_labels_canonical():
+    """Test get_json_files_with_labels with canonical order"""
+    print("Testing get_json_files_with_labels with canonical order...")
+    
+    metadata_canonical = {
+        'resource_metadata': {
+            'order': 'canonical'
+        },
+        'scripture_burrito': {
+            'ingredients': {
+                'json/01.content.json': {
+                    'mimeType': 'text/json',
+                    'size': 1000,
+                    'scope': {'GEN': []}
+                },
+                'json/02.content.json': {
+                    'mimeType': 'text/json',
+                    'size': 2000,
+                    'scope': {'EXO': []}
+                },
+                'json/09.content.json': {
+                    'mimeType': 'text/json',
+                    'size': 3000,
+                    'scope': {'1SA': []}
+                }
+            }
+        }
+    }
+    
+    result = get_json_files_with_labels(metadata_canonical, lang_code='eng')
+    assert len(result) == 3
+    assert result[0]['label'] == 'Genesis'
+    assert result[1]['label'] == 'Exodus'
+    assert result[2]['label'] == '1 Samuel'
+    
+    print("✓ get_json_files_with_labels with canonical order works")
+
+
+def test_get_json_files_with_labels_alphabetical():
+    """Test get_json_files_with_labels with alphabetical order"""
+    print("Testing get_json_files_with_labels with alphabetical order...")
+    
+    metadata_alphabetical = {
+        'resource_metadata': {
+            'order': 'alphabetical'
+        },
+        'scripture_burrito': {
+            'ingredients': {
+                'json/001.content.json': {
+                    'mimeType': 'text/json',
+                    'size': 1000,
+                    'scope': {'a': ['Aaron', 'Abraham']}
+                },
+                'json/002.content.json': {
+                    'mimeType': 'text/json',
+                    'size': 2000,
+                    'scope': {'b': ['Babel', 'Babylon']}
+                }
+            }
+        }
+    }
+    
+    # Test with Roman script language - should upper-case
+    result = get_json_files_with_labels(metadata_alphabetical, lang_code='eng')
+    assert len(result) == 2
+    assert result[0]['label'] == 'A'
+    assert result[1]['label'] == 'B'
+    
+    # Test with non-Roman script language - should not upper-case
+    result_arb = get_json_files_with_labels(metadata_alphabetical, lang_code='arb')
+    assert result_arb[0]['label'] == 'a'
+    assert result_arb[1]['label'] == 'b'
+    
+    print("✓ get_json_files_with_labels with alphabetical order works")
+
+
+def test_get_json_files_with_labels_monograph():
+    """Test get_json_files_with_labels with monograph order"""
+    print("Testing get_json_files_with_labels with monograph order...")
+    
+    metadata_monograph = {
+        'resource_metadata': {
+            'order': 'monograph'
+        },
+        'scripture_burrito': {
+            'ingredients': {
+                'json/000001.content.json': {
+                    'mimeType': 'text/json',
+                    'size': 1000,
+                    'scope': {}
+                },
+                'json/000002.content.json': {
+                    'mimeType': 'text/json',
+                    'size': 2000,
+                    'scope': {}
+                }
+            }
+        }
+    }
+    
+    result = get_json_files_with_labels(metadata_monograph, lang_code='eng')
+    assert len(result) == 2
+    # Monograph with empty scope falls back to path, then transforms
+    # Since scope is empty, label becomes the path, then transform_label strips json/
+    assert result[0]['label'] == '000001.content.json'
+    assert result[1]['label'] == '000002.content.json'
+    
+    print("✓ get_json_files_with_labels with monograph order works")
 
 
 def main():
@@ -651,6 +870,12 @@ def main():
         test_file_selector_auto_switch_to_preview()
         test_nav_files_generation()
         test_catalog_resources_without_json_files()
+        test_get_bible_book_name()
+        test_is_roman_script_language()
+        test_transform_label()
+        test_get_json_files_with_labels_canonical()
+        test_get_json_files_with_labels_alphabetical()
+        test_get_json_files_with_labels_monograph()
         
         print()
         print("=" * 60)
