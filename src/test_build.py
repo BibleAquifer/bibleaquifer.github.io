@@ -33,6 +33,9 @@ We have multiple translation guides and study resources available.
 Check out our `documentation` for more information."""
 
 # Sample resource data
+# Note: JSON file path formats vary by resource type to match actual repository structures:
+# - Study notes/Bible resources use 2-digit format: json/01.content.json
+# - Dictionary resources use 3-digit format: json/001.content.json
 SAMPLE_RESOURCES = {
     'UWTranslationNotes': {
         'name': 'UWTranslationNotes',
