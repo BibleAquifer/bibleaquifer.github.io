@@ -58,6 +58,12 @@ SAMPLE_RESOURCES = {
                 'resource_type': 'Translation Guide',
                 'content_type': 'Html',
                 'language': 'eng',
+                'first_json_path': 'json/01.content.json',
+                'json_files': [
+                    {'path': 'json/01.content.json', 'label': 'GEN'},
+                    {'path': 'json/02.content.json', 'label': 'EXO'},
+                    {'path': 'json/03.content.json', 'label': 'LEV'}
+                ],
                 'citation': {
                     'title': 'unfoldingWord® Translation Notes',
                     'copyright_dates': '2022',
@@ -77,6 +83,11 @@ SAMPLE_RESOURCES = {
                 'resource_type': 'Translation Guide',
                 'content_type': 'Html',
                 'language': 'spa',
+                'first_json_path': 'json/01.content.json',
+                'json_files': [
+                    {'path': 'json/01.content.json', 'label': 'GEN'},
+                    {'path': 'json/02.content.json', 'label': 'EXO'}
+                ],
                 'citation': {
                     'title': 'unfoldingWord® Translation Notes',
                     'copyright_dates': '2022',
@@ -104,6 +115,12 @@ SAMPLE_RESOURCES = {
                 'resource_type': 'Dictionary',
                 'content_type': 'Html',
                 'language': 'eng',
+                'first_json_path': 'json/001.content.json',
+                'json_files': [
+                    {'path': 'json/001.content.json', 'label': 'a'},
+                    {'path': 'json/002.content.json', 'label': 'b'},
+                    {'path': 'json/003.content.json', 'label': 'c'}
+                ],
                 'citation': {
                     'title': 'Open Bible Dictionary',
                     'copyright_dates': '2023',
@@ -131,6 +148,10 @@ SAMPLE_RESOURCES = {
                 'resource_type': 'Key Terms',
                 'content_type': 'Html',
                 'language': 'eng',
+                'first_json_path': 'json/001.content.json',
+                'json_files': [
+                    {'path': 'json/001.content.json', 'label': 'kt'}
+                ],
                 'citation': {
                     'title': 'unfoldingWord® Translation Words',
                     'copyright_dates': '2022',
@@ -158,6 +179,11 @@ SAMPLE_RESOURCES = {
                 'resource_type': 'Study Notes',
                 'content_type': 'Html',
                 'language': 'eng',
+                'first_json_path': 'json/01.content.json',
+                'json_files': [
+                    {'path': 'json/01.content.json', 'label': 'GEN'},
+                    {'path': 'json/02.content.json', 'label': 'EXO'}
+                ],
                 'citation': {
                     'title': 'Study Notes (Biblica)',
                     'copyright_dates': '2024',

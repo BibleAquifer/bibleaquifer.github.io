@@ -12,7 +12,10 @@ from build_site import (
     generate_index_html,
     generate_catalog_html,
     get_language_name,
-    get_first_json_path
+    get_first_json_path,
+    get_json_files_with_labels,
+    generate_nav_files,
+    get_catalog_resources
 )
 
 # Sample README content
@@ -32,6 +35,9 @@ We have multiple translation guides and study resources available.
 Check out our `documentation` for more information."""
 
 # Sample resource data
+# Note: JSON file path formats vary by resource type to match actual repository structures:
+# - Study notes/Bible resources use 2-digit format: json/01.content.json
+# - Dictionary resources use 3-digit format: json/001.content.json
 SAMPLE_RESOURCES = {
     'UWTranslationNotes': {
         'name': 'UWTranslationNotes',
@@ -47,7 +53,12 @@ SAMPLE_RESOURCES = {
                 'resource_type': 'Translation Guide',
                 'content_type': 'Html',
                 'language': 'eng',
-                'first_json_path': 'json/001.content.json',
+                'first_json_path': 'json/01.content.json',
+                'json_files': [
+                    {'path': 'json/01.content.json', 'label': 'GEN'},
+                    {'path': 'json/02.content.json', 'label': 'EXO'},
+                    {'path': 'json/03.content.json', 'label': 'LEV'}
+                ],
                 'citation': {
                     'title': 'unfoldingWord® Translation Notes',
                     'copyright_dates': '2022',
@@ -67,7 +78,11 @@ SAMPLE_RESOURCES = {
                 'resource_type': 'Translation Guide',
                 'content_type': 'Html',
                 'language': 'spa',
-                'first_json_path': 'json/001.content.json',
+                'first_json_path': 'json/01.content.json',
+                'json_files': [
+                    {'path': 'json/01.content.json', 'label': 'GEN'},
+                    {'path': 'json/02.content.json', 'label': 'EXO'}
+                ],
                 'citation': {
                     'title': 'unfoldingWord® Translation Notes',
                     'copyright_dates': '2022',
@@ -95,6 +110,11 @@ SAMPLE_RESOURCES = {
                 'content_type': 'Html',
                 'language': 'eng',
                 'first_json_path': 'json/001.content.json',
+                'json_files': [
+                    {'path': 'json/001.content.json', 'label': 'a'},
+                    {'path': 'json/002.content.json', 'label': 'b'},
+                    {'path': 'json/003.content.json', 'label': 'c'}
+                ],
                 'citation': {
                     'title': 'Open Bible Dictionary',
                     'copyright_dates': '2023',
@@ -122,6 +142,7 @@ SAMPLE_RESOURCES = {
                 'content_type': 'Html',
                 'language': 'spa',
                 'first_json_path': None,
+                'json_files': [],
                 'citation': {
                     'title': 'Título en Español',
                     'copyright_dates': '2024',
@@ -141,6 +162,7 @@ SAMPLE_RESOURCES = {
                 'content_type': 'Html',
                 'language': 'eng',
                 'first_json_path': None,
+                'json_files': [],
                 'citation': {
                     'title': 'English Title Here',
                     'copyright_dates': '2024',
@@ -168,6 +190,9 @@ SAMPLE_RESOURCES = {
                 'content_type': 'Bible',
                 'language': 'hin',
                 'first_json_path': 'json/01.content.json',
+                'json_files': [
+                    {'path': 'json/01.content.json', 'label': 'GEN'}
+                ],
                 'citation': {
                     'title': 'Hindi Indian Revised Version',
                     'copyright_dates': '2019',
@@ -424,6 +449,182 @@ def test_default_language_selection():
     print("✓ Default language selection works")
 
 
+def test_get_json_files_with_labels():
+    """Test extraction of all JSON files with labels from metadata"""
+    print("Testing get_json_files_with_labels...")
+    
+    # Test with valid metadata containing multiple JSON ingredients with scope
+    metadata_with_json = {
+        'scripture_burrito': {
+            'ingredients': {
+                'json/001.content.json': {
+                    'mimeType': 'text/json',
+                    'size': 1904110,
+                    'scope': {
+                        'a': ['Aaron', 'Abraham']
+                    }
+                },
+                'json/002.content.json': {
+                    'mimeType': 'text/json',
+                    'size': 500000,
+                    'scope': {
+                        'b': ['Babel', 'Babylon']
+                    }
+                },
+                'usfm/01-GEN.usfm': {
+                    'mimeType': 'text/x-usfm',
+                    'size': 100000
+                },
+                # Audio JSON files should be ignored
+                'audio/timing/01.json': {
+                    'mimeType': 'text/json',
+                    'size': 5000
+                }
+            }
+        }
+    }
+    result = get_json_files_with_labels(metadata_with_json)
+    assert len(result) == 2, f"Expected 2 JSON files, got {len(result)}"
+    assert result[0]['path'] == 'json/001.content.json'
+    assert result[0]['label'] == 'a'
+    assert result[1]['path'] == 'json/002.content.json'
+    assert result[1]['label'] == 'b'
+    
+    # Test with metadata without scope (should use path as label)
+    metadata_no_scope = {
+        'scripture_burrito': {
+            'ingredients': {
+                'json/99.content.json': {
+                    'mimeType': 'text/json',
+                    'size': 100
+                }
+            }
+        }
+    }
+    result = get_json_files_with_labels(metadata_no_scope)
+    assert len(result) == 1
+    assert result[0]['label'] == 'json/99.content.json'
+    
+    # Test that non-matching JSON files are ignored
+    metadata_non_matching = {
+        'scripture_burrito': {
+            'ingredients': {
+                'audio/timing/01.json': {
+                    'mimeType': 'text/json',
+                    'size': 100
+                },
+                'json/metadata.json': {
+                    'mimeType': 'text/json',
+                    'size': 200
+                }
+            }
+        }
+    }
+    result = get_json_files_with_labels(metadata_non_matching)
+    assert len(result) == 0, f"Expected 0 JSON files (non-matching patterns), got {len(result)}"
+    
+    # Test with empty metadata
+    result = get_json_files_with_labels({})
+    assert result == []
+    
+    # Test with None
+    result = get_json_files_with_labels(None)
+    assert result == []
+    
+    print("✓ get_json_files_with_labels works")
+
+
+def test_file_selector_in_catalog():
+    """Test that file selector dropdown is generated in catalog HTML"""
+    print("Testing file selector in catalog...")
+    catalog_html = generate_catalog_html(SAMPLE_RESOURCES)
+    
+    # Check for file selector HTML elements
+    assert 'id="file-select"' in catalog_html
+    assert 'id="file-selector-group"' in catalog_html
+    assert 'Select File:' in catalog_html
+    
+    # Check for file selector JavaScript
+    assert 'fileSelect' in catalog_html
+    assert 'fileSelectorGroup' in catalog_html
+    assert 'handleFileChange' in catalog_html
+    assert 'populateFileSelector' in catalog_html
+    assert 'resetFileSelector' in catalog_html
+    
+    # Check that loadNavData function exists for dynamic loading
+    assert 'loadNavData' in catalog_html
+    assert 'navDataCache' in catalog_html
+    
+    # Check that selectedJsonPath state variable exists
+    assert 'selectedJsonPath' in catalog_html
+    
+    print("✓ File selector in catalog works")
+
+
+def test_file_selector_auto_switch_to_preview():
+    """Test that file selector auto-switches to preview tab"""
+    print("Testing file selector auto-switch to preview...")
+    catalog_html = generate_catalog_html(SAMPLE_RESOURCES)
+    
+    # Check that handleFileChange calls switchToTab('preview')
+    assert "switchToTab('preview')" in catalog_html
+    
+    print("✓ File selector auto-switch to preview works")
+
+
+def test_nav_files_generation():
+    """Test that nav files are generated correctly"""
+    print("Testing nav file generation...")
+    import tempfile
+    import shutil
+    
+    # Create a temporary directory for output
+    temp_dir = tempfile.mkdtemp()
+    
+    try:
+        # Generate nav files
+        generate_nav_files(SAMPLE_RESOURCES, temp_dir)
+        
+        # Check that nav directory was created
+        nav_dir = os.path.join(temp_dir, 'nav')
+        assert os.path.exists(nav_dir), "nav directory should be created"
+        
+        # Check that nav files were created for resources with json_files
+        expected_file = os.path.join(nav_dir, 'UWTranslationNotes_eng.json')
+        assert os.path.exists(expected_file), f"Expected nav file {expected_file} to exist"
+        
+        # Verify content of the nav file
+        with open(expected_file, 'r') as f:
+            data = json.load(f)
+        assert isinstance(data, list), "Nav file should contain a list"
+        assert len(data) == 3, "Should have 3 JSON files"
+        assert data[0]['label'] == 'GEN', "First file should have label GEN"
+        
+    finally:
+        # Clean up
+        shutil.rmtree(temp_dir)
+    
+    print("✓ Nav file generation works")
+
+
+def test_catalog_resources_without_json_files():
+    """Test that get_catalog_resources removes json_files from resources"""
+    print("Testing catalog resources without json_files...")
+    
+    catalog_resources = get_catalog_resources(SAMPLE_RESOURCES)
+    
+    # Check that json_files was removed from all languages
+    for resource_name, resource_data in catalog_resources.items():
+        for lang_code, lang_data in resource_data.get('languages', {}).items():
+            assert 'json_files' not in lang_data, f"json_files should be removed from {resource_name}/{lang_code}"
+    
+    # Check that first_json_path is still present
+    uw_eng = catalog_resources['UWTranslationNotes']['languages']['eng']
+    assert 'first_json_path' in uw_eng, "first_json_path should still be present"
+    
+    print("✓ Catalog resources without json_files works")
+
+
 def main():
     """Run all tests"""
     print("=" * 60)
@@ -445,6 +646,11 @@ def main():
         test_preview_navigation_in_catalog()
         test_rtl_language_support()
         test_default_language_selection()
+        test_get_json_files_with_labels()
+        test_file_selector_in_catalog()
+        test_file_selector_auto_switch_to_preview()
+        test_nav_files_generation()
+        test_catalog_resources_without_json_files()
         
         print()
         print("=" * 60)

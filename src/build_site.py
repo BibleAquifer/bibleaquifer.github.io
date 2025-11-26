@@ -319,23 +319,46 @@ def check_directory_exists(repo_name: str, language: str, dir_name: str) -> bool
     return response.status_code == 200
 
 
+def get_json_files_with_labels(metadata: Dict[str, Any]) -> List[Dict[str, str]]:
+    """Extract all JSON file paths with their labels from metadata's scripture_burrito/ingredients.
+    
+    Returns a sorted list of dictionaries with 'path' and 'label' keys.
+    The label is the first key in the 'scope' child of the ingredient object.
+    Only includes JSON files matching the pattern json/[0-9]+.content.json.
+    """
+    if not metadata:
+        return []
+    
+    scripture_burrito = metadata.get('scripture_burrito', {})
+    ingredients = scripture_burrito.get('ingredients', {})
+    
+    # Pattern to match content JSON files: json/[0-9]+.content.json
+    import re
+    content_json_pattern = re.compile(r'^json/[0-9]+\.content\.json$')
+    
+    json_files = []
+    for path, info in ingredients.items():
+        if isinstance(info, dict) and info.get('mimeType') == 'text/json':
+            # Only include files matching the content JSON pattern
+            if content_json_pattern.match(path):
+                # Extract label from the first key in 'scope'
+                scope = info.get('scope', {})
+                label = list(scope.keys())[0] if scope else path
+                json_files.append({'path': path, 'label': label})
+    
+    # Sort by path to ensure consistent ordering
+    json_files.sort(key=lambda x: x['path'])
+    
+    return json_files
+
+
 def get_first_json_path(metadata: Dict[str, Any]) -> Optional[str]:
     """Extract the first JSON file path from metadata's scripture_burrito/ingredients.
     
     Returns the path to the first ingredient with mimeType 'text/json', or None if not found.
     """
-    if not metadata:
-        return None
-    
-    scripture_burrito = metadata.get('scripture_burrito', {})
-    ingredients = scripture_burrito.get('ingredients', {})
-    
-    for path, info in ingredients.items():
-        if isinstance(info, dict) and info.get('mimeType') == 'text/json':
-            if "json" in path.lower():
-                return path
-    
-    return None
+    json_files = get_json_files_with_labels(metadata)
+    return json_files[0]['path'] if json_files else None
 
 
 def build_resource_data() -> Dict[str, Any]:
@@ -390,8 +413,9 @@ def build_resource_data() -> Dict[str, Any]:
                 for format_name in ['json', 'md', 'pdf', 'docx', 'usx', 'usfm', 'audio']:
                     format_checks[f'has_{format_name}'] = check_directory_exists(repo_name, lang, format_name)
                 
-                # Get first JSON file path for preview
-                first_json_path = get_first_json_path(metadata)
+                # Get all JSON file paths with labels for preview file selector
+                json_files = get_json_files_with_labels(metadata)
+                first_json_path = json_files[0]['path'] if json_files else None
                 
                 resource_data['languages'][lang] = {
                     'code': lang,
@@ -402,6 +426,7 @@ def build_resource_data() -> Dict[str, Any]:
                     'content_type': resource_meta.get('content_type'),
                     'language': resource_meta.get('language'),
                     'first_json_path': first_json_path,
+                    'json_files': json_files,
                     'citation': {
                         'title': license_meta.get('title'),
                         'copyright_dates': license_meta.get('copyright', {}).get('dates'),
@@ -552,6 +577,12 @@ def generate_catalog_html(resources: Dict[str, Any]) -> str:
                         <option value="">Select a resource first</option>
                     </select>
                 </div>
+                <div class="control-group" id="file-selector-group" style="display: none;">
+                    <label for="file-select">Select File:</label>
+                    <select id="file-select">
+                        <option value="">Select a language first</option>
+                    </select>
+                </div>
             </section>
         </aside>
 
@@ -597,6 +628,8 @@ const ORG_NAME = '{{ org_name }}';
 // DOM elements
 const resourceSelect = document.getElementById('resource-select');
 const languageSelect = document.getElementById('language-select');
+const fileSelect = document.getElementById('file-select');
+const fileSelectorGroup = document.getElementById('file-selector-group');
 const contentDisplayDiv = document.getElementById('content-display');
 const contentViewerSection = document.getElementById('content-viewer');
 const previewDisplayDiv = document.getElementById('preview-display');
@@ -609,10 +642,12 @@ const articlePositionSpan = document.getElementById('article-position');
 // State
 let selectedResource = null;
 let selectedLanguage = null;
+let selectedJsonPath = null;
 let previewLoaded = false;
 let previewCache = {};
 let currentArticleIndex = 0;
 let currentArticles = [];
+let navDataCache = {};  // Cache for nav data (json_files) loaded per resource+language
 
 // Right-to-left language codes
 const RTL_LANGUAGES = ['arb', 'apd', 'heb', 'fas', 'urd', 'prs', 'syr', 'yid'];
@@ -622,9 +657,37 @@ function isRtlLanguage(langCode) {
     return RTL_LANGUAGES.includes(langCode);
 }
 
+// Load nav data (json_files) for a resource+language combination
+async function loadNavData(resourceName, langCode) {
+    const cacheKey = `${resourceName}_${langCode}`;
+    
+    // Return cached data if available
+    if (navDataCache[cacheKey]) {
+        return navDataCache[cacheKey];
+    }
+    
+    try {
+        const navUrl = `nav/${resourceName}_${langCode}.json`;
+        const response = await fetch(navUrl);
+        if (!response.ok) {
+            console.warn(`Nav file not found: ${navUrl} (status: ${response.status})`);
+            return [];
+        }
+        const data = await response.json();
+        navDataCache[cacheKey] = data;
+        return data;
+    } catch (error) {
+        // This often happens when opening the file directly (file:// protocol)
+        // instead of serving it via a web server
+        console.warn('Error loading nav data. If viewing locally, please use a web server (e.g., python -m http.server):', error.message);
+        return [];
+    }
+}
+
 // Setup event listeners
 resourceSelect.addEventListener('change', handleResourceChange);
 languageSelect.addEventListener('change', handleLanguageChange);
+fileSelect.addEventListener('change', handleFileChange);
 
 // Navigation button event listeners
 prevArticleBtn.addEventListener('click', () => {
@@ -682,8 +745,8 @@ async function loadPreview() {
         return;
     }
     
-    // Check if we have a JSON path for preview
-    const jsonPath = langData.first_json_path;
+    // Use selectedJsonPath if set, otherwise fall back to first_json_path
+    const jsonPath = selectedJsonPath || langData.first_json_path;
     if (!jsonPath || !langData.has_json) {
         hideNavigation();
         previewDisplayDiv.innerHTML = '<p class="no-preview">No preview available. This resource does not have JSON content files.</p>';
@@ -788,8 +851,92 @@ function resetArticleState() {
     hideNavigation();
 }
 
+// Reset file selector state
+function resetFileSelector() {
+    fileSelect.innerHTML = '<option value="">Select a language first</option>';
+    fileSelect.disabled = true;
+    fileSelectorGroup.style.display = 'none';
+    selectedJsonPath = null;
+}
+
+// Populate file selector with JSON files for the current language
+async function populateFileSelector() {
+    if (!selectedResource || !selectedLanguage) {
+        resetFileSelector();
+        return;
+    }
+    
+    const langData = selectedResource.languages[selectedLanguage];
+    if (!langData) {
+        resetFileSelector();
+        return;
+    }
+    
+    // Load nav data dynamically
+    const jsonFiles = await loadNavData(selectedResource.name, selectedLanguage);
+    console.log(`Loaded ${jsonFiles.length} files for ${selectedResource.name}/${selectedLanguage}`);
+    
+    if (!jsonFiles || jsonFiles.length === 0) {
+        console.log('No nav data available, falling back to first_json_path:', langData.first_json_path);
+        resetFileSelector();
+        // Fall back to first_json_path if available
+        if (langData.first_json_path) {
+            selectedJsonPath = langData.first_json_path;
+        }
+        return;
+    }
+    
+    // Only show file selector if there are multiple files
+    if (jsonFiles.length <= 1) {
+        console.log('Only one file available, hiding file selector');
+        resetFileSelector();
+        // Set the selectedJsonPath to the first file if there's only one
+        if (jsonFiles.length === 1) {
+            selectedJsonPath = jsonFiles[0].path;
+        }
+        return;
+    }
+    
+    console.log('Showing file selector with', jsonFiles.length, 'options');
+    
+    // Clear and populate file selector
+    fileSelect.innerHTML = '';
+    
+    jsonFiles.forEach((file, index) => {
+        const option = document.createElement('option');
+        option.value = file.path;
+        option.textContent = file.label;
+        if (index === 0) {
+            option.selected = true;
+        }
+        fileSelect.appendChild(option);
+    });
+    
+    fileSelect.disabled = false;
+    fileSelectorGroup.style.display = 'block';
+    
+    // Set default selected path to first file
+    selectedJsonPath = jsonFiles[0].path;
+}
+
+// Handle file selection change
+function handleFileChange() {
+    selectedJsonPath = fileSelect.value;
+    
+    if (!selectedJsonPath) {
+        return;
+    }
+    
+    // Reset article state when file changes
+    resetArticleState();
+    previewDisplayDiv.innerHTML = '<p class="loading-message">Loading preview...</p>';
+    
+    // Switch to Preview tab and load preview
+    switchToTab('preview');
+}
+
 // Handle resource selection
-function handleResourceChange() {
+async function handleResourceChange() {
     const resourceId = resourceSelect.value;
     
     if (!resourceId) {
@@ -799,11 +946,13 @@ function handleResourceChange() {
         previewDisplayDiv.innerHTML = '<p class="loading-message">Select a resource to see a preview.</p>';
         contentViewerSection.classList.add('hidden');
         resetArticleState();
+        resetFileSelector();
         return;
     }
     
     selectedResource = RESOURCES_DATA[resourceId];
     resetArticleState();
+    resetFileSelector();
     
     // Populate language dropdown
     languageSelect.innerHTML = '<option value="">Select a language...</option>';
@@ -838,12 +987,13 @@ function handleResourceChange() {
     // Auto-load default language if available
     if (defaultLang) {
         selectedLanguage = defaultLang;
+        await populateFileSelector();
         displayLanguageMetadata();
     }
 }
 
 // Handle language selection
-function handleLanguageChange() {
+async function handleLanguageChange() {
     selectedLanguage = languageSelect.value;
     
     if (!selectedLanguage) {
@@ -851,6 +1001,7 @@ function handleLanguageChange() {
         previewDisplayDiv.innerHTML = '<p class="loading-message">Select a resource to see a preview.</p>';
         contentViewerSection.classList.add('hidden');
         resetArticleState();
+        resetFileSelector();
         return;
     }
     
@@ -860,6 +1011,9 @@ function handleLanguageChange() {
     // Reset preview and article state when language changes
     resetArticleState();
     previewDisplayDiv.innerHTML = '<p class="loading-message">Loading preview...</p>';
+    
+    // Populate file selector for the new language
+    await populateFileSelector();
     
     displayLanguageMetadata();
 }
@@ -982,6 +1136,46 @@ function displayLanguageMetadata() {
     )
 
 
+def generate_nav_files(resources: Dict[str, Any], output_dir: str) -> None:
+    """Generate separate nav JSON files for each resource+language combination.
+    
+    This extracts json_files data into separate files to reduce catalog.html size.
+    Files are named: nav/{resource_code}_{language_code}.json
+    """
+    nav_dir = os.path.join(output_dir, 'nav')
+    os.makedirs(nav_dir, exist_ok=True)
+    
+    file_count = 0
+    for resource_name, resource_data in resources.items():
+        for lang_code, lang_data in resource_data.get('languages', {}).items():
+            json_files = lang_data.get('json_files', [])
+            if json_files:
+                nav_file_path = os.path.join(nav_dir, f'{resource_name}_{lang_code}.json')
+                with open(nav_file_path, 'w', encoding='utf-8') as f:
+                    json.dump(json_files, f)
+                file_count += 1
+    
+    print(f"  Generated {file_count} nav files in nav/ folder")
+
+
+def get_catalog_resources(resources: Dict[str, Any]) -> Dict[str, Any]:
+    """Create a copy of resources with json_files removed for embedding in catalog.html.
+    
+    This reduces the catalog.html file size by excluding the json_files data,
+    which is now loaded dynamically from the nav/ folder.
+    """
+    import copy
+    catalog_resources = copy.deepcopy(resources)
+    
+    for resource_name, resource_data in catalog_resources.items():
+        for lang_code, lang_data in resource_data.get('languages', {}).items():
+            # Remove json_files from the embedded data
+            if 'json_files' in lang_data:
+                del lang_data['json_files']
+    
+    return catalog_resources
+
+
 def main():
     """Main build process"""
     print("=" * 60)
@@ -1021,14 +1215,21 @@ def main():
     with open(os.path.join(output_dir, 'resources_data.yaml'), 'w') as f:
         yaml.dump(resources, f, default_flow_style=False, sort_keys=False)
     
+    # Generate nav files for file selector (separate from catalog.html)
+    print("\n4. Generating nav files...")
+    generate_nav_files(resources, output_dir)
+    
     # Generate HTML files
-    print("\n4. Generating index.html...\n")
+    print("\n5. Generating index.html...\n")
     index_html = generate_index_html(readme_formatted)
     with open(os.path.join(output_dir, 'index.html'), 'w') as f:
         f.write(index_html)
     
-    print("5. Generating catalog.html...")
-    catalog_html = generate_catalog_html(resources)
+    # Create catalog-specific resources without json_files to reduce file size
+    catalog_resources = get_catalog_resources(resources)
+    
+    print("6. Generating catalog.html...")
+    catalog_html = generate_catalog_html(catalog_resources)
     with open(os.path.join(output_dir, 'catalog.html'), 'w', encoding="utf-8") as f:
         f.write(catalog_html)
     
@@ -1039,6 +1240,7 @@ def main():
     print("  - index.html")
     print("  - catalog.html")
     print("  - resources_data.yaml")
+    print("  - nav/*.json (file selector data)")
     print()
 
 
