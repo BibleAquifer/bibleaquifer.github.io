@@ -152,6 +152,33 @@ SAMPLE_RESOURCES = {
                 'has_docx': False
             }
         }
+    },
+    'IndianRevisedVersion': {
+        'name': 'IndianRevisedVersion',
+        'title': 'Indian Revised Version',
+        'description': 'Hindi Bible translation',
+        'url': 'https://github.com/BibleAquifer/IndianRevisedVersion',
+        'languages': {
+            'hin': {
+                'code': 'hin',
+                'name': 'Hindi',
+                'title': 'Indian Revised Version',
+                'version': '1.0.2',
+                'resource_type': 'Bible',
+                'content_type': 'Bible',
+                'language': 'hin',
+                'first_json_path': 'json/01.content.json',
+                'citation': {
+                    'title': 'Hindi Indian Revised Version',
+                    'copyright_dates': '2019',
+                    'copyright_holder': 'Bridge Connectivity Solutions',
+                    'license_name': 'CC BY-SA 4.0 license'
+                },
+                'has_json': True,
+                'has_pdf': True,
+                'has_docx': True
+            }
+        }
     }
 }
 
@@ -374,6 +401,29 @@ def test_rtl_language_support():
     print("✓ RTL language support works")
 
 
+def test_default_language_selection():
+    """Test that default language selection falls back to first alphabetically sorted language when English is not available"""
+    print("Testing default language selection...")
+    catalog_html = generate_catalog_html(SAMPLE_RESOURCES)
+    
+    # Check that the default language logic is present
+    assert "const defaultLang = hasEng ? 'eng' : (languages.length > 0 ? languages[0].code : null)" in catalog_html
+    
+    # Check that the code uses defaultLang for auto-selection
+    assert 'if (lang.code === defaultLang)' in catalog_html
+    
+    # Check that the code auto-loads the default language
+    assert 'if (defaultLang)' in catalog_html
+    assert 'selectedLanguage = defaultLang' in catalog_html
+    
+    # Ensure the IndianRevisedVersion resource (Hindi only) is in the sample resources
+    assert 'IndianRevisedVersion' in SAMPLE_RESOURCES
+    assert 'hin' in SAMPLE_RESOURCES['IndianRevisedVersion']['languages']
+    assert 'eng' not in SAMPLE_RESOURCES['IndianRevisedVersion']['languages']
+    
+    print("✓ Default language selection works")
+
+
 def main():
     """Run all tests"""
     print("=" * 60)
@@ -394,6 +444,7 @@ def main():
         test_preview_tab_in_catalog()
         test_preview_navigation_in_catalog()
         test_rtl_language_support()
+        test_default_language_selection()
         
         print()
         print("=" * 60)

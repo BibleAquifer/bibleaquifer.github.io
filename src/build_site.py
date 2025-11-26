@@ -814,11 +814,14 @@ function handleResourceChange() {
     
     const hasEng = languages.some(lang => lang.code === 'eng');
     
+    // Determine default language: English if available, otherwise first alphabetically sorted language
+    const defaultLang = hasEng ? 'eng' : (languages.length > 0 ? languages[0].code : null);
+    
     languages.forEach(lang => {
         const option = document.createElement('option');
         option.value = lang.code;
         option.textContent = lang.name;
-        if (lang.code === 'eng' && hasEng) {
+        if (lang.code === defaultLang) {
             option.selected = true;
         }
         languageSelect.appendChild(option);
@@ -832,9 +835,9 @@ function handleResourceChange() {
     // Reset preview display
     previewDisplayDiv.innerHTML = '<p class="loading-message">Loading preview...</p>';
     
-    // Auto-load English if available
-    if (hasEng) {
-        selectedLanguage = 'eng';
+    // Auto-load default language if available
+    if (defaultLang) {
+        selectedLanguage = defaultLang;
         displayLanguageMetadata();
     }
 }
