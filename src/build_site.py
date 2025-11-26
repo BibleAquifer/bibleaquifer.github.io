@@ -667,15 +667,19 @@ async function loadNavData(resourceName, langCode) {
     }
     
     try {
-        const response = await fetch(`nav/${resourceName}_${langCode}.json`);
+        const navUrl = `nav/${resourceName}_${langCode}.json`;
+        const response = await fetch(navUrl);
         if (!response.ok) {
+            console.warn(`Nav file not found: ${navUrl} (status: ${response.status})`);
             return [];
         }
         const data = await response.json();
         navDataCache[cacheKey] = data;
         return data;
     } catch (error) {
-        console.error('Error loading nav data:', error);
+        // This often happens when opening the file directly (file:// protocol)
+        // instead of serving it via a web server
+        console.warn('Error loading nav data. If viewing locally, please use a web server (e.g., python -m http.server):', error.message);
         return [];
     }
 }
@@ -870,8 +874,10 @@ async function populateFileSelector() {
     
     // Load nav data dynamically
     const jsonFiles = await loadNavData(selectedResource.name, selectedLanguage);
+    console.log(`Loaded ${jsonFiles.length} files for ${selectedResource.name}/${selectedLanguage}`);
     
     if (!jsonFiles || jsonFiles.length === 0) {
+        console.log('No nav data available, falling back to first_json_path:', langData.first_json_path);
         resetFileSelector();
         // Fall back to first_json_path if available
         if (langData.first_json_path) {
@@ -882,6 +888,7 @@ async function populateFileSelector() {
     
     // Only show file selector if there are multiple files
     if (jsonFiles.length <= 1) {
+        console.log('Only one file available, hiding file selector');
         resetFileSelector();
         // Set the selectedJsonPath to the first file if there's only one
         if (jsonFiles.length === 1) {
@@ -889,6 +896,8 @@ async function populateFileSelector() {
         }
         return;
     }
+    
+    console.log('Showing file selector with', jsonFiles.length, 'options');
     
     // Clear and populate file selector
     fileSelect.innerHTML = '';
