@@ -647,6 +647,7 @@ let previewLoaded = false;
 let previewCache = {};
 let currentArticleIndex = 0;
 let currentArticles = [];
+let navDataCache = {};  // Cache for nav data (json_files) loaded per resource+language
 
 // Right-to-left language codes
 const RTL_LANGUAGES = ['arb', 'apd', 'heb', 'fas', 'urd', 'prs', 'syr', 'yid'];
@@ -654,6 +655,29 @@ const RTL_LANGUAGES = ['arb', 'apd', 'heb', 'fas', 'urd', 'prs', 'syr', 'yid'];
 // Check if a language code is RTL
 function isRtlLanguage(langCode) {
     return RTL_LANGUAGES.includes(langCode);
+}
+
+// Load nav data (json_files) for a resource+language combination
+async function loadNavData(resourceName, langCode) {
+    const cacheKey = `${resourceName}_${langCode}`;
+    
+    // Return cached data if available
+    if (navDataCache[cacheKey]) {
+        return navDataCache[cacheKey];
+    }
+    
+    try {
+        const response = await fetch(`nav/${resourceName}_${langCode}.json`);
+        if (!response.ok) {
+            return [];
+        }
+        const data = await response.json();
+        navDataCache[cacheKey] = data;
+        return data;
+    } catch (error) {
+        console.error('Error loading nav data:', error);
+        return [];
+    }
 }
 
 // Setup event listeners
@@ -832,19 +856,29 @@ function resetFileSelector() {
 }
 
 // Populate file selector with JSON files for the current language
-function populateFileSelector() {
+async function populateFileSelector() {
     if (!selectedResource || !selectedLanguage) {
         resetFileSelector();
         return;
     }
     
     const langData = selectedResource.languages[selectedLanguage];
-    if (!langData || !langData.json_files || langData.json_files.length === 0) {
+    if (!langData) {
         resetFileSelector();
         return;
     }
     
-    const jsonFiles = langData.json_files;
+    // Load nav data dynamically
+    const jsonFiles = await loadNavData(selectedResource.name, selectedLanguage);
+    
+    if (!jsonFiles || jsonFiles.length === 0) {
+        resetFileSelector();
+        // Fall back to first_json_path if available
+        if (langData.first_json_path) {
+            selectedJsonPath = langData.first_json_path;
+        }
+        return;
+    }
     
     // Only show file selector if there are multiple files
     if (jsonFiles.length <= 1) {
@@ -893,7 +927,7 @@ function handleFileChange() {
 }
 
 // Handle resource selection
-function handleResourceChange() {
+async function handleResourceChange() {
     const resourceId = resourceSelect.value;
     
     if (!resourceId) {
@@ -944,13 +978,13 @@ function handleResourceChange() {
     // Auto-load default language if available
     if (defaultLang) {
         selectedLanguage = defaultLang;
-        populateFileSelector();
+        await populateFileSelector();
         displayLanguageMetadata();
     }
 }
 
 // Handle language selection
-function handleLanguageChange() {
+async function handleLanguageChange() {
     selectedLanguage = languageSelect.value;
     
     if (!selectedLanguage) {
@@ -970,7 +1004,7 @@ function handleLanguageChange() {
     previewDisplayDiv.innerHTML = '<p class="loading-message">Loading preview...</p>';
     
     // Populate file selector for the new language
-    populateFileSelector();
+    await populateFileSelector();
     
     displayLanguageMetadata();
 }
@@ -1093,6 +1127,46 @@ function displayLanguageMetadata() {
     )
 
 
+def generate_nav_files(resources: Dict[str, Any], output_dir: str) -> None:
+    """Generate separate nav JSON files for each resource+language combination.
+    
+    This extracts json_files data into separate files to reduce catalog.html size.
+    Files are named: nav/{resource_code}_{language_code}.json
+    """
+    nav_dir = os.path.join(output_dir, 'nav')
+    os.makedirs(nav_dir, exist_ok=True)
+    
+    file_count = 0
+    for resource_name, resource_data in resources.items():
+        for lang_code, lang_data in resource_data.get('languages', {}).items():
+            json_files = lang_data.get('json_files', [])
+            if json_files:
+                nav_file_path = os.path.join(nav_dir, f'{resource_name}_{lang_code}.json')
+                with open(nav_file_path, 'w', encoding='utf-8') as f:
+                    json.dump(json_files, f)
+                file_count += 1
+    
+    print(f"  Generated {file_count} nav files in nav/ folder")
+
+
+def get_catalog_resources(resources: Dict[str, Any]) -> Dict[str, Any]:
+    """Create a copy of resources with json_files removed for embedding in catalog.html.
+    
+    This reduces the catalog.html file size by excluding the json_files data,
+    which is now loaded dynamically from the nav/ folder.
+    """
+    import copy
+    catalog_resources = copy.deepcopy(resources)
+    
+    for resource_name, resource_data in catalog_resources.items():
+        for lang_code, lang_data in resource_data.get('languages', {}).items():
+            # Remove json_files from the embedded data
+            if 'json_files' in lang_data:
+                del lang_data['json_files']
+    
+    return catalog_resources
+
+
 def main():
     """Main build process"""
     print("=" * 60)
@@ -1132,14 +1206,21 @@ def main():
     with open(os.path.join(output_dir, 'resources_data.yaml'), 'w') as f:
         yaml.dump(resources, f, default_flow_style=False, sort_keys=False)
     
+    # Generate nav files for file selector (separate from catalog.html)
+    print("\n4. Generating nav files...")
+    generate_nav_files(resources, output_dir)
+    
     # Generate HTML files
-    print("\n4. Generating index.html...\n")
+    print("\n5. Generating index.html...\n")
     index_html = generate_index_html(readme_formatted)
     with open(os.path.join(output_dir, 'index.html'), 'w') as f:
         f.write(index_html)
     
-    print("5. Generating catalog.html...")
-    catalog_html = generate_catalog_html(resources)
+    # Create catalog-specific resources without json_files to reduce file size
+    catalog_resources = get_catalog_resources(resources)
+    
+    print("6. Generating catalog.html...")
+    catalog_html = generate_catalog_html(catalog_resources)
     with open(os.path.join(output_dir, 'catalog.html'), 'w', encoding="utf-8") as f:
         f.write(catalog_html)
     
@@ -1150,6 +1231,7 @@ def main():
     print("  - index.html")
     print("  - catalog.html")
     print("  - resources_data.yaml")
+    print("  - nav/*.json (file selector data)")
     print()
 
 

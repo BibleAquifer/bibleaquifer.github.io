@@ -13,7 +13,9 @@ from build_site import (
     generate_catalog_html,
     get_language_name,
     get_first_json_path,
-    get_json_files_with_labels
+    get_json_files_with_labels,
+    generate_nav_files,
+    get_catalog_resources
 )
 
 # Sample README content
@@ -549,8 +551,9 @@ def test_file_selector_in_catalog():
     assert 'populateFileSelector' in catalog_html
     assert 'resetFileSelector' in catalog_html
     
-    # Check that json_files is in the resources data
-    assert 'json_files' in catalog_html
+    # Check that loadNavData function exists for dynamic loading
+    assert 'loadNavData' in catalog_html
+    assert 'navDataCache' in catalog_html
     
     # Check that selectedJsonPath state variable exists
     assert 'selectedJsonPath' in catalog_html
@@ -567,6 +570,59 @@ def test_file_selector_auto_switch_to_preview():
     assert "switchToTab('preview')" in catalog_html
     
     print("✓ File selector auto-switch to preview works")
+
+
+def test_nav_files_generation():
+    """Test that nav files are generated correctly"""
+    print("Testing nav file generation...")
+    import tempfile
+    import shutil
+    
+    # Create a temporary directory for output
+    temp_dir = tempfile.mkdtemp()
+    
+    try:
+        # Generate nav files
+        generate_nav_files(SAMPLE_RESOURCES, temp_dir)
+        
+        # Check that nav directory was created
+        nav_dir = os.path.join(temp_dir, 'nav')
+        assert os.path.exists(nav_dir), "nav directory should be created"
+        
+        # Check that nav files were created for resources with json_files
+        expected_file = os.path.join(nav_dir, 'UWTranslationNotes_eng.json')
+        assert os.path.exists(expected_file), f"Expected nav file {expected_file} to exist"
+        
+        # Verify content of the nav file
+        with open(expected_file, 'r') as f:
+            data = json.load(f)
+        assert isinstance(data, list), "Nav file should contain a list"
+        assert len(data) == 3, "Should have 3 JSON files"
+        assert data[0]['label'] == 'GEN', "First file should have label GEN"
+        
+    finally:
+        # Clean up
+        shutil.rmtree(temp_dir)
+    
+    print("✓ Nav file generation works")
+
+
+def test_catalog_resources_without_json_files():
+    """Test that get_catalog_resources removes json_files from resources"""
+    print("Testing catalog resources without json_files...")
+    
+    catalog_resources = get_catalog_resources(SAMPLE_RESOURCES)
+    
+    # Check that json_files was removed from all languages
+    for resource_name, resource_data in catalog_resources.items():
+        for lang_code, lang_data in resource_data.get('languages', {}).items():
+            assert 'json_files' not in lang_data, f"json_files should be removed from {resource_name}/{lang_code}"
+    
+    # Check that first_json_path is still present
+    uw_eng = catalog_resources['UWTranslationNotes']['languages']['eng']
+    assert 'first_json_path' in uw_eng, "first_json_path should still be present"
+    
+    print("✓ Catalog resources without json_files works")
 
 
 def main():
@@ -593,6 +649,8 @@ def main():
         test_get_json_files_with_labels()
         test_file_selector_in_catalog()
         test_file_selector_auto_switch_to_preview()
+        test_nav_files_generation()
+        test_catalog_resources_without_json_files()
         
         print()
         print("=" * 60)
