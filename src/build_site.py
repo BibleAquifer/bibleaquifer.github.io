@@ -639,7 +639,7 @@ def generate_index_html(readme_html: str) -> str:
                 <p class="subtitle">Access trustworthy and openly-licensed Bible content in multiple languages</p>
             </div>
             <nav class="header-nav">
-                <a href="catalog.html" class="catalog-link">Unified Catalog</a>
+                <a href="catalog.html" class="catalog-link">Aquifer Catalog</a>
                 <a href="https://github.com/BibleAquifer" target="_blank" class="catalog-link">Github Org</a>
             </nav>
         </div>
@@ -653,7 +653,7 @@ def generate_index_html(readme_html: str) -> str:
         <section class="cta-section">
             <h2>Browse the Catalog</h2>
             <p>Explore available resources organized by resource and language.</p>
-            <a href="catalog.html" class="cta-button">View Unified Catalog</a>
+            <a href="catalog.html" class="cta-button">View Aquifer Catalog</a>
         </section>
     </main>
 
@@ -678,14 +678,14 @@ def generate_catalog_html(resources: Dict[str, Any]) -> str:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unified Catalog - Aquifer Bible Resources</title>
+    <title>Aquifer Catalog - Aquifer Bible Resources</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
         <div class="container header-content">
             <div>
-                <h1>Unified Catalog</h1>
+                <h1>Aquifer Catalog</h1>
                 <p class="subtitle">Browse Aquifer Bible Resources by Resource and Language</p>
             </div>
             <nav class="header-nav">

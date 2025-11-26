@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unified Catalog - Aquifer Bible Resources</title>
+    <title>Aquifer Catalog - Aquifer Bible Resources</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
         <div class="container header-content">
             <div>
-                <h1>Unified Catalog</h1>
+                <h1>Aquifer Catalog</h1>
                 <p class="subtitle">Browse Aquifer Bible Resources by Resource and Language</p>
             </div>
             <nav class="header-nav">
@@ -2672,7 +2672,7 @@ const RESOURCES_DATA = {
       },
       "zhs": {
         "code": "zhs",
-        "name": "ZHS",
+        "name": "Chinese (Simplified)",
         "title": "\u5f00\u653e\u5723\u7ecf\u6545\u4e8b (unfoldingWord)",
         "version": "1.0.0",
         "resource_type": "Foundational Bible Stories",
@@ -3528,7 +3528,7 @@ const RESOURCES_DATA = {
       },
       "bis": {
         "code": "bis",
-        "name": "BIS",
+        "name": "Bislama",
         "title": "Imej (UBS)",
         "version": "1.0.0",
         "resource_type": "Images, Maps, Videos",
@@ -3600,7 +3600,7 @@ const RESOURCES_DATA = {
       },
       "hau": {
         "code": "hau",
-        "name": "HAU",
+        "name": "Hausa",
         "title": "Hotuna (UBS)",
         "version": "1.0.0",
         "resource_type": "Images, Maps, Videos",
@@ -3648,7 +3648,7 @@ const RESOURCES_DATA = {
       },
       "ibo": {
         "code": "ibo",
-        "name": "IBO",
+        "name": "Igbo",
         "title": "Ime (UBS)",
         "version": "1.0.0",
         "resource_type": "Images, Maps, Videos",
@@ -3816,7 +3816,7 @@ const RESOURCES_DATA = {
       },
       "vie": {
         "code": "vie",
-        "name": "VIE",
+        "name": "Vietnamese",
         "title": "H\u00ecnh \u1ea3nh (UBS)",
         "version": "1.0.0",
         "resource_type": "Images, Maps, Videos",
@@ -3840,7 +3840,7 @@ const RESOURCES_DATA = {
       },
       "zhs": {
         "code": "zhs",
-        "name": "ZHS",
+        "name": "Chinese (Simplified)",
         "title": "\u56fe\u7247 (UBS)",
         "version": "1.0.0",
         "resource_type": "Images, Maps, Videos",
@@ -3888,7 +3888,7 @@ const RESOURCES_DATA = {
       },
       "zlm": {
         "code": "zlm",
-        "name": "ZLM",
+        "name": "Malay",
         "title": "Imej (UBS)",
         "version": "1.0.0",
         "resource_type": "Images, Maps, Videos",
@@ -4256,7 +4256,7 @@ const RESOURCES_DATA = {
       },
       "zhs": {
         "code": "zhs",
-        "name": "ZHS",
+        "name": "Chinese (Simplified)",
         "title": "\u7ffb\u8bd1\u6307\u5357 (SRV)",
         "version": "1.0.0",
         "resource_type": "Translation Guide",
@@ -4336,7 +4336,7 @@ const RESOURCES_DATA = {
       },
       "bis": {
         "code": "bis",
-        "name": "BIS",
+        "name": "Bislama",
         "title": "Vidio (Diksionari Blong Baebol Video)",
         "version": "1.0.0",
         "resource_type": "Images, Maps, Videos",
@@ -4408,7 +4408,7 @@ const RESOURCES_DATA = {
       },
       "hau": {
         "code": "hau",
-        "name": "HAU",
+        "name": "Hausa",
         "title": "Labarin bidiyo (Kamus na Hausa na bidiyo)",
         "version": "1.0.0",
         "resource_type": "Images, Maps, Videos",
@@ -4456,7 +4456,7 @@ const RESOURCES_DATA = {
       },
       "ibo": {
         "code": "ibo",
-        "name": "IBO",
+        "name": "Igbo",
         "title": "Video (Kamus Igbo Video)",
         "version": "1.0.0",
         "resource_type": "Images, Maps, Videos",
@@ -4624,7 +4624,7 @@ const RESOURCES_DATA = {
       },
       "vie": {
         "code": "vie",
-        "name": "VIE",
+        "name": "Vietnamese",
         "title": "Video (T\u1eeb \u0111i\u1ec3n Kinh Th\u00e1nh Video)",
         "version": "1.0.0",
         "resource_type": "Images, Maps, Videos",
@@ -4648,7 +4648,7 @@ const RESOURCES_DATA = {
       },
       "zhs": {
         "code": "zhs",
-        "name": "ZHS",
+        "name": "Chinese (Simplified)",
         "title": "\u89c6\u9891 (\u89c6\u9891\u5723\u7ecf\u8bcd\u5178)",
         "version": "1.0.0",
         "resource_type": "Images, Maps, Videos",
@@ -4696,7 +4696,7 @@ const RESOURCES_DATA = {
       },
       "zlm": {
         "code": "zlm",
-        "name": "ZLM",
+        "name": "Malay",
         "title": "Video (Kamus Bible Video)",
         "version": "1.0.0",
         "resource_type": "Images, Maps, Videos",
@@ -4894,15 +4894,19 @@ async function loadNavData(resourceName, langCode) {
     }
     
     try {
-        const response = await fetch(`nav/${resourceName}_${langCode}.json`);
+        const navUrl = `nav/${resourceName}_${langCode}.json`;
+        const response = await fetch(navUrl);
         if (!response.ok) {
+            console.warn(`Nav file not found: ${navUrl} (status: ${response.status})`);
             return [];
         }
         const data = await response.json();
         navDataCache[cacheKey] = data;
         return data;
     } catch (error) {
-        console.error('Error loading nav data:', error);
+        // This often happens when opening the file directly (file:// protocol)
+        // instead of serving it via a web server
+        console.warn('Error loading nav data. If viewing locally, please use a web server (e.g., python -m http.server):', error.message);
         return [];
     }
 }
@@ -5097,8 +5101,10 @@ async function populateFileSelector() {
     
     // Load nav data dynamically
     const jsonFiles = await loadNavData(selectedResource.name, selectedLanguage);
+    console.log(`Loaded ${jsonFiles.length} files for ${selectedResource.name}/${selectedLanguage}`);
     
     if (!jsonFiles || jsonFiles.length === 0) {
+        console.log('No nav data available, falling back to first_json_path:', langData.first_json_path);
         resetFileSelector();
         // Fall back to first_json_path if available
         if (langData.first_json_path) {
@@ -5109,6 +5115,7 @@ async function populateFileSelector() {
     
     // Only show file selector if there are multiple files
     if (jsonFiles.length <= 1) {
+        console.log('Only one file available, hiding file selector');
         resetFileSelector();
         // Set the selectedJsonPath to the first file if there's only one
         if (jsonFiles.length === 1) {
@@ -5116,6 +5123,8 @@ async function populateFileSelector() {
         }
         return;
     }
+    
+    console.log('Showing file selector with', jsonFiles.length, 'options');
     
     // Clear and populate file selector
     fileSelect.innerHTML = '';
