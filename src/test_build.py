@@ -12,7 +12,8 @@ from build_site import (
     generate_index_html,
     generate_catalog_html,
     get_language_name,
-    get_first_json_path
+    get_first_json_path,
+    get_json_files_with_labels
 )
 
 # Sample README content
@@ -47,7 +48,12 @@ SAMPLE_RESOURCES = {
                 'resource_type': 'Translation Guide',
                 'content_type': 'Html',
                 'language': 'eng',
-                'first_json_path': 'json/001.content.json',
+                'first_json_path': 'json/01.content.json',
+                'json_files': [
+                    {'path': 'json/01.content.json', 'label': 'GEN'},
+                    {'path': 'json/02.content.json', 'label': 'EXO'},
+                    {'path': 'json/03.content.json', 'label': 'LEV'}
+                ],
                 'citation': {
                     'title': 'unfoldingWord® Translation Notes',
                     'copyright_dates': '2022',
@@ -67,7 +73,11 @@ SAMPLE_RESOURCES = {
                 'resource_type': 'Translation Guide',
                 'content_type': 'Html',
                 'language': 'spa',
-                'first_json_path': 'json/001.content.json',
+                'first_json_path': 'json/01.content.json',
+                'json_files': [
+                    {'path': 'json/01.content.json', 'label': 'GEN'},
+                    {'path': 'json/02.content.json', 'label': 'EXO'}
+                ],
                 'citation': {
                     'title': 'unfoldingWord® Translation Notes',
                     'copyright_dates': '2022',
@@ -95,6 +105,11 @@ SAMPLE_RESOURCES = {
                 'content_type': 'Html',
                 'language': 'eng',
                 'first_json_path': 'json/001.content.json',
+                'json_files': [
+                    {'path': 'json/001.content.json', 'label': 'a'},
+                    {'path': 'json/002.content.json', 'label': 'b'},
+                    {'path': 'json/003.content.json', 'label': 'c'}
+                ],
                 'citation': {
                     'title': 'Open Bible Dictionary',
                     'copyright_dates': '2023',
@@ -122,6 +137,7 @@ SAMPLE_RESOURCES = {
                 'content_type': 'Html',
                 'language': 'spa',
                 'first_json_path': None,
+                'json_files': [],
                 'citation': {
                     'title': 'Título en Español',
                     'copyright_dates': '2024',
@@ -141,6 +157,7 @@ SAMPLE_RESOURCES = {
                 'content_type': 'Html',
                 'language': 'eng',
                 'first_json_path': None,
+                'json_files': [],
                 'citation': {
                     'title': 'English Title Here',
                     'copyright_dates': '2024',
@@ -168,6 +185,9 @@ SAMPLE_RESOURCES = {
                 'content_type': 'Bible',
                 'language': 'hin',
                 'first_json_path': 'json/01.content.json',
+                'json_files': [
+                    {'path': 'json/01.content.json', 'label': 'GEN'}
+                ],
                 'citation': {
                     'title': 'Hindi Indian Revised Version',
                     'copyright_dates': '2019',
@@ -424,6 +444,105 @@ def test_default_language_selection():
     print("✓ Default language selection works")
 
 
+def test_get_json_files_with_labels():
+    """Test extraction of all JSON files with labels from metadata"""
+    print("Testing get_json_files_with_labels...")
+    
+    # Test with valid metadata containing multiple JSON ingredients with scope
+    metadata_with_json = {
+        'scripture_burrito': {
+            'ingredients': {
+                'json/001.content.json': {
+                    'mimeType': 'text/json',
+                    'size': 1904110,
+                    'scope': {
+                        'a': ['Aaron', 'Abraham']
+                    }
+                },
+                'json/002.content.json': {
+                    'mimeType': 'text/json',
+                    'size': 500000,
+                    'scope': {
+                        'b': ['Babel', 'Babylon']
+                    }
+                },
+                'usfm/01-GEN.usfm': {
+                    'mimeType': 'text/x-usfm',
+                    'size': 100000
+                }
+            }
+        }
+    }
+    result = get_json_files_with_labels(metadata_with_json)
+    assert len(result) == 2, f"Expected 2 JSON files, got {len(result)}"
+    assert result[0]['path'] == 'json/001.content.json'
+    assert result[0]['label'] == 'a'
+    assert result[1]['path'] == 'json/002.content.json'
+    assert result[1]['label'] == 'b'
+    
+    # Test with metadata without scope (should use path as label)
+    metadata_no_scope = {
+        'scripture_burrito': {
+            'ingredients': {
+                'json/test.content.json': {
+                    'mimeType': 'text/json',
+                    'size': 100
+                }
+            }
+        }
+    }
+    result = get_json_files_with_labels(metadata_no_scope)
+    assert len(result) == 1
+    assert result[0]['label'] == 'json/test.content.json'
+    
+    # Test with empty metadata
+    result = get_json_files_with_labels({})
+    assert result == []
+    
+    # Test with None
+    result = get_json_files_with_labels(None)
+    assert result == []
+    
+    print("✓ get_json_files_with_labels works")
+
+
+def test_file_selector_in_catalog():
+    """Test that file selector dropdown is generated in catalog HTML"""
+    print("Testing file selector in catalog...")
+    catalog_html = generate_catalog_html(SAMPLE_RESOURCES)
+    
+    # Check for file selector HTML elements
+    assert 'id="file-select"' in catalog_html
+    assert 'id="file-selector-group"' in catalog_html
+    assert 'Select File:' in catalog_html
+    
+    # Check for file selector JavaScript
+    assert 'fileSelect' in catalog_html
+    assert 'fileSelectorGroup' in catalog_html
+    assert 'handleFileChange' in catalog_html
+    assert 'populateFileSelector' in catalog_html
+    assert 'resetFileSelector' in catalog_html
+    
+    # Check that json_files is in the resources data
+    assert 'json_files' in catalog_html
+    
+    # Check that selectedJsonPath state variable exists
+    assert 'selectedJsonPath' in catalog_html
+    
+    print("✓ File selector in catalog works")
+
+
+def test_file_selector_auto_switch_to_preview():
+    """Test that file selector auto-switches to preview tab"""
+    print("Testing file selector auto-switch to preview...")
+    catalog_html = generate_catalog_html(SAMPLE_RESOURCES)
+    
+    # Check that handleFileChange calls switchToTab('preview')
+    assert "switchToTab('preview')" in catalog_html
+    
+    print("✓ File selector auto-switch to preview works")
+
+
 def main():
     """Run all tests"""
     print("=" * 60)
@@ -445,6 +564,9 @@ def main():
         test_preview_navigation_in_catalog()
         test_rtl_language_support()
         test_default_language_selection()
+        test_get_json_files_with_labels()
+        test_file_selector_in_catalog()
+        test_file_selector_auto_switch_to_preview()
         
         print()
         print("=" * 60)

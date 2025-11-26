@@ -319,23 +319,40 @@ def check_directory_exists(repo_name: str, language: str, dir_name: str) -> bool
     return response.status_code == 200
 
 
+def get_json_files_with_labels(metadata: Dict[str, Any]) -> List[Dict[str, str]]:
+    """Extract all JSON file paths with their labels from metadata's scripture_burrito/ingredients.
+    
+    Returns a sorted list of dictionaries with 'path' and 'label' keys.
+    The label is the first key in the 'scope' child of the ingredient object.
+    """
+    if not metadata:
+        return []
+    
+    scripture_burrito = metadata.get('scripture_burrito', {})
+    ingredients = scripture_burrito.get('ingredients', {})
+    
+    json_files = []
+    for path, info in ingredients.items():
+        if isinstance(info, dict) and info.get('mimeType') == 'text/json':
+            if "json" in path.lower():
+                # Extract label from the first key in 'scope'
+                scope = info.get('scope', {})
+                label = list(scope.keys())[0] if scope else path
+                json_files.append({'path': path, 'label': label})
+    
+    # Sort by path to ensure consistent ordering
+    json_files.sort(key=lambda x: x['path'])
+    
+    return json_files
+
+
 def get_first_json_path(metadata: Dict[str, Any]) -> Optional[str]:
     """Extract the first JSON file path from metadata's scripture_burrito/ingredients.
     
     Returns the path to the first ingredient with mimeType 'text/json', or None if not found.
     """
-    if not metadata:
-        return None
-    
-    scripture_burrito = metadata.get('scripture_burrito', {})
-    ingredients = scripture_burrito.get('ingredients', {})
-    
-    for path, info in ingredients.items():
-        if isinstance(info, dict) and info.get('mimeType') == 'text/json':
-            if "json" in path.lower():
-                return path
-    
-    return None
+    json_files = get_json_files_with_labels(metadata)
+    return json_files[0]['path'] if json_files else None
 
 
 def build_resource_data() -> Dict[str, Any]:
@@ -390,8 +407,9 @@ def build_resource_data() -> Dict[str, Any]:
                 for format_name in ['json', 'md', 'pdf', 'docx', 'usx', 'usfm', 'audio']:
                     format_checks[f'has_{format_name}'] = check_directory_exists(repo_name, lang, format_name)
                 
-                # Get first JSON file path for preview
-                first_json_path = get_first_json_path(metadata)
+                # Get all JSON file paths with labels for preview file selector
+                json_files = get_json_files_with_labels(metadata)
+                first_json_path = json_files[0]['path'] if json_files else None
                 
                 resource_data['languages'][lang] = {
                     'code': lang,
@@ -402,6 +420,7 @@ def build_resource_data() -> Dict[str, Any]:
                     'content_type': resource_meta.get('content_type'),
                     'language': resource_meta.get('language'),
                     'first_json_path': first_json_path,
+                    'json_files': json_files,
                     'citation': {
                         'title': license_meta.get('title'),
                         'copyright_dates': license_meta.get('copyright', {}).get('dates'),
@@ -552,6 +571,12 @@ def generate_catalog_html(resources: Dict[str, Any]) -> str:
                         <option value="">Select a resource first</option>
                     </select>
                 </div>
+                <div class="control-group" id="file-selector-group" style="display: none;">
+                    <label for="file-select">Select File:</label>
+                    <select id="file-select">
+                        <option value="">Select a language first</option>
+                    </select>
+                </div>
             </section>
         </aside>
 
@@ -597,6 +622,8 @@ const ORG_NAME = '{{ org_name }}';
 // DOM elements
 const resourceSelect = document.getElementById('resource-select');
 const languageSelect = document.getElementById('language-select');
+const fileSelect = document.getElementById('file-select');
+const fileSelectorGroup = document.getElementById('file-selector-group');
 const contentDisplayDiv = document.getElementById('content-display');
 const contentViewerSection = document.getElementById('content-viewer');
 const previewDisplayDiv = document.getElementById('preview-display');
@@ -609,6 +636,7 @@ const articlePositionSpan = document.getElementById('article-position');
 // State
 let selectedResource = null;
 let selectedLanguage = null;
+let selectedJsonPath = null;
 let previewLoaded = false;
 let previewCache = {};
 let currentArticleIndex = 0;
@@ -625,6 +653,7 @@ function isRtlLanguage(langCode) {
 // Setup event listeners
 resourceSelect.addEventListener('change', handleResourceChange);
 languageSelect.addEventListener('change', handleLanguageChange);
+fileSelect.addEventListener('change', handleFileChange);
 
 // Navigation button event listeners
 prevArticleBtn.addEventListener('click', () => {
@@ -682,8 +711,8 @@ async function loadPreview() {
         return;
     }
     
-    // Check if we have a JSON path for preview
-    const jsonPath = langData.first_json_path;
+    // Use selectedJsonPath if set, otherwise fall back to first_json_path
+    const jsonPath = selectedJsonPath || langData.first_json_path;
     if (!jsonPath || !langData.has_json) {
         hideNavigation();
         previewDisplayDiv.innerHTML = '<p class="no-preview">No preview available. This resource does not have JSON content files.</p>';
@@ -788,6 +817,75 @@ function resetArticleState() {
     hideNavigation();
 }
 
+// Reset file selector state
+function resetFileSelector() {
+    fileSelect.innerHTML = '<option value="">Select a language first</option>';
+    fileSelect.disabled = true;
+    fileSelectorGroup.style.display = 'none';
+    selectedJsonPath = null;
+}
+
+// Populate file selector with JSON files for the current language
+function populateFileSelector() {
+    if (!selectedResource || !selectedLanguage) {
+        resetFileSelector();
+        return;
+    }
+    
+    const langData = selectedResource.languages[selectedLanguage];
+    if (!langData || !langData.json_files || langData.json_files.length === 0) {
+        resetFileSelector();
+        return;
+    }
+    
+    const jsonFiles = langData.json_files;
+    
+    // Only show file selector if there are multiple files
+    if (jsonFiles.length <= 1) {
+        resetFileSelector();
+        // Set the selectedJsonPath to the first file if there's only one
+        if (jsonFiles.length === 1) {
+            selectedJsonPath = jsonFiles[0].path;
+        }
+        return;
+    }
+    
+    // Clear and populate file selector
+    fileSelect.innerHTML = '';
+    
+    jsonFiles.forEach((file, index) => {
+        const option = document.createElement('option');
+        option.value = file.path;
+        option.textContent = file.label;
+        if (index === 0) {
+            option.selected = true;
+        }
+        fileSelect.appendChild(option);
+    });
+    
+    fileSelect.disabled = false;
+    fileSelectorGroup.style.display = 'block';
+    
+    // Set default selected path to first file
+    selectedJsonPath = jsonFiles[0].path;
+}
+
+// Handle file selection change
+function handleFileChange() {
+    selectedJsonPath = fileSelect.value;
+    
+    if (!selectedJsonPath) {
+        return;
+    }
+    
+    // Reset article state when file changes
+    resetArticleState();
+    previewDisplayDiv.innerHTML = '<p class="loading-message">Loading preview...</p>';
+    
+    // Switch to Preview tab and load preview
+    switchToTab('preview');
+}
+
 // Handle resource selection
 function handleResourceChange() {
     const resourceId = resourceSelect.value;
@@ -799,11 +897,13 @@ function handleResourceChange() {
         previewDisplayDiv.innerHTML = '<p class="loading-message">Select a resource to see a preview.</p>';
         contentViewerSection.classList.add('hidden');
         resetArticleState();
+        resetFileSelector();
         return;
     }
     
     selectedResource = RESOURCES_DATA[resourceId];
     resetArticleState();
+    resetFileSelector();
     
     // Populate language dropdown
     languageSelect.innerHTML = '<option value="">Select a language...</option>';
@@ -838,6 +938,7 @@ function handleResourceChange() {
     // Auto-load default language if available
     if (defaultLang) {
         selectedLanguage = defaultLang;
+        populateFileSelector();
         displayLanguageMetadata();
     }
 }
@@ -851,6 +952,7 @@ function handleLanguageChange() {
         previewDisplayDiv.innerHTML = '<p class="loading-message">Select a resource to see a preview.</p>';
         contentViewerSection.classList.add('hidden');
         resetArticleState();
+        resetFileSelector();
         return;
     }
     
@@ -860,6 +962,9 @@ function handleLanguageChange() {
     // Reset preview and article state when language changes
     resetArticleState();
     previewDisplayDiv.innerHTML = '<p class="loading-message">Loading preview...</p>';
+    
+    // Populate file selector for the new language
+    populateFileSelector();
     
     displayLanguageMetadata();
 }
