@@ -552,7 +552,7 @@ def build_resource_data() -> Dict[str, Any]:
                 
                 # Check for all format directories generically
                 format_checks = {}
-                for format_name in ['json', 'md', 'pdf', 'docx', 'usx', 'usfm', 'audio', 'alignments']:
+                for format_name in ['json', 'md', 'pdf', 'docx', 'usx', 'usfm', 'audio']:
                     format_checks[f'has_{format_name}'] = check_directory_exists(repo_name, lang, format_name)
                 
                 # Get all JSON file paths with labels for preview file selector
@@ -1248,7 +1248,6 @@ function displayLanguageMetadata() {
         { key: 'has_usx', name: 'USX', label: 'Browse USX files' },
         { key: 'has_usfm', name: 'USFM', label: 'Browse USFM files' },
         { key: 'has_audio', name: 'audio', label: 'Browse audio timings' }
-        { key: 'has_alignments', name: 'alignments', label: 'Browse alignments' }
         
     ];
     
