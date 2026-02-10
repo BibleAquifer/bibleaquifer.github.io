@@ -660,7 +660,7 @@ def generate_index_html(readme_html: str) -> str:
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 Mission Mutual. Open Biblical Resources.</p>
+            <p>&copy; {{ build_year }} Mission Mutual. Open Biblical Resources.</p>
             <p><a href="https://github.com/BibleAquifer" target="_blank">GitHub Org</a> | <a href="https://github.com/BibleAquifer/docs" target="_blank">Documentation</a></p>
             <p class="site-version">Site version: {{ build_version }}</p>
         </div>
@@ -671,7 +671,8 @@ def generate_index_html(readme_html: str) -> str:
     
     t = Template(template)
     build_version = datetime.now(timezone.utc).strftime("%Y-%m-%d@%H:%M:%S")
-    return t.render(content=readme_html, build_version=build_version)
+    build_year = datetime.now(timezone.utc).year
+    return t.render(content=readme_html, build_version=build_version, build_year=build_year)
 
 
 def generate_catalog_html(resources: Dict[str, Any]) -> str:
@@ -761,7 +762,7 @@ def generate_catalog_html(resources: Dict[str, Any]) -> str:
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 Mission Mutual. Open Biblical Resources.</p>
+            <p>&copy; {{ build_year }} Mission Mutual. Open Biblical Resources.</p>
             <p><a href="https://github.com/BibleAquifer" target="_blank">GitHub Org</a> | <a href="https://github.com/BibleAquifer/docs" target="_blank">Documentation</a></p>
             <p class="site-version">Site version: {{ build_version }}</p>
         </div>
@@ -1278,11 +1279,13 @@ function displayLanguageMetadata() {
     
     t = Template(template)
     build_version = datetime.now(timezone.utc).strftime("%Y-%m-%d@%H:%M:%S")
+    build_year = datetime.now(timezone.utc).year
     return t.render(
         resources=resources,
         resources_json=json.dumps(resources, indent=2),
         org_name=ORG_NAME,
-        build_version=build_version
+        build_version=build_version,
+        build_year=build_year
     )
 
 
