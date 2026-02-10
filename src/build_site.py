@@ -4,6 +4,7 @@ Static site generator for BibleAquifer
 Generates index.html and catalog.html from GitHub API data
 """
 
+from datetime import datetime, timezone
 import json
 import os
 import re
@@ -661,6 +662,7 @@ def generate_index_html(readme_html: str) -> str:
         <div class="container">
             <p>&copy; 2025 Mission Mutual. Open Biblical Resources.</p>
             <p><a href="https://github.com/BibleAquifer" target="_blank">GitHub Org</a> | <a href="https://github.com/BibleAquifer/docs" target="_blank">Documentation</a></p>
+            <p class="site-version">Site version: {{ build_version }}</p>
         </div>
     </footer>
 </body>
@@ -668,7 +670,8 @@ def generate_index_html(readme_html: str) -> str:
 """
     
     t = Template(template)
-    return t.render(content=readme_html)
+    build_version = datetime.now(timezone.utc).strftime("%Y-%m-%d@%H:%M:%S")
+    return t.render(content=readme_html, build_version=build_version)
 
 
 def generate_catalog_html(resources: Dict[str, Any]) -> str:
@@ -760,6 +763,7 @@ def generate_catalog_html(resources: Dict[str, Any]) -> str:
         <div class="container">
             <p>&copy; 2025 Mission Mutual. Open Biblical Resources.</p>
             <p><a href="https://github.com/BibleAquifer" target="_blank">GitHub Org</a> | <a href="https://github.com/BibleAquifer/docs" target="_blank">Documentation</a></p>
+            <p class="site-version">Site version: {{ build_version }}</p>
         </div>
     </footer>
 
@@ -1273,10 +1277,12 @@ function displayLanguageMetadata() {
 """
     
     t = Template(template)
+    build_version = datetime.now(timezone.utc).strftime("%Y-%m-%d@%H:%M:%S")
     return t.render(
         resources=resources,
         resources_json=json.dumps(resources, indent=2),
-        org_name=ORG_NAME
+        org_name=ORG_NAME,
+        build_version=build_version
     )
 
 
