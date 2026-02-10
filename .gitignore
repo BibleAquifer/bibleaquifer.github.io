@@ -47,8 +47,11 @@ MANIFEST
 # Poetry
 poetry.lock
 
-# Generated data (reference only, not committed)
+# Generated site output (built by CI and deployed to gh-pages)
+index.html
+catalog.html
 resources_data.yaml
+nav/
 
 # Test output
 src/test_*.html

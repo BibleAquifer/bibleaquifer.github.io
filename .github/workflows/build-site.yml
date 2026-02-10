@@ -1,0 +1,43 @@
+name: Build and Deploy Site
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 0 * * *'  # Daily at midnight UTC
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install Poetry
+        run: pip install poetry
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Build site
+        run: poetry run python src/build_site.py
+        env:
+          manage-aquifer: ${{ secrets.MANAGE_AQUIFER_TOKEN }}
+
+      - name: Stage site files
+        run: |
+          mkdir _site
+          cp index.html catalog.html styles.css LICENSE _site/
+          cp -r nav _site/
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
