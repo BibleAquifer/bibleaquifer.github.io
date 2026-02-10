@@ -752,6 +752,10 @@ def generate_catalog_html(resources: Dict[str, Any]) -> str:
                             Next <span class="nav-arrow">→</span>
                         </button>
                     </div>
+                    <div id="file-download-bar" class="file-download-bar" style="display: none;">
+                        <span class="file-download-label">File Download:</span>
+                        <span id="file-download-links"></span>
+                    </div>
                     <div id="preview-display">
                         <p class="loading-message">Select a resource to see a preview.</p>
                     </div>
@@ -786,6 +790,8 @@ const tabContents = document.querySelectorAll('.tab-content');
 const prevArticleBtn = document.getElementById('prev-article-btn');
 const nextArticleBtn = document.getElementById('next-article-btn');
 const articlePositionSpan = document.getElementById('article-position');
+const fileDownloadBar = document.getElementById('file-download-bar');
+const fileDownloadLinks = document.getElementById('file-download-links');
 
 // State
 let selectedResource = null;
@@ -968,8 +974,9 @@ function displayArticle() {
     const dirAttr = isRtlLanguage(selectedLanguage) ? ' dir="rtl"' : '';
     const previewHtml = '<div class="preview-content"' + dirAttr + '>' + titleHtml + article.content + '</div>';
     previewDisplayDiv.innerHTML = previewHtml;
-    
+
     updateNavigationState();
+    updateDownloadBar();
 }
 
 // Update navigation button states and position indicator
@@ -992,11 +999,57 @@ function hideNavigation() {
     articlePositionSpan.textContent = '';
 }
 
+// Update the file download bar with per-file format links
+function updateDownloadBar() {
+    if (!selectedResource || !selectedLanguage) {
+        fileDownloadBar.style.display = 'none';
+        return;
+    }
+
+    const langData = selectedResource.languages[selectedLanguage];
+    if (!langData || langData.resource_type === 'Bible') {
+        fileDownloadBar.style.display = 'none';
+        return;
+    }
+
+    const jsonPath = selectedJsonPath || langData.first_json_path;
+    if (!jsonPath) {
+        fileDownloadBar.style.display = 'none';
+        return;
+    }
+
+    // Derive base filename: strip "json/" prefix and ".json" extension
+    const basename = jsonPath.replace(/^json\//, '').replace(/\.json$/, '');
+
+    const formats = [
+        { flag: 'has_json', dir: 'json', ext: 'json', label: 'JSON' },
+        { flag: 'has_md', dir: 'md', ext: 'md', label: 'Markdown' },
+        { flag: 'has_pdf', dir: 'pdf', ext: 'pdf', label: 'PDF' },
+        { flag: 'has_docx', dir: 'docx', ext: 'docx', label: 'DOCX' }
+    ];
+
+    const links = [];
+    formats.forEach(fmt => {
+        if (langData[fmt.flag]) {
+            const url = `https://raw.githubusercontent.com/${ORG_NAME}/${selectedResource.name}/main/${selectedLanguage}/${fmt.dir}/${basename}.${fmt.ext}`;
+            links.push(`<a href="${url}" target="_blank">${fmt.label}</a>`);
+        }
+    });
+
+    if (links.length > 0) {
+        fileDownloadLinks.innerHTML = links.join(' <span class="file-download-sep">\u00b7</span> ');
+        fileDownloadBar.style.display = 'flex';
+    } else {
+        fileDownloadBar.style.display = 'none';
+    }
+}
+
 // Reset article state when resource or language changes
 function resetArticleState() {
     currentArticleIndex = 0;
     currentArticles = [];
     hideNavigation();
+    fileDownloadBar.style.display = 'none';
 }
 
 // Reset file selector state
