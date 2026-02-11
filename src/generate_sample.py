@@ -10,7 +10,7 @@ import sys
 # Add current directory to path to import build_site
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from build_site import generate_index_html, generate_catalog_html, markdown_to_html, format_readme_sections
+from build_site import generate_index_html, generate_catalog_html, markdown_to_html, format_readme_sections, generate_nav_files
 
 # Sample README (based on actual BibleAquifer profile)
 SAMPLE_README = """# Aquifer Bible Resources
@@ -196,6 +196,79 @@ SAMPLE_RESOURCES = {
                 'has_docx': True
             }
         }
+    },
+    'BereanStandardBible': {
+        'name': 'BereanStandardBible',
+        'title': 'Berean Standard Bible',
+        'description': 'A modern English Bible translation',
+        'url': 'https://github.com/BibleAquifer/BereanStandardBible',
+        'languages': {
+            'eng': {
+                'code': 'eng',
+                'name': 'English',
+                'title': 'Berean Standard Bible',
+                'version': '1.1.0',
+                'resource_type': 'Bible',
+                'content_type': 'Bible',
+                'language': 'eng',
+                'first_json_path': 'json/01.content.json',
+                'json_files': [
+                    {
+                        'path': 'json/01.content.json',
+                        'label': 'Genesis',
+                        'formats': {
+                            'json': 'json/01.content.json',
+                            'pdf': 'pdf/01.content.pdf',
+                            'docx': 'docx/01.content.docx',
+                            'usfm': 'usfm/01GENBSB.SFM',
+                            'usx': 'usx/01GENBSB.usx',
+                            'audio': 'audio/01GENBSB.timing.json',
+                            'alignments': 'alignments/01.alignment.json'
+                        }
+                    },
+                    {
+                        'path': 'json/02.content.json',
+                        'label': 'Exodus',
+                        'formats': {
+                            'json': 'json/02.content.json',
+                            'pdf': 'pdf/02.content.pdf',
+                            'docx': 'docx/02.content.docx',
+                            'usfm': 'usfm/02EXOBSB.SFM',
+                            'usx': 'usx/02EXOBSB.usx',
+                            'audio': 'audio/02EXOBSB.timing.json',
+                            'alignments': 'alignments/02.alignment.json'
+                        }
+                    },
+                    {
+                        'path': 'json/40.content.json',
+                        'label': 'Matthew',
+                        'formats': {
+                            'json': 'json/40.content.json',
+                            'pdf': 'pdf/40.content.pdf',
+                            'docx': 'docx/40.content.docx',
+                            'usfm': 'usfm/40MATBSB.SFM',
+                            'usx': 'usx/40MATBSB.usx',
+                            'audio': 'audio/40MATBSB.timing.json',
+                            'alignments': 'alignments/40.alignment.json'
+                        }
+                    }
+                ],
+                'citation': {
+                    'title': 'Berean Standard Bible',
+                    'copyright_dates': None,
+                    'copyright_holder': 'Berean Standard Bible',
+                    'license_name': 'Public Domain CC0'
+                },
+                'has_json': True,
+                'has_md': False,
+                'has_pdf': True,
+                'has_docx': True,
+                'has_usfm': True,
+                'has_usx': True,
+                'has_audio': True,
+                'has_alignments': True
+            }
+        }
     }
 }
 
@@ -222,13 +295,17 @@ def main():
     with open(os.path.join(output_dir, 'catalog.html'), 'w') as f:
         f.write(catalog_html)
     print("   ✓ Created catalog.html")
-    
+
+    print("4. Generating nav files...")
+    generate_nav_files(SAMPLE_RESOURCES, output_dir)
+
     print("\n" + "=" * 60)
     print("Generation complete!")
     print("=" * 60)
     print("Generated files:")
     print("  - index.html")
     print("  - catalog.html")
+    print("  - nav/*.json")
     print("\nNote: These files use sample data.")
     print("To generate with real data, run: poetry run python src/build_site.py")
     print()

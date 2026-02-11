@@ -495,6 +495,48 @@ def get_json_files_with_labels(metadata: Dict[str, Any], order: Optional[str] = 
     return json_files
 
 
+KNOWN_FORMAT_DIRS = {'json', 'md', 'pdf', 'docx', 'usfm', 'usx', 'audio', 'alignments'}
+
+
+def get_format_paths_by_book(metadata: Dict[str, Any]) -> Dict[str, Dict[str, str]]:
+    """Group all ingredient paths by book number and format directory.
+
+    Reads scripture_burrito/ingredients and returns a dict mapping book numbers
+    to their available format paths. For example:
+        {'01': {'json': 'json/01.content.json', 'usfm': 'usfm/01GENBSB.SFM', ...},
+         '02': {'json': 'json/02.content.json', 'usfm': 'usfm/02EXOBSB.SFM', ...}}
+
+    Book numbers are extracted as the leading digits of each filename.
+    Only recognized format directories are included.
+    """
+    if not metadata:
+        return {}
+
+    ingredients = metadata.get('scripture_burrito', {}).get('ingredients', {})
+    result = {}
+
+    for path in ingredients:
+        parts = path.split('/')
+        if len(parts) < 2:
+            continue
+
+        dir_name = parts[0]
+        if dir_name not in KNOWN_FORMAT_DIRS:
+            continue
+
+        filename = parts[-1]
+        match = re.match(r'^(\d+)', filename)
+        if not match:
+            continue
+
+        book_num = match.group(1)
+        if book_num not in result:
+            result[book_num] = {}
+        result[book_num][dir_name] = path
+
+    return result
+
+
 def get_first_json_path(metadata: Dict[str, Any]) -> Optional[str]:
     """Extract the first JSON file path from metadata's scripture_burrito/ingredients.
     
@@ -560,6 +602,16 @@ def build_resource_data() -> Dict[str, Any]:
                 # Pass language code for proper label transformation
                 json_files = get_json_files_with_labels(metadata, lang_code=lang)
                 first_json_path = json_files[0]['path'] if json_files else None
+
+                # Attach per-file format paths from ingredients
+                format_map = get_format_paths_by_book(metadata)
+                for entry in json_files:
+                    match = re.match(r'^json/(\d+)', entry['path'])
+                    if match:
+                        book_num = match.group(1)
+                        formats = format_map.get(book_num, {})
+                        if formats:
+                            entry['formats'] = formats
                 
                 resource_data['languages'][lang] = {
                     'code': lang,
@@ -1007,7 +1059,7 @@ function updateDownloadBar() {
     }
 
     const langData = selectedResource.languages[selectedLanguage];
-    if (!langData || langData.resource_type === 'Bible') {
+    if (!langData) {
         fileDownloadBar.style.display = 'none';
         return;
     }
@@ -1018,23 +1070,46 @@ function updateDownloadBar() {
         return;
     }
 
-    // Derive base filename: strip "json/" prefix and ".json" extension
-    const basename = jsonPath.replace(/^json\//, '').replace(/\.json$/, '');
-
-    const formats = [
-        { flag: 'has_json', dir: 'json', ext: 'json', label: 'JSON' },
-        { flag: 'has_md', dir: 'md', ext: 'md', label: 'Markdown' },
-        { flag: 'has_pdf', dir: 'pdf', ext: 'pdf', label: 'PDF' },
-        { flag: 'has_docx', dir: 'docx', ext: 'docx', label: 'DOCX' }
-    ];
+    // Look up pregenerated format paths from nav data cache
+    const cacheKey = `${selectedResource.name}_${selectedLanguage}`;
+    const navEntries = navDataCache[cacheKey] || [];
+    const currentEntry = navEntries.find(e => e.path === jsonPath);
+    const entryFormats = currentEntry ? currentEntry.formats : null;
 
     const links = [];
-    formats.forEach(fmt => {
-        if (langData[fmt.flag]) {
-            const url = `https://raw.githubusercontent.com/${ORG_NAME}/${selectedResource.name}/main/${selectedLanguage}/${fmt.dir}/${basename}.${fmt.ext}`;
-            links.push(`<a href="${url}" target="_blank">${fmt.label}</a>`);
-        }
-    });
+    const baseUrl = `https://raw.githubusercontent.com/${ORG_NAME}/${selectedResource.name}/main/${selectedLanguage}`;
+
+    if (entryFormats) {
+        // Use pregenerated format paths from nav data
+        const formatLabels = [
+            { key: 'json', label: 'JSON' },
+            { key: 'md', label: 'Markdown' },
+            { key: 'pdf', label: 'PDF' },
+            { key: 'docx', label: 'DOCX' },
+            { key: 'usfm', label: 'USFM' },
+            { key: 'usx', label: 'USX' },
+            { key: 'audio', label: 'Audio' },
+            { key: 'alignments', label: 'Alignments' }
+        ];
+        formatLabels.forEach(fmt => {
+            if (entryFormats[fmt.key]) {
+                links.push(`<a href="${baseUrl}/${entryFormats[fmt.key]}" target="_blank">${fmt.label}</a>`);
+            }
+        });
+    } else {
+        // Fallback: simple path substitution (when nav data not loaded)
+        const basename = jsonPath.replace(/^json\//, '').replace(/\.json$/, '');
+        [
+            { flag: 'has_json', dir: 'json', ext: 'json', label: 'JSON' },
+            { flag: 'has_md', dir: 'md', ext: 'md', label: 'Markdown' },
+            { flag: 'has_pdf', dir: 'pdf', ext: 'pdf', label: 'PDF' },
+            { flag: 'has_docx', dir: 'docx', ext: 'docx', label: 'DOCX' }
+        ].forEach(fmt => {
+            if (langData[fmt.flag]) {
+                links.push(`<a href="${baseUrl}/${fmt.dir}/${basename}.${fmt.ext}" target="_blank">${fmt.label}</a>`);
+            }
+        });
+    }
 
     if (links.length > 0) {
         fileDownloadLinks.innerHTML = links.join(' <span class="file-download-sep">\u00b7</span> ');

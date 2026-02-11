@@ -14,6 +14,7 @@ from build_site import (
     get_language_name,
     get_first_json_path,
     get_json_files_with_labels,
+    get_format_paths_by_book,
     generate_nav_files,
     get_catalog_resources,
     get_bible_book_name,
@@ -198,7 +199,17 @@ SAMPLE_RESOURCES = {
                 'language': 'hin',
                 'first_json_path': 'json/01.content.json',
                 'json_files': [
-                    {'path': 'json/01.content.json', 'label': 'Genesis'}
+                    {
+                        'path': 'json/01.content.json',
+                        'label': 'Genesis',
+                        'formats': {
+                            'json': 'json/01.content.json',
+                            'pdf': 'pdf/01.content.pdf',
+                            'docx': 'docx/01.content.docx',
+                            'usfm': 'usfm/01GENIRV.SFM',
+                            'usx': 'usx/01GENIRV.usx'
+                        }
+                    }
                 ],
                 'citation': {
                     'title': 'Hindi Indian Revised Version',
@@ -207,8 +218,13 @@ SAMPLE_RESOURCES = {
                     'license_name': 'CC BY-SA 4.0 license'
                 },
                 'has_json': True,
+                'has_md': False,
                 'has_pdf': True,
-                'has_docx': True
+                'has_docx': True,
+                'has_usfm': True,
+                'has_usx': True,
+                'has_audio': False,
+                'has_alignments': False
             }
         }
     }
@@ -844,6 +860,76 @@ def test_get_json_files_with_labels_monograph():
     print("✓ get_json_files_with_labels with monograph order works")
 
 
+def test_get_format_paths_by_book():
+    """Test get_format_paths_by_book groups ingredients by book number and format"""
+    print("Testing get_format_paths_by_book...")
+
+    metadata = {
+        'scripture_burrito': {
+            'ingredients': {
+                'json/01.content.json': {'mimeType': 'text/json', 'size': 100, 'scope': {'GEN': []}},
+                'json/02.content.json': {'mimeType': 'text/json', 'size': 200, 'scope': {'EXO': []}},
+                'usfm/01GENBSB.SFM': {'mimeType': 'text/plain', 'size': 300, 'scope': {'GEN': []}},
+                'usfm/02EXOBSB.SFM': {'mimeType': 'text/plain', 'size': 400, 'scope': {'EXO': []}},
+                'usx/01GENBSB.usx': {'mimeType': 'application/xml', 'size': 500, 'scope': {'GEN': []}},
+                'audio/01GENBSB.timing.json': {'mimeType': 'text/json', 'size': 600, 'scope': {'GEN': []}},
+                'alignments/01.alignment.json': {'mimeType': 'text/json', 'size': 700, 'scope': {'GEN': []}},
+                'md/01.content.md': {'mimeType': 'text/markdown', 'size': 800, 'scope': {'GEN': []}},
+                'pdf/01.content.pdf': {'mimeType': 'application/pdf', 'size': 900, 'scope': {'GEN': []}},
+                'docx/01.content.docx': {'mimeType': 'application/docx', 'size': 1000, 'scope': {'GEN': []}},
+                'unknown_dir/somefile.txt': {'mimeType': 'text/plain', 'size': 50},
+                'metadata.json': {'mimeType': 'text/json', 'size': 10}
+            }
+        }
+    }
+
+    result = get_format_paths_by_book(metadata)
+
+    # Book 01 should have all 8 recognized formats
+    assert '01' in result
+    assert result['01']['json'] == 'json/01.content.json'
+    assert result['01']['usfm'] == 'usfm/01GENBSB.SFM'
+    assert result['01']['usx'] == 'usx/01GENBSB.usx'
+    assert result['01']['audio'] == 'audio/01GENBSB.timing.json'
+    assert result['01']['alignments'] == 'alignments/01.alignment.json'
+    assert result['01']['md'] == 'md/01.content.md'
+    assert result['01']['pdf'] == 'pdf/01.content.pdf'
+    assert result['01']['docx'] == 'docx/01.content.docx'
+
+    # Book 02 should have json and usfm
+    assert '02' in result
+    assert result['02']['json'] == 'json/02.content.json'
+    assert result['02']['usfm'] == 'usfm/02EXOBSB.SFM'
+
+    # Unknown directories and files without leading digits should be skipped
+    assert 'unknown_dir' not in str(result)
+
+    # Empty/None metadata should return empty dict
+    assert get_format_paths_by_book(None) == {}
+    assert get_format_paths_by_book({}) == {}
+
+    print("✓ get_format_paths_by_book works")
+
+
+def test_bible_download_bar_in_catalog():
+    """Test that the download bar JS supports Bible resources via nav data formats"""
+    print("Testing Bible download bar in catalog...")
+    catalog_html = generate_catalog_html(SAMPLE_RESOURCES)
+
+    # Should NOT have Bible-specific early return
+    assert "langData.resource_type === 'Bible'" not in catalog_html
+
+    # Should have nav data format lookup
+    assert 'entryFormats' in catalog_html or 'currentEntry.formats' in catalog_html
+    assert 'navDataCache[cacheKey]' in catalog_html
+
+    # Should include all format labels in the JS
+    for label in ['USFM', 'USX', 'Audio', 'Alignments']:
+        assert label in catalog_html
+
+    print("✓ Bible download bar in catalog works")
+
+
 def main():
     """Run all tests"""
     print("=" * 60)
@@ -876,7 +962,9 @@ def main():
         test_get_json_files_with_labels_canonical()
         test_get_json_files_with_labels_alphabetical()
         test_get_json_files_with_labels_monograph()
-        
+        test_get_format_paths_by_book()
+        test_bible_download_bar_in_catalog()
+
         print()
         print("=" * 60)
         print("All tests passed! ✓")
