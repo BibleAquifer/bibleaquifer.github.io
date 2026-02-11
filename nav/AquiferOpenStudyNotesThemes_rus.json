@@ -1,1 +1,1 @@
-[{"path": "json/001.content.json", "label": "\u043f"}, {"path": "json/002.content.json", "label": "\u0441"}]
+[{"path": "json/001.content.json", "label": "\u043f", "formats": {"json": "json/001.content.json", "md": "md/001.content.md", "pdf": "pdf/001.content.pdf"}}, {"path": "json/002.content.json", "label": "\u0441", "formats": {"json": "json/002.content.json", "md": "md/002.content.md", "pdf": "pdf/002.content.pdf"}}]

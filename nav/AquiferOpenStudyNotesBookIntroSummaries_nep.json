@@ -1,1 +1,1 @@
-[{"path": "json/01.content.json", "label": "Genesis"}]
+[{"path": "json/01.content.json", "label": "Genesis", "formats": {"json": "json/01.content.json", "md": "md/01.content.md"}}]

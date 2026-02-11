@@ -1,1 +1,1 @@
-[{"path": "json/41.content.json", "label": "Mark"}, {"path": "json/42.content.json", "label": "Luke"}]
+[{"path": "json/41.content.json", "label": "Mark", "formats": {"json": "json/41.content.json", "md": "md/41.content.md", "docx": "docx/41.content.docx", "pdf": "pdf/41.content.pdf"}}, {"path": "json/42.content.json", "label": "Luke", "formats": {"json": "json/42.content.json", "md": "md/42.content.md", "docx": "docx/42.content.docx", "pdf": "pdf/42.content.pdf"}}]
