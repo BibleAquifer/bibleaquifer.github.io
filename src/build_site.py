@@ -433,6 +433,18 @@ def fetch_metadata(repo_name: str, language: str) -> Optional[Dict[str, Any]]:
     return response.json()
 
 
+def fetch_latest_release_tag(repo_name: str) -> Optional[str]:
+    """Fetch the latest release tag for a repository"""
+    url = f'{GITHUB_API}/repos/{ORG_NAME}/{repo_name}/releases/latest'
+    try:
+        response = session.get(url, headers=get_headers())
+        if response.status_code == 200:
+            return response.json().get('tag_name')
+    except requests.exceptions.RequestException:
+        pass
+    return None
+
+
 def check_directory_exists(repo_name: str, language: str, dir_name: str) -> bool:
     """Check if a directory exists in the repository"""
     url = f'{GITHUB_API}/repos/{ORG_NAME}/{repo_name}/contents/{language}/{dir_name}'
@@ -571,7 +583,10 @@ def build_resource_data() -> Dict[str, Any]:
         # for metadata that may be missing outside of English versions (e.g. adaptation_notice)
         english_metadata = fetch_metadata(repo_name, "eng")
 
-        
+        # Fetch latest release tag for this repo
+        release_tag = fetch_latest_release_tag(repo_name)
+        resource_data['release_tag'] = release_tag
+
         # Fetch metadata for each language
         for lang in languages:
             print(f"  Fetching metadata for {lang}...")
@@ -1349,6 +1364,7 @@ function displayLanguageMetadata() {
     const metadataFields = [
         { label: 'Title', value: langData.title },
         { label: 'Language', value: langData.language },
+        { label: 'Resource Version', value: selectedResource.release_tag ? `<a href="https://github.com/${ORG_NAME}/${selectedResource.name}/releases/tag/${selectedResource.release_tag}" target="_blank">${selectedResource.release_tag}</a>` : null },
         { label: 'Schema Version', value: langData.version },
         { label: 'Type', value: langData.resource_type },
         { label: 'Content Type', value: langData.content_type }

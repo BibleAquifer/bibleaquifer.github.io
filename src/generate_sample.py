@@ -49,6 +49,7 @@ SAMPLE_RESOURCES = {
         'title': 'Translation Notes (unfoldingWord)',
         'description': 'Translation notes for Bible translators',
         'url': 'https://github.com/BibleAquifer/UWTranslationNotes',
+        'release_tag': 'v2025-02-10',
         'languages': {
             'eng': {
                 'code': 'eng',
@@ -106,6 +107,7 @@ SAMPLE_RESOURCES = {
         'title': 'Open Bible Dictionary',
         'description': 'Comprehensive Bible dictionary',
         'url': 'https://github.com/BibleAquifer/AquiferOpenBibleDictionary',
+        'release_tag': 'v2025-01-15',
         'languages': {
             'eng': {
                 'code': 'eng',
@@ -139,6 +141,7 @@ SAMPLE_RESOURCES = {
         'title': 'Translation Words (unfoldingWord)',
         'description': 'Key biblical terms with definitions',
         'url': 'https://github.com/BibleAquifer/UWTranslationWords',
+        'release_tag': 'v2025-02-01',
         'languages': {
             'eng': {
                 'code': 'eng',
@@ -170,6 +173,7 @@ SAMPLE_RESOURCES = {
         'title': 'Study Notes (Biblica)',
         'description': 'Study notes from Biblica',
         'url': 'https://github.com/BibleAquifer/BiblicaStudyNotes',
+        'release_tag': 'v2024-12-20',
         'languages': {
             'eng': {
                 'code': 'eng',
@@ -202,6 +206,7 @@ SAMPLE_RESOURCES = {
         'title': 'Berean Standard Bible',
         'description': 'A modern English Bible translation',
         'url': 'https://github.com/BibleAquifer/BereanStandardBible',
+        'release_tag': 'v2025-02-05',
         'languages': {
             'eng': {
                 'code': 'eng',

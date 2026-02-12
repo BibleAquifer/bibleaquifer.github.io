@@ -52,6 +52,7 @@ SAMPLE_RESOURCES = {
         'title': 'Translation Notes (unfoldingWord)',
         'description': 'Translation helps for Bible translators',
         'url': 'https://github.com/BibleAquifer/UWTranslationNotes',
+        'release_tag': 'v2025-02-10',
         'languages': {
             'eng': {
                 'code': 'eng',
@@ -108,6 +109,7 @@ SAMPLE_RESOURCES = {
         'title': 'Open Bible Dictionary',
         'description': 'Comprehensive Bible dictionary',
         'url': 'https://github.com/BibleAquifer/AquiferOpenBibleDictionary',
+        'release_tag': 'v2025-01-15',
         'languages': {
             'eng': {
                 'code': 'eng',
@@ -140,6 +142,7 @@ SAMPLE_RESOURCES = {
         'title': 'English Title Here',
         'description': 'Test resource with Spanish before English',
         'url': 'https://github.com/BibleAquifer/TestResourceSpanishFirst',
+        'release_tag': 'v2024-11-01',
         'languages': {
             'spa': {
                 'code': 'spa',
@@ -188,6 +191,7 @@ SAMPLE_RESOURCES = {
         'title': 'Indian Revised Version',
         'description': 'Hindi Bible translation',
         'url': 'https://github.com/BibleAquifer/IndianRevisedVersion',
+        'release_tag': 'v2025-02-05',
         'languages': {
             'hin': {
                 'code': 'hin',
@@ -271,7 +275,7 @@ def test_catalog_generation():
     catalog_html = generate_catalog_html(SAMPLE_RESOURCES)
     
     assert '<!DOCTYPE html>' in catalog_html
-    assert 'Unified Catalog' in catalog_html
+    assert 'Aquifer Catalog' in catalog_html
     assert 'Translation Notes (unfoldingWord)' in catalog_html
     assert 'Open Bible Dictionary' in catalog_html
     assert 'RESOURCES_DATA' in catalog_html
@@ -930,6 +934,23 @@ def test_bible_download_bar_in_catalog():
     print("✓ Bible download bar in catalog works")
 
 
+def test_release_tag_in_catalog():
+    """Test that release_tag appears in generated catalog HTML"""
+    print("Testing release_tag in catalog...")
+    catalog_html = generate_catalog_html(SAMPLE_RESOURCES)
+
+    # The release_tag value should be embedded in the JSON data
+    assert 'release_tag' in catalog_html
+    assert 'v2025-02-10' in catalog_html
+
+    # The JS should reference release_tag for the Resource Version field with a link
+    assert 'Resource Version' in catalog_html
+    assert 'selectedResource.release_tag' in catalog_html
+    assert 'releases/tag/${selectedResource.release_tag}' in catalog_html
+
+    print("\u2713 release_tag in catalog works")
+
+
 def main():
     """Run all tests"""
     print("=" * 60)
@@ -964,6 +985,7 @@ def main():
         test_get_json_files_with_labels_monograph()
         test_get_format_paths_by_book()
         test_bible_download_bar_in_catalog()
+        test_release_tag_in_catalog()
 
         print()
         print("=" * 60)
