@@ -96,7 +96,8 @@ LANGUAGE_MAP = {
     'ibo': 'Igbo',
     'vie': 'Vietnamese',
     'zlm': 'Malay',
-    'bis': 'Bislama'
+    'bis': 'Bislama',
+    'fas': 'Farsi (Persian)'
 }
 
 # Bible book code to full name mapping (USFM/Scripture Burrito standard)

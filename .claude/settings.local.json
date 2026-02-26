@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nAdd CI deployment workflow, remove generated files from main\n\nMove site deployment to a GitHub Actions workflow that builds and\ndeploys to the gh-pages branch. Generated files \\(index.html,\ncatalog.html, nav/*.json\\) are now gitignored on main. Also adds\nCLAUDE.md for Claude Code context.\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(PYTHONUTF8=1 poetry run python:*)",
+      "Bash($env:PYTHONUTF8=\"1\")",
+      "Bash(poetry run python:*)"
+    ]
+  }
+}

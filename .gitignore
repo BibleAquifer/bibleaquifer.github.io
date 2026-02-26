@@ -56,3 +56,4 @@ nav/
 # Test output
 src/test_*.html
 src/test_*.yaml
+nul
