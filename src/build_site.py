@@ -1178,17 +1178,6 @@ async function populateFileSelector() {
         return;
     }
     
-    // Only show file selector if there are multiple files
-    if (jsonFiles.length <= 1) {
-        console.log('Only one file available, hiding file selector');
-        resetFileSelector();
-        // Set the selectedJsonPath to the first file if there's only one
-        if (jsonFiles.length === 1) {
-            selectedJsonPath = jsonFiles[0].path;
-        }
-        return;
-    }
-    
     console.log('Showing file selector with', jsonFiles.length, 'options');
     
     // Clear and populate file selector
