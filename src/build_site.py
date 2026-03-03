@@ -684,7 +684,14 @@ def build_resource_data() -> Dict[str, Any]:
             # Clean up temporary title if it exists
             elif '_temp_title' in resource_data:
                 del resource_data['_temp_title']
-            
+
+            # Set top-level resource_type: prefer English, fall back to first language
+            eng_lang = resource_data['languages'].get('eng')
+            first_lang = next(iter(resource_data['languages'].values()))
+            resource_data['resource_type'] = (
+                (eng_lang or first_lang).get('resource_type') or 'Other'
+            )
+
             resources[repo_name] = resource_data
     
     return resources
@@ -781,8 +788,12 @@ def generate_catalog_html(resources: Dict[str, Any]) -> str:
                     <label for="resource-select">Select Resource:</label>
                     <select id="resource-select">
                         <option value="">Select a resource...</option>
-{%- for resource_id, resource in resources.items() | sort(attribute='1.title') %}
-                        <option value="{{ resource_id }}">{{ resource.title }}</option>
+{%- for group_name, group_resources in resources.values() | groupby('resource_type') %}
+                        <optgroup label="{{ group_name }}">
+{%- for resource in group_resources | sort(attribute='title') %}
+                        <option value="{{ resource.name }}">{{ resource.title }}</option>
+{%- endfor %}
+                        </optgroup>
 {%- endfor %}
                     </select>
                 </div>

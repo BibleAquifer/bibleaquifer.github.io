@@ -53,6 +53,7 @@ SAMPLE_RESOURCES = {
         'description': 'Translation helps for Bible translators',
         'url': 'https://github.com/BibleAquifer/UWTranslationNotes',
         'release_tag': 'v2025-02-10',
+        'resource_type': 'Translation Guide',
         'languages': {
             'eng': {
                 'code': 'eng',
@@ -110,6 +111,7 @@ SAMPLE_RESOURCES = {
         'description': 'Comprehensive Bible dictionary',
         'url': 'https://github.com/BibleAquifer/AquiferOpenBibleDictionary',
         'release_tag': 'v2025-01-15',
+        'resource_type': 'Dictionary',
         'languages': {
             'eng': {
                 'code': 'eng',
@@ -143,6 +145,7 @@ SAMPLE_RESOURCES = {
         'description': 'Test resource with Spanish before English',
         'url': 'https://github.com/BibleAquifer/TestResourceSpanishFirst',
         'release_tag': 'v2024-11-01',
+        'resource_type': 'Test',
         'languages': {
             'spa': {
                 'code': 'spa',
@@ -192,6 +195,7 @@ SAMPLE_RESOURCES = {
         'description': 'Hindi Bible translation',
         'url': 'https://github.com/BibleAquifer/IndianRevisedVersion',
         'release_tag': 'v2025-02-05',
+        'resource_type': 'Bible',
         'languages': {
             'hin': {
                 'code': 'hin',
@@ -934,6 +938,23 @@ def test_bible_download_bar_in_catalog():
     print("✓ Bible download bar in catalog works")
 
 
+def test_resource_type_grouping_in_catalog():
+    """Test that resources are grouped by resource_type using optgroup"""
+    print("Testing resource type grouping in catalog...")
+    catalog_html = generate_catalog_html(SAMPLE_RESOURCES)
+
+    # optgroup elements should be present for each resource type in the sample data
+    assert '<optgroup label="Bible">' in catalog_html
+    assert '<optgroup label="Dictionary">' in catalog_html
+    assert '<optgroup label="Translation Guide">' in catalog_html
+
+    # Resources should appear as options (using resource.name as value)
+    assert 'value="IndianRevisedVersion"' in catalog_html
+    assert 'value="AquiferOpenBibleDictionary"' in catalog_html
+
+    print("\u2713 Resource type grouping works")
+
+
 def test_release_tag_in_catalog():
     """Test that release_tag appears in generated catalog HTML"""
     print("Testing release_tag in catalog...")
@@ -985,6 +1006,7 @@ def main():
         test_get_json_files_with_labels_monograph()
         test_get_format_paths_by_book()
         test_bible_download_bar_in_catalog()
+        test_resource_type_grouping_in_catalog()
         test_release_tag_in_catalog()
 
         print()

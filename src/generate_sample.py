@@ -50,6 +50,7 @@ SAMPLE_RESOURCES = {
         'description': 'Translation notes for Bible translators',
         'url': 'https://github.com/BibleAquifer/UWTranslationNotes',
         'release_tag': 'v2025-02-10',
+        'resource_type': 'Translation Guide',
         'languages': {
             'eng': {
                 'code': 'eng',
@@ -108,6 +109,7 @@ SAMPLE_RESOURCES = {
         'description': 'Comprehensive Bible dictionary',
         'url': 'https://github.com/BibleAquifer/AquiferOpenBibleDictionary',
         'release_tag': 'v2025-01-15',
+        'resource_type': 'Dictionary',
         'languages': {
             'eng': {
                 'code': 'eng',
@@ -142,6 +144,7 @@ SAMPLE_RESOURCES = {
         'description': 'Key biblical terms with definitions',
         'url': 'https://github.com/BibleAquifer/UWTranslationWords',
         'release_tag': 'v2025-02-01',
+        'resource_type': 'Key Terms',
         'languages': {
             'eng': {
                 'code': 'eng',
@@ -174,6 +177,7 @@ SAMPLE_RESOURCES = {
         'description': 'Study notes from Biblica',
         'url': 'https://github.com/BibleAquifer/BiblicaStudyNotes',
         'release_tag': 'v2024-12-20',
+        'resource_type': 'Study Notes',
         'languages': {
             'eng': {
                 'code': 'eng',
@@ -207,6 +211,7 @@ SAMPLE_RESOURCES = {
         'description': 'A modern English Bible translation',
         'url': 'https://github.com/BibleAquifer/BereanStandardBible',
         'release_tag': 'v2025-02-05',
+        'resource_type': 'Bible',
         'languages': {
             'eng': {
                 'code': 'eng',
