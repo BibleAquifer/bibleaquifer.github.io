@@ -641,6 +641,7 @@ def build_resource_data() -> Dict[str, Any]:
                     'json_files': json_files,
                     'citation': {
                         'title': license_meta.get('title'),
+                        'copyright_statement': license_meta.get('copyright', {}).get('statement'),
                         'copyright_dates': license_meta.get('copyright', {}).get('dates'),
                         'copyright_holder': license_meta.get('copyright', {}).get('holder', {}).get('name'),
                         'license_name': None,
@@ -1352,26 +1353,32 @@ function displayLanguageMetadata() {
     //    html += '<hr style="margin: 1.5rem 0;">';
     
     // Display citation if available
-    if (langData.citation && langData.citation.title) {
+    if (langData.citation && (langData.citation.title || langData.citation.copyright_statement)) {
         html += '<h3>Citation</h3>';
-        html += '<p class="citation">';
-        html += `<em>${langData.citation.title}</em>`;
-        
-        if (langData.citation.copyright_holder) {
-            html += `. &copy; ${langData.citation.copyright_dates || ''} ${langData.citation.copyright_holder}`;
+
+        if (langData.citation.copyright_statement) {
+            // Use the licensor-provided statement directly (trusted HTML from metadata)
+            html += `<div class="citation">${langData.citation.copyright_statement}</div>`;
+        } else {
+            html += '<p class="citation">';
+            html += `<em>${langData.citation.title}</em>`;
+
+            if (langData.citation.copyright_holder) {
+                html += `. &copy; ${langData.citation.copyright_dates || ''} ${langData.citation.copyright_holder}`;
+            }
+
+            if (langData.citation.license_name) {
+                html += `. Licensed under ${langData.citation.license_name}`;
+            }
+
+            html += '.</p>';
         }
-        
-        if (langData.citation.license_name) {
-            html += `. Licensed under ${langData.citation.license_name}`;
-        }
-        
-        html += '.</p>';
-        
+
         // Add adaptation notice if available
         if (langData.citation.adaptation_notice) {
             html += `<div class="adaptation-notice">${langData.citation.adaptation_notice}</div>`;
         }
-        
+
         html += '<hr style="margin: 1.5rem 0;">';
     }
     

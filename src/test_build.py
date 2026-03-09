@@ -221,6 +221,7 @@ SAMPLE_RESOURCES = {
                 ],
                 'citation': {
                     'title': 'Hindi Indian Revised Version',
+                    'copyright_statement': '<p>Copyright &copy; 2019 Bridge Connectivity Solutions. Licensed under CC BY-SA 4.0.</p>',
                     'copyright_dates': '2019',
                     'copyright_holder': 'Bridge Connectivity Solutions',
                     'license_name': 'CC BY-SA 4.0 license'
@@ -938,6 +939,21 @@ def test_bible_download_bar_in_catalog():
     print("✓ Bible download bar in catalog works")
 
 
+def test_copyright_statement_display():
+    """Test that copyright_statement is preferred over constructed citation"""
+    print("Testing copyright statement display...")
+    catalog_html = generate_catalog_html(SAMPLE_RESOURCES)
+
+    # The statement HTML should be embedded in the resources JSON data
+    assert 'copyright_statement' in catalog_html
+    assert 'Bridge Connectivity Solutions. Licensed under CC BY-SA 4.0.' in catalog_html
+
+    # The JS should check for copyright_statement and use it directly
+    assert 'langData.citation.copyright_statement' in catalog_html
+
+    print("\u2713 Copyright statement display works")
+
+
 def test_relative_image_url_resolution():
     """Test that resolveRelativeUrls JS function is present in catalog HTML"""
     print("Testing relative image URL resolution in catalog...")
@@ -1018,6 +1034,7 @@ def main():
         test_get_json_files_with_labels_monograph()
         test_get_format_paths_by_book()
         test_bible_download_bar_in_catalog()
+        test_copyright_statement_display()
         test_relative_image_url_resolution()
         test_resource_type_grouping_in_catalog()
         test_release_tag_in_catalog()
