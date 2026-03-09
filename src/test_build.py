@@ -938,6 +938,18 @@ def test_bible_download_bar_in_catalog():
     print("✓ Bible download bar in catalog works")
 
 
+def test_relative_image_url_resolution():
+    """Test that resolveRelativeUrls JS function is present in catalog HTML"""
+    print("Testing relative image URL resolution in catalog...")
+    catalog_html = generate_catalog_html(SAMPLE_RESOURCES)
+
+    assert 'resolveRelativeUrls' in catalog_html
+    assert 'imageBaseUrl' in catalog_html
+    assert "!src.match(/^(https?:|" in catalog_html
+
+    print("\u2713 Relative image URL resolution works")
+
+
 def test_resource_type_grouping_in_catalog():
     """Test that resources are grouped by resource_type using optgroup"""
     print("Testing resource type grouping in catalog...")
@@ -1006,6 +1018,7 @@ def main():
         test_get_json_files_with_labels_monograph()
         test_get_format_paths_by_book()
         test_bible_download_bar_in_catalog()
+        test_relative_image_url_resolution()
         test_resource_type_grouping_in_catalog()
         test_release_tag_in_catalog()
 

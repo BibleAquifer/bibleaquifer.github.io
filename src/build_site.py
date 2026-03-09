@@ -1031,6 +1031,20 @@ async function loadPreview() {
     }
 }
 
+// Rewrite relative image src attributes to absolute raw.githubusercontent.com URLs.
+// External URLs (http/https/protocol-relative/data) are left unchanged.
+function resolveRelativeUrls(html, baseUrl) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    tmp.querySelectorAll('img[src]').forEach(img => {
+        const src = img.getAttribute('src');
+        if (src && !src.match(/^(https?:|\/\/|data:)/)) {
+            img.setAttribute('src', baseUrl + src);
+        }
+    });
+    return tmp.innerHTML;
+}
+
 // Display the current article based on index
 function displayArticle() {
     if (!currentArticles || currentArticles.length === 0) {
@@ -1038,20 +1052,27 @@ function displayArticle() {
         previewDisplayDiv.innerHTML = '<p class="no-preview">No articles available.</p>';
         return;
     }
-    
+
     const article = currentArticles[currentArticleIndex];
     if (!article || !article.content) {
         previewDisplayDiv.innerHTML = '<p class="no-preview">Article content not available.</p>';
         updateNavigationState();
         return;
     }
-    
+
     const title = article.title || '';
     const titleHtml = title ? `<p><b>${title}</b></p>` : '';
-    
+
+    // Build base URL for resolving relative image paths within the JSON content directory
+    const jsonDir = selectedJsonPath && selectedJsonPath.includes('/')
+        ? selectedJsonPath.split('/').slice(0, -1).join('/') + '/'
+        : '';
+    const imageBaseUrl = `https://raw.githubusercontent.com/${ORG_NAME}/${selectedResource.name}/main/${selectedLanguage}/${jsonDir}`;
+    const resolvedContent = resolveRelativeUrls(article.content, imageBaseUrl);
+
     // Apply RTL direction for right-to-left languages
     const dirAttr = isRtlLanguage(selectedLanguage) ? ' dir="rtl"' : '';
-    const previewHtml = '<div class="preview-content"' + dirAttr + '>' + titleHtml + article.content + '</div>';
+    const previewHtml = '<div class="preview-content"' + dirAttr + '>' + titleHtml + resolvedContent + '</div>';
     previewDisplayDiv.innerHTML = previewHtml;
 
     updateNavigationState();
