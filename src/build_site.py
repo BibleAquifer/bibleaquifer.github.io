@@ -97,7 +97,8 @@ LANGUAGE_MAP = {
     'vie': 'Vietnamese',
     'zlm': 'Malay',
     'bis': 'Bislama',
-    'fas': 'Farsi (Persian)'
+    'fas': 'Farsi (Persian)',
+    'grc': 'Greek'
 }
 
 # Bible book code to full name mapping (USFM/Scripture Burrito standard)
