@@ -98,7 +98,8 @@ LANGUAGE_MAP = {
     'zlm': 'Malay',
     'bis': 'Bislama',
     'fas': 'Farsi (Persian)',
-    'grc': 'Greek'
+    'grc': 'Greek',
+    'heb': 'Hebrew'
 }
 
 # Bible book code to full name mapping (USFM/Scripture Burrito standard)
