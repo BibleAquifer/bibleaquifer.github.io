@@ -1064,7 +1064,7 @@ function displayArticle() {
     }
 
     const title = article.title || '';
-    const titleHtml = title && !article.content.trimStart().match(/^<h1/i)
+    const titleHtml = title && !article.content.trimStart().match(/^<(style|h1)/i)
         ? `<p><b>${title}</b></p>` : '';
 
     // Build base URL for resolving relative image paths within the JSON content directory
