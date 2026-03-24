@@ -159,7 +159,7 @@
         <div class="container">
             <p>&copy; 2026 Mission Mutual. Open Biblical Resources.</p>
             <p><a href="https://github.com/BibleAquifer" target="_blank">GitHub Org</a> | <a href="https://github.com/BibleAquifer/docs" target="_blank">Documentation</a></p>
-            <p class="site-version">Site version: 2026-03-24@08:57:38</p>
+            <p class="site-version">Site version: 2026-03-24@15:44:00</p>
         </div>
     </footer>
 
@@ -6838,7 +6838,8 @@ function displayArticle() {
     }
 
     const title = article.title || '';
-    const titleHtml = title ? `<p><b>${title}</b></p>` : '';
+    const titleHtml = title && !article.content.trimStart().match(/^<h1/i)
+        ? `<p><b>${title}</b></p>` : '';
 
     // Build base URL for resolving relative image paths within the JSON content directory
     const jsonDir = selectedJsonPath && selectedJsonPath.includes('/')
