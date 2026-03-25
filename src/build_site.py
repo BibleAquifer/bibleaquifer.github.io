@@ -1034,6 +1034,26 @@ async function loadPreview() {
     }
 }
 
+// Scope <style> blocks in article content to .preview-content so they don't
+// leak out and affect the rest of the page. Rewrites each selector by prepending
+// the scope, except @-rules (kept as-is) and html/body/:root (replaced by scope).
+function scopeArticleStyles(html, scope) {
+    return html.replace(/<style([^>]*)>([\s\S]*?)<\/style>/gi, (match, attrs, css) => {
+        const scoped = css.replace(/([^{}]+)\{/g, (ruleMatch, selectors) => {
+            const trimmed = selectors.trim();
+            if (!trimmed || trimmed.startsWith('@')) return ruleMatch;
+            const scopedSelectors = selectors.split(',').map(sel => {
+                const s = sel.trim();
+                if (!s) return s;
+                if (/^(html|body|:root)$/i.test(s)) return scope;
+                return `${scope} ${s}`;
+            }).join(', ');
+            return `${scopedSelectors} {`;
+        });
+        return `<style${attrs}>${scoped}</style>`;
+    });
+}
+
 // Rewrite relative image src attributes to absolute raw.githubusercontent.com URLs.
 // External URLs (http/https/protocol-relative/data) are left unchanged.
 function resolveRelativeUrls(html, baseUrl) {
@@ -1072,7 +1092,8 @@ function displayArticle() {
         ? selectedJsonPath.split('/').slice(0, -1).join('/') + '/'
         : '';
     const imageBaseUrl = `https://raw.githubusercontent.com/${ORG_NAME}/${selectedResource.name}/main/${selectedLanguage}/${jsonDir}`;
-    const resolvedContent = resolveRelativeUrls(article.content, imageBaseUrl);
+    const resolvedContent = scopeArticleStyles(
+        resolveRelativeUrls(article.content, imageBaseUrl), '.preview-content');
 
     // Apply RTL direction for right-to-left languages
     const dirAttr = isRtlLanguage(selectedLanguage) ? ' dir="rtl"' : '';
