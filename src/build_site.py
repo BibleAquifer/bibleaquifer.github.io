@@ -1056,6 +1056,8 @@ function scopeArticleStyles(html, scope) {
 
 // Rewrite relative image src attributes to absolute raw.githubusercontent.com URLs.
 // External URLs (http/https/protocol-relative/data) are left unchanged.
+// Also removes <a href="#..."> anchor links (useless in the preview context),
+// replacing them with their inner content.
 function resolveRelativeUrls(html, baseUrl) {
     const tmp = document.createElement('div');
     tmp.innerHTML = html;
@@ -1064,6 +1066,9 @@ function resolveRelativeUrls(html, baseUrl) {
         if (src && !src.match(/^(https?:|\/\/|data:)/)) {
             img.setAttribute('src', baseUrl + src);
         }
+    });
+    tmp.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.replaceWith(...a.childNodes);
     });
     return tmp.innerHTML;
 }
