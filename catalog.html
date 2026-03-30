@@ -47,6 +47,7 @@
                         <option value="GatewaySimplifiedTextHindi">Gateway Simplified Text (Hindi)</option>
                         <option value="GatewaySimplifiedTextIndonesian">Gateway Simplified Text (Indonesian)</option>
                         <option value="IndianRevisedVersion">Indian Revised Version</option>
+                        <option value="IndianRevisedVersionGujarati">Indian Revised Version - Gujarati</option>
                         <option value="LouisSegond1910">Louis Segond 1910</option>
                         <option value="NepaliUnlockedLiteralBible">Nepali Unlocked Literal Bible</option>
                         <option value="OpenBislamaBibleRevised">Open Bislama Bible Revised</option>
@@ -160,7 +161,7 @@
         <div class="container">
             <p>&copy; 2026 Mission Mutual. Open Biblical Resources.</p>
             <p><a href="https://github.com/BibleAquifer" target="_blank">GitHub Org</a> | <a href="https://github.com/BibleAquifer/docs" target="_blank">Documentation</a></p>
-            <p class="site-version">Site version: 2026-03-30@09:17:49</p>
+            <p class="site-version">Site version: 2026-03-30@20:01:38</p>
         </div>
     </footer>
 
@@ -2990,7 +2991,7 @@ const RESOURCES_DATA = {
         "code": "arb",
         "name": "Arabic",
         "title": "\u0643\u062a\u064a\u0628 \u0627\u0644\u062a\u0631\u062c\u0645\u0629 (\u0643\u0644\u0645\u0629 \u0645\u062a\u0643\u0634\u0641\u0629)",
-        "version": "1.0.1",
+        "version": "1.1.2",
         "resource_type": "Bible Translation Manual",
         "content_type": "Html",
         "language": "arb",
@@ -3016,10 +3017,36 @@ const RESOURCES_DATA = {
         "code": "eng",
         "name": "English",
         "title": "unfoldingWord\u00ae Translation Academy",
-        "version": "1.0.1",
+        "version": "1.1.2",
         "resource_type": "Bible Translation Manual",
         "content_type": "Html",
         "language": "eng",
+        "first_json_path": "json/000001.content.json",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Academy",
+          "copyright_statement": null,
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": "CC BY-SA 4.0 license",
+          "adaptation_notice": "<p><b>unfoldingWord\u00ae Translation Academy</b> \u00a9 2022 unfoldingWord. Released under CC BY-SA 4.0 license. <cite>unfoldingWord\u00ae Translation Academy</cite> has been adapted in the following languages: Tok Pisin, Arabic (\u0639\u0631\u0628\u064a), French (Fran\u00e7ais), Hindi (\u0939\u093f\u0902\u0926\u0940), Indonesian (Bahasa Indonesia), Portuguese (Portugu\u00eas), Russian (\u0420\u0443\u0441\u0441\u043a\u0438\u0439), Spanish (Espa\u00f1ol), Swahili (Kiswahili), and Simplified Chinese (\u7b80\u4f53\u4e2d\u6587) from <cite>unfoldingWord\u00ae Translation Academy</cite> \u00a9 2022 unfoldingWord. Released under CC BY-SA 4.0 license by Mission Mutual"
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": true,
+        "has_docx": true,
+        "has_usx": false,
+        "has_usfm": false,
+        "has_audio": false,
+        "has_alignments": false
+      },
+      "guj": {
+        "code": "guj",
+        "name": "GUJ",
+        "title": "Translation Manual (unfoldingWord)",
+        "version": "1.1.2",
+        "resource_type": "Bible Translation Manual",
+        "content_type": "Html",
+        "language": "guj",
         "first_json_path": "json/000001.content.json",
         "citation": {
           "title": "unfoldingWord\u00ae Translation Academy",
@@ -3042,7 +3069,7 @@ const RESOURCES_DATA = {
         "code": "hin",
         "name": "Hindi",
         "title": "\u0905\u0928\u0941\u0935\u093e\u0926 \u092e\u0948\u0928\u0941\u0905\u0932 (\u0905\u0928\u092b\u094b\u0932\u094d\u0921\u093f\u0902\u0917 \u0935\u0930\u094d\u0921)",
-        "version": "1.0.1",
+        "version": "1.1.2",
         "resource_type": "Bible Translation Manual",
         "content_type": "Html",
         "language": "hin",
@@ -3068,7 +3095,7 @@ const RESOURCES_DATA = {
         "code": "ind",
         "name": "Indonesian",
         "title": "Manual Terjemahan (unfoldingWord)",
-        "version": "1.0.1",
+        "version": "1.1.2",
         "resource_type": "Bible Translation Manual",
         "content_type": "Html",
         "language": "ind",
@@ -3094,7 +3121,7 @@ const RESOURCES_DATA = {
         "code": "nep",
         "name": "Nepali",
         "title": "Translation Manual (unfoldingWord)",
-        "version": "1.0.1",
+        "version": "1.1.2",
         "resource_type": "Bible Translation Manual",
         "content_type": "Html",
         "language": "nep",
@@ -3120,7 +3147,7 @@ const RESOURCES_DATA = {
         "code": "por",
         "name": "Portuguese",
         "title": "Manual de Tradu\u00e7\u00e3o (unfoldingWord)",
-        "version": "1.0.1",
+        "version": "1.1.2",
         "resource_type": "Bible Translation Manual",
         "content_type": "Html",
         "language": "por",
@@ -3146,7 +3173,7 @@ const RESOURCES_DATA = {
         "code": "zht",
         "name": "Chinese (Traditional)",
         "title": "\u7ffb\u8b6f\u624b\u518a (unfoldingWord)",
-        "version": "1.0.1",
+        "version": "1.1.2",
         "resource_type": "Bible Translation Manual",
         "content_type": "Html",
         "language": "zht",
@@ -3169,7 +3196,7 @@ const RESOURCES_DATA = {
         "has_alignments": false
       }
     },
-    "release_tag": "v2026-02-13",
+    "release_tag": "v2026-03-30",
     "title": "unfoldingWord\u00ae Translation Academy",
     "resource_type": "Bible Translation Manual"
   },
@@ -3474,6 +3501,32 @@ const RESOURCES_DATA = {
         "has_audio": false,
         "has_alignments": false
       },
+      "guj": {
+        "code": "guj",
+        "name": "GUJ",
+        "title": "Translation Questions (unfoldingWord)",
+        "version": "1.1.2",
+        "resource_type": "Comprehension Testing",
+        "content_type": "Html",
+        "language": "guj",
+        "first_json_path": "json/31.content.json",
+        "citation": {
+          "title": "unfoldingWord\u00ae Translation Questions",
+          "copyright_statement": null,
+          "copyright_dates": "2022",
+          "copyright_holder": "unfoldingWord",
+          "license_name": "CC BY-SA 4.0 license",
+          "adaptation_notice": "<p><b>unfoldingWord\u00ae Translation Questions</b> \u00a9 2022 unfoldingWord. Released under CC BY-SA 4.0 license. <cite>unfoldingWord\u00ae Translation Questions</cite> has been adapted in the following languages: Tok Pisin, Arabic (\u0639\u0631\u0628\u064a), French (Fran\u00e7ais), Hindi (\u0939\u093f\u0902\u0926\u0940), Indonesian (Bahasa Indonesia), Portuguese (Portugu\u00eas), Russian (\u0420\u0443\u0441\u0441\u043a\u0438\u0439), Spanish (Espa\u00f1ol), Swahili (Kiswahili), and Simplified Chinese (\u7b80\u4f53\u4e2d\u6587) from <cite>unfoldingWord\u00ae Translation Questions</cite> \u00a9 2022 unfoldingWord. Released under CC BY-SA 4.0 license by Mission Mutual"
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": true,
+        "has_docx": true,
+        "has_usx": false,
+        "has_usfm": false,
+        "has_audio": false,
+        "has_alignments": false
+      },
       "hin": {
         "code": "hin",
         "name": "Hindi",
@@ -3605,7 +3658,7 @@ const RESOURCES_DATA = {
         "has_alignments": false
       }
     },
-    "release_tag": "v2026-02-25",
+    "release_tag": "v2026-03-30",
     "title": "unfoldingWord\u00ae Translation Questions",
     "resource_type": "Comprehension Testing"
   },
@@ -6225,7 +6278,7 @@ const RESOURCES_DATA = {
   },
   "AquiferSpanishBibleReferenceText": {
     "name": "AquiferSpanishBibleReferenceText",
-    "description": null,
+    "description": "Aquifer resource repository for AquiferSpanishBibleReferenceText, containing resource-level metadata, article-level metadata, and content files.",
     "url": "https://github.com/BibleAquifer/AquiferSpanishBibleReferenceText",
     "languages": {
       "spa": {
@@ -6261,7 +6314,7 @@ const RESOURCES_DATA = {
   },
   "AquiferPortugueseBibleReferenceText": {
     "name": "AquiferPortugueseBibleReferenceText",
-    "description": null,
+    "description": "Aquifer resource repository for AquiferPortugueseBibleReferenceText, containing resource-level metadata, article-level metadata, and content files.",
     "url": "https://github.com/BibleAquifer/AquiferPortugueseBibleReferenceText",
     "languages": {
       "por": {
@@ -6297,7 +6350,7 @@ const RESOURCES_DATA = {
   },
   "BiblicaOpenBibleMaps": {
     "name": "BiblicaOpenBibleMaps",
-    "description": null,
+    "description": "Aquifer resource repository for BiblicaOpenBibleMaps, containing resource-level metadata, article-level metadata, and content files.",
     "url": "https://github.com/BibleAquifer/BiblicaOpenBibleMaps",
     "languages": {
       "eng": {
@@ -6437,7 +6490,7 @@ const RESOURCES_DATA = {
   },
   "SBLGNT": {
     "name": "SBLGNT",
-    "description": null,
+    "description": "Aquifer resource repository for SBLGNT, containing resource-level metadata, article-level metadata, and content files.",
     "url": "https://github.com/BibleAquifer/SBLGNT",
     "languages": {
       "grc": {
@@ -6473,7 +6526,7 @@ const RESOURCES_DATA = {
   },
   "WestminsterLeningradCodex": {
     "name": "WestminsterLeningradCodex",
-    "description": null,
+    "description": "Aquifer resource repository for WestminsterLeningradCodex, containing resource-level metadata, article-level metadata, and content files.",
     "url": "https://github.com/BibleAquifer/WestminsterLeningradCodex",
     "languages": {
       "heb": {
@@ -6509,7 +6562,7 @@ const RESOURCES_DATA = {
   },
   "DictionaryBibleThemes": {
     "name": "DictionaryBibleThemes",
-    "description": null,
+    "description": "Aquifer resource repository for DictionaryBibleThemes, containing resource-level metadata, article-level metadata, and content files.",
     "url": "https://github.com/BibleAquifer/DictionaryBibleThemes",
     "languages": {
       "eng": {
@@ -6545,7 +6598,7 @@ const RESOURCES_DATA = {
   },
   "UBSHebrewDictionary": {
     "name": "UBSHebrewDictionary",
-    "description": null,
+    "description": "Aquifer resource repository for UBSHebrewDictionary, containing resource-level metadata, article-level metadata, and content files.",
     "url": "https://github.com/BibleAquifer/UBSHebrewDictionary",
     "languages": {
       "eng": {
@@ -6711,7 +6764,7 @@ const RESOURCES_DATA = {
   },
   "UBSGreekNTDictionary": {
     "name": "UBSGreekNTDictionary",
-    "description": null,
+    "description": "Aquifer resource repository for UBSGreekNTDictionary, containing resource-level metadata, article-level metadata, and content files.",
     "url": "https://github.com/BibleAquifer/UBSGreekNTDictionary",
     "languages": {
       "eng": {
@@ -6848,6 +6901,42 @@ const RESOURCES_DATA = {
     "release_tag": "v2026-03-27",
     "title": "UBS Dictionary of the Greek New Testament",
     "resource_type": "Semantic Lexicon"
+  },
+  "IndianRevisedVersionGujarati": {
+    "name": "IndianRevisedVersionGujarati",
+    "description": "Aquifer resource repository for IndianRevisedVersionGujarati, containing resource-level metadata, article-level metadata, and content files.",
+    "url": "https://github.com/BibleAquifer/IndianRevisedVersionGujarati",
+    "languages": {
+      "guj": {
+        "code": "guj",
+        "name": "GUJ",
+        "title": "Indian Revised Version - Gujarati",
+        "version": "1.0.2",
+        "resource_type": "Bible",
+        "content_type": "Bible",
+        "language": "guj",
+        "first_json_path": "json/40.content.json",
+        "citation": {
+          "title": "Indian Revised Version - Gujarati",
+          "copyright_statement": null,
+          "copyright_dates": "2019",
+          "copyright_holder": "Door43",
+          "license_name": "CC BY-SA 4.0 license",
+          "adaptation_notice": ""
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": true,
+        "has_docx": true,
+        "has_usx": true,
+        "has_usfm": true,
+        "has_audio": false,
+        "has_alignments": false
+      }
+    },
+    "release_tag": "v2026-03-30",
+    "title": "Indian Revised Version - Gujarati",
+    "resource_type": "Bible"
   }
 };
 const ORG_NAME = 'BibleAquifer';
