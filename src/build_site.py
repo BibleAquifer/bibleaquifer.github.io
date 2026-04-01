@@ -489,8 +489,10 @@ def get_json_files_with_labels(metadata: Dict[str, Any], order: Optional[str] = 
         resource_meta = metadata.get('resource_metadata', {})
         order = resource_meta.get('order', '')
     
-    # Pattern to match content JSON files: json/[0-9]+.content.json
-    content_json_pattern = re.compile(r'^json/[0-9]+\.content\.json$')
+    # Pattern to match content JSON files: json/<numeric-prefix>.content.json
+    # Numeric prefix may be a plain integer (01, 001), a thousands-based number (0000, 1000),
+    # or a dotted hierarchy (0.00, 1.01, etc.)
+    content_json_pattern = re.compile(r'^json/[\d.]+\.content\.json$')
     
     json_files = []
     for path, info in ingredients.items():
@@ -541,7 +543,7 @@ def get_format_paths_by_book(metadata: Dict[str, Any]) -> Dict[str, Dict[str, st
             continue
 
         filename = parts[-1]
-        match = re.match(r'^(\d+)', filename)
+        match = re.match(r'^([\d.]+)', filename)
         if not match:
             continue
 
@@ -625,7 +627,7 @@ def build_resource_data() -> Dict[str, Any]:
                 # Attach per-file format paths from ingredients
                 format_map = get_format_paths_by_book(metadata)
                 for entry in json_files:
-                    match = re.match(r'^json/(\d+)', entry['path'])
+                    match = re.match(r'^json/([\d.]+)', entry['path'])
                     if match:
                         book_num = match.group(1)
                         formats = format_map.get(book_num, {})
