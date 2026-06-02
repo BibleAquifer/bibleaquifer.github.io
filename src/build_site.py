@@ -501,10 +501,18 @@ def get_json_files_with_labels(metadata: Dict[str, Any], order: Optional[str] = 
             if content_json_pattern.match(path):
                 # Extract label from the first key in 'scope'
                 scope = info.get('scope', {})
-                raw_label = list(scope.keys())[0] if scope else path
-                
-                # Transform label based on order type
-                label = transform_label(raw_label, order, lang_code or '')
+                if scope:
+                    raw_label = list(scope.keys())[0]
+                    label = transform_label(raw_label, order, lang_code or '')
+                else:
+                    # No scope: use canonical names for front/back matter prefixes
+                    prefix = path.split('/')[-1].split('.')[0]
+                    if prefix in ('00', '000'):
+                        label = 'Front Matter'
+                    elif prefix in ('99', '999'):
+                        label = 'Back Matter'
+                    else:
+                        label = path
                 json_files.append({'path': path, 'label': label})
     
     # Sort by path to ensure consistent ordering
