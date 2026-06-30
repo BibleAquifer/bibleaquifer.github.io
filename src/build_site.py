@@ -21,7 +21,7 @@ GITHUB_API = 'https://api.github.com'
 ORG_NAME = 'BibleAquifer'
 ORG_REPO_NAME = '.github'
 README_PATH = 'profile/README.md'
-EXCLUDED_REPOS = ['docs', 'ACAI', 'bibleaquifer.github.io', '.github']
+EXCLUDED_REPOS = ['docs', 'ACAI', 'text-align', 'bibleaquifer.github.io', '.github']
 # get set up to do retries on requests
 # Define retry strategy
 retry_strategy = Retry(
