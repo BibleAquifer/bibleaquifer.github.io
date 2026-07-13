@@ -49,6 +49,16 @@ export GITHUB_AQUIFER_API_KEY=your_token_here
 poetry run python src/build_site.py
 ```
 
+#### Using a `.env` file
+
+Instead of exporting the variable in your shell, you can create a `.env` file in the project root:
+
+```
+GITHUB_AQUIFER_API_KEY=your_token_here
+```
+
+The build script loads `.env` automatically at startup (via `python-dotenv`). `.env` is git-ignored, so it will never be committed.
+
 The script will:
 - Generate `index.html`
 - Generate `catalog.html`

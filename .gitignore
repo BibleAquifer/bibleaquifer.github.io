@@ -3,6 +3,9 @@
 *.temp
 Thumbs.db
 
+# Secrets
+.env
+
 # Claude Code
 .claude/
 CLAUDE.md

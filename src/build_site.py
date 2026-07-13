@@ -15,6 +15,9 @@ import time
 import yaml
 from typing import Dict, List, Any, Optional
 from jinja2 import Template
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Configuration
 GITHUB_API = 'https://api.github.com'
