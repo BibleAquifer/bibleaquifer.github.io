@@ -464,6 +464,43 @@ def check_directory_exists(repo_name: str, language: str, dir_name: str) -> bool
     return response.status_code == 200
 
 
+def get_alignment_viz_dirs(repo_name: str, language: str) -> Optional[Dict[str, str]]:
+    """Look for Scripture Burrito v0.4 alignment visualization HTML.
+
+    v0.4 alignment exports lay out `alignments/viz/` with two subdirectories,
+    one for the Old Testament (named `WLCM-<abbrev>`) and one for the New
+    Testament (named `SBLGNT-<abbrev>`). Older v0.3 alignment data has no
+    `viz` subdirectory at all, so its presence is what distinguishes the two.
+
+    Coverage may be partial (e.g. an in-progress OT), so a resource can have
+    only one of the two directories; missing chapter files within a present
+    directory are handled client-side when the chapter HTML is fetched.
+
+    Returns a dict with 'ot' and/or 'nt' keys mapping to the subdirectory
+    name, or None if no `alignments/viz` directory exists.
+    """
+    url = f'{GITHUB_API}/repos/{ORG_NAME}/{repo_name}/contents/{language}/alignments/viz'
+    try:
+        response = session.get(url, headers=get_headers())
+    except (requests.exceptions.RequestException, requests.exceptions.ConnectionError):
+        return None
+
+    if response.status_code != 200:
+        return None
+
+    dirs = {}
+    for entry in response.json():
+        if entry.get('type') != 'dir':
+            continue
+        name = entry['name']
+        if name.startswith('WLCM-'):
+            dirs['ot'] = name
+        elif name.startswith('SBLGNT-'):
+            dirs['nt'] = name
+
+    return dirs or None
+
+
 def get_json_files_with_labels(metadata: Dict[str, Any], order: Optional[str] = None, lang_code: Optional[str] = None) -> List[Dict[str, str]]:
     """Extract all JSON file paths with their labels from metadata's scripture_burrito/ingredients.
     
@@ -629,7 +666,13 @@ def build_resource_data() -> Dict[str, Any]:
                 format_checks = {}
                 for format_name in ['json', 'md', 'pdf', 'docx', 'usx', 'usfm', 'audio', 'alignments']:
                     format_checks[f'has_{format_name}'] = check_directory_exists(repo_name, lang, format_name)
-                
+
+                # Only Scripture Burrito v0.4 alignment exports include a `viz` directory;
+                # only worth checking when an alignments directory exists at all.
+                alignment_viz_dirs = None
+                if format_checks.get('has_alignments'):
+                    alignment_viz_dirs = get_alignment_viz_dirs(repo_name, lang)
+
                 # Get all JSON file paths with labels for preview file selector
                 # Pass language code for proper label transformation
                 json_files = get_json_files_with_labels(metadata, lang_code=lang)
@@ -655,6 +698,8 @@ def build_resource_data() -> Dict[str, Any]:
                     'language': resource_meta.get('language'),
                     'first_json_path': first_json_path,
                     'json_files': json_files,
+                    'has_alignment_viz': alignment_viz_dirs is not None,
+                    'alignment_viz_dirs': alignment_viz_dirs,
                     'citation': {
                         'title': license_meta.get('title'),
                         'copyright_statement': license_meta.get('copyright', {}).get('statement'),
@@ -898,6 +943,8 @@ let previewCache = {};
 let currentArticleIndex = 0;
 let currentArticles = [];
 let navDataCache = {};  // Cache for nav data (json_files) loaded per resource+language
+let alignmentVizCache = {};  // Cache of parsed alignment viz chapters, keyed by resource:lang:path
+let alignmentVizRequestId = 0;  // Guards against a stale fetch overwriting a newer one
 
 // Right-to-left language codes
 const RTL_LANGUAGES = ['arb', 'apd', 'heb', 'fas', 'urd', 'prs', 'syr', 'yid'];
@@ -1116,11 +1163,113 @@ function displayArticle() {
 
     // Apply RTL direction for right-to-left languages
     const dirAttr = isRtlLanguage(selectedLanguage) ? ' dir="rtl"' : '';
-    const previewHtml = '<div class="preview-content"' + dirAttr + '>' + titleHtml + resolvedContent + '</div>';
+    const previewHtml = '<div class="preview-content"' + dirAttr + '>' + titleHtml + resolvedContent + '</div>' +
+        '<div id="alignment-viz-container" class="alignment-viz-container"></div>';
     previewDisplayDiv.innerHTML = previewHtml;
 
     updateNavigationState();
     updateDownloadBar();
+    loadAlignmentViz(article);
+}
+
+// Determine the alignment viz chapter file and verse number for an article,
+// based on its index_reference (an 8-digit BBCCCVVV book/chapter/verse code).
+// Returns null if the current resource+language has no viz data, or the
+// article has no parseable reference.
+function getAlignmentVizInfo(article) {
+    if (!selectedResource || !selectedLanguage) return null;
+
+    const langData = selectedResource.languages[selectedLanguage];
+    if (!langData || !langData.has_alignment_viz || !langData.alignment_viz_dirs) return null;
+
+    const ref = article && article.index_reference;
+    if (!ref || !/^\d{8}$/.test(ref)) return null;
+
+    const bookNum = parseInt(ref.slice(0, 2), 10);
+    const chapter = ref.slice(2, 5);
+    const verse = parseInt(ref.slice(5, 8), 10);
+
+    const dirs = langData.alignment_viz_dirs;
+    const dir = bookNum <= 39 ? dirs.ot : dirs.nt;
+    if (!dir) return null;
+
+    return {
+        path: `alignments/viz/${dir}/${ref.slice(0, 2)}-${chapter}.html`,
+        verse
+    };
+}
+
+// Split a fetched alignment viz chapter HTML file into its shared <style>
+// block and a map of verse number -> that verse's markup. Verses are
+// identified by their "<b>BOOK C:V:</b>" label rather than by position, so
+// gaps (e.g. an unaligned verse) don't shift the mapping.
+function parseAlignmentVizChapter(html) {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    const styleEl = doc.querySelector('style');
+    const style = styleEl ? styleEl.outerHTML : '';
+
+    const verses = {};
+    doc.querySelectorAll('div.chapter > p').forEach(p => {
+        const b = p.querySelector('b');
+        if (!b) return;
+        const match = b.textContent.match(/(\d+):(\d+):\s*$/);
+        if (match) {
+            verses[parseInt(match[2], 10)] = p.outerHTML;
+        }
+    });
+
+    return { style, verses };
+}
+
+// Fetch (or reuse a cached copy of) the alignment viz chapter for the given
+// article, and render the current verse's alignment markup beneath the
+// plain-text preview. Silently leaves the container empty if the resource
+// has no viz data, the chapter file doesn't exist (e.g. an incomplete OT),
+// or the specific verse isn't present in it.
+async function loadAlignmentViz(article) {
+    const container = document.getElementById('alignment-viz-container');
+    if (!container) return;
+
+    const vizInfo = getAlignmentVizInfo(article);
+    if (!vizInfo) {
+        container.innerHTML = '';
+        return;
+    }
+
+    const requestId = ++alignmentVizRequestId;
+    const cacheKey = `${selectedResource.name}:${selectedLanguage}:${vizInfo.path}`;
+
+    let chapter = alignmentVizCache[cacheKey];
+    if (!chapter) {
+        try {
+            const url = `https://raw.githubusercontent.com/${ORG_NAME}/${selectedResource.name}/main/${selectedLanguage}/${vizInfo.path}`;
+            const response = await fetch(url);
+            if (!response.ok) {
+                if (requestId === alignmentVizRequestId) container.innerHTML = '';
+                return;
+            }
+            const html = await response.text();
+            chapter = parseAlignmentVizChapter(html);
+            alignmentVizCache[cacheKey] = chapter;
+        } catch (error) {
+            console.error('Error loading alignment visualization:', error);
+            if (requestId === alignmentVizRequestId) container.innerHTML = '';
+            return;
+        }
+    }
+
+    // A newer navigation happened while this fetch was in flight; discard.
+    if (requestId !== alignmentVizRequestId) return;
+
+    const verseHtml = chapter.verses[vizInfo.verse];
+    if (!verseHtml) {
+        container.innerHTML = '';
+        return;
+    }
+
+    const scopedStyle = scopeArticleStyles(chapter.style, '.alignment-viz-content');
+    container.innerHTML = '<h4 class="alignment-viz-heading">Text Alignment</h4>' +
+        '<div class="alignment-viz-content">' + scopedStyle + verseHtml + '</div>';
 }
 
 // Update navigation button states and position indicator
@@ -1217,6 +1366,7 @@ function resetArticleState() {
     currentArticles = [];
     hideNavigation();
     fileDownloadBar.style.display = 'none';
+    alignmentVizRequestId++;  // invalidate any in-flight alignment viz fetch
 }
 
 // Reset file selector state

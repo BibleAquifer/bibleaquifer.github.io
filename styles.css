@@ -633,6 +633,30 @@ footer .site-version {
     text-decoration: underline;
 }
 
+/* Alignment visualization (Scripture Burrito v0.4) */
+.alignment-viz-container:empty {
+    display: none;
+}
+
+.alignment-viz-container {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #ddd;
+}
+
+.alignment-viz-heading {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.95rem;
+    color: #2c5aa0;
+}
+
+.alignment-viz-content {
+    overflow-x: auto;
+    padding: 0.75rem;
+    background: #fafafa;
+    border-radius: 4px;
+}
+
 .loading-message {
     text-align: center;
     color: #666;
