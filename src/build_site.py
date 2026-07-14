@@ -1200,23 +1200,59 @@ function getAlignmentVizInfo(article) {
 }
 
 // Split a fetched alignment viz chapter HTML file into its shared <style>
-// block and a map of verse number -> that verse's markup. Verses are
+// block and a map of verse number -> that verse's cell markup. Verses are
 // identified by their "<b>BOOK C:V:</b>" label rather than by position, so
 // gaps (e.g. an unaligned verse) don't shift the mapping.
+//
+// The source markup has a <p> with the verse label, followed by sibling
+// <div class="cell"> elements, followed by a "<!-- verse -->" comment
+// marking the end of the verse (browsers implicitly close the <p> as soon
+// as the first <div> is encountered, so the cells are the <p>'s siblings,
+// not its children). Only the cell divs are kept — the label itself isn't
+// needed since the verse reference is already shown in the plain-text pane.
 function parseAlignmentVizChapter(html) {
     const doc = new DOMParser().parseFromString(html, 'text/html');
     const styleEl = doc.querySelector('style');
     const style = styleEl ? styleEl.outerHTML : '';
 
     const verses = {};
-    doc.querySelectorAll('div.chapter > p').forEach(p => {
-        const b = p.querySelector('b');
-        if (!b) return;
-        const match = b.textContent.match(/(\d+):(\d+):\s*$/);
-        if (match) {
-            verses[parseInt(match[2], 10)] = p.outerHTML;
+    const chapterEl = doc.querySelector('div.chapter');
+    if (!chapterEl) return { style, verses };
+
+    let currentVerse = null;
+    let buffer = [];
+
+    const flush = () => {
+        if (currentVerse !== null) {
+            verses[currentVerse] = buffer.map(n => n.outerHTML).join('');
+        }
+        currentVerse = null;
+        buffer = [];
+    };
+
+    chapterEl.childNodes.forEach(node => {
+        if (node.nodeType === Node.COMMENT_NODE && node.textContent.trim() === 'verse') {
+            flush();
+            return;
+        }
+        if (node.nodeType !== Node.ELEMENT_NODE) return;
+
+        if (node.tagName === 'P') {
+            const b = node.querySelector('b');
+            const match = b && b.textContent.match(/(\d+):(\d+):\s*$/);
+            if (match) {
+                flush();  // in case a previous verse wasn't terminated by a comment
+                currentVerse = parseInt(match[2], 10);
+                buffer = [];
+            }
+            return;
+        }
+
+        if (currentVerse !== null && node.classList.contains('cell')) {
+            buffer.push(node);
         }
     });
+    flush();
 
     return { style, verses };
 }
