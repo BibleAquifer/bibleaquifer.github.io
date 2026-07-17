@@ -60,8 +60,8 @@
                         <option value="TerjemahanBaruIndonesia">Terjemahan Baru Indonesia</option>
                         <option value="SBLGNT">The SBL Greek New Testament</option>
                         <option value="WestminsterLeningradCodex">The Westminster Leningrad Codex</option>
-                        <option value="unfoldingWordLiteral">unfoldingWord Literal</option>
-                        <option value="unfoldingWordSimplified">unfoldingWord Simplified</option>
+                        <option value="unfoldingWordLiteral">unfoldingWord Literal Text</option>
+                        <option value="unfoldingWordSimplified">unfoldingWord Simplified Text</option>
                         <option value="WorldEnglishBible">World English Bible</option>
                         <option value="WorldEnglishBibleUpdated">World English Bible Updated</option>
                         </optgroup>
@@ -168,7 +168,7 @@
         <div class="container">
             <p>&copy; 2026 Mission Mutual. Open Biblical Resources.</p>
             <p><a href="https://github.com/BibleAquifer" target="_blank">GitHub Org</a> | <a href="https://github.com/BibleAquifer/docs" target="_blank">Documentation</a></p>
-            <p class="site-version">Site version: 2026-07-16@10:13:29</p>
+            <p class="site-version">Site version: 2026-07-17@10:00:47</p>
         </div>
     </footer>
 
@@ -3745,7 +3745,7 @@ const RESOURCES_DATA = {
         "has_alignments": false
       }
     },
-    "release_tag": "v2026-07-06",
+    "release_tag": "v2026-07-16",
     "title": "unfoldingWord\u00ae Translation Notes",
     "resource_type": "Translation Guide"
   },
@@ -6426,20 +6426,22 @@ const RESOURCES_DATA = {
       "eng": {
         "code": "eng",
         "name": "English",
-        "title": "unfoldingWord Literal",
+        "title": "unfoldingWord Literal Text",
         "version": "1.1.0",
         "resource_type": "Bible",
         "content_type": "Bible",
         "language": "eng",
         "first_json_path": "json/01.content.json",
-        "has_alignment_viz": false,
-        "alignment_viz_dirs": null,
+        "has_alignment_viz": true,
+        "alignment_viz_dirs": {
+          "nt": "SBLGNT-ULT"
+        },
         "citation": {
-          "title": "unfoldingWord\u00ae Literal Text",
+          "title": "unfoldingWord Literal Text",
           "copyright_statement": null,
-          "copyright_dates": "2022",
+          "copyright_dates": "2026",
           "copyright_holder": "unfoldingWord",
-          "license_name": "CC BY-SA 4.0 license",
+          "license_name": "CC BY-SA 4.0",
           "adaptation_notice": ""
         },
         "has_json": true,
@@ -6452,8 +6454,8 @@ const RESOURCES_DATA = {
         "has_alignments": true
       }
     },
-    "release_tag": "v2026-02-11",
-    "title": "unfoldingWord Literal",
+    "release_tag": "v2026-07-16-0001",
+    "title": "unfoldingWord Literal Text",
     "resource_type": "Bible"
   },
   "OpenKiswahiliContemporaryVersion": {
@@ -7075,7 +7077,7 @@ const RESOURCES_DATA = {
       "eng": {
         "code": "eng",
         "name": "English",
-        "title": "unfoldingWord Simplified",
+        "title": "unfoldingWord Simplified Text",
         "version": "1.1.0",
         "resource_type": "Bible",
         "content_type": "Bible",
@@ -7084,11 +7086,11 @@ const RESOURCES_DATA = {
         "has_alignment_viz": false,
         "alignment_viz_dirs": null,
         "citation": {
-          "title": "unfoldingWord\u00ae Simplified Text",
+          "title": "unfoldingWord Simplified Text",
           "copyright_statement": null,
-          "copyright_dates": "2022",
+          "copyright_dates": "2026",
           "copyright_holder": "unfoldingWord",
-          "license_name": "CC BY-SA 4.0 license",
+          "license_name": "CC BY-SA 4.0",
           "adaptation_notice": ""
         },
         "has_json": true,
@@ -7101,8 +7103,8 @@ const RESOURCES_DATA = {
         "has_alignments": true
       }
     },
-    "release_tag": "v2026-02-11",
-    "title": "unfoldingWord Simplified",
+    "release_tag": "v2026-07-16-0001",
+    "title": "unfoldingWord Simplified Text",
     "resource_type": "Bible"
   },
   "WorldEnglishBible": {
@@ -7332,7 +7334,7 @@ const RESOURCES_DATA = {
         "has_alignments": true
       }
     },
-    "release_tag": "v2026-07-13-0001",
+    "release_tag": "v2026-07-16-0001",
     "title": "Aquifer Portuguese Bible Reference Text",
     "resource_type": "Bible"
   },
