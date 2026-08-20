@@ -946,8 +946,10 @@ let navDataCache = {};  // Cache for nav data (json_files) loaded per resource+l
 let alignmentVizCache = {};  // Cache of parsed alignment viz chapters, keyed by resource:lang:path
 let alignmentVizRequestId = 0;  // Guards against a stale fetch overwriting a newer one
 
-// Right-to-left language codes
-const RTL_LANGUAGES = ['arb', 'apd', 'heb', 'fas', 'urd', 'prs', 'syr', 'yid'];
+// Right-to-left language codes (ISO 639-3).
+// Mirrors text-align's src/text_align/languages.py RTL_LANGUAGES, which is
+// the source of truth used when generating the alignment viz files.
+const RTL_LANGUAGES = ['arb', 'apd', 'fas', 'heb', 'arc'];
 
 // Check if a language code is RTL
 function isRtlLanguage(langCode) {
@@ -1303,9 +1305,14 @@ async function loadAlignmentViz(article) {
         return;
     }
 
+    // The source viz file marks RTL on its <p> verse label, but that element
+    // gets discarded by parseAlignmentVizChapter (and browsers auto-close it
+    // before the sibling <div> cells anyway — see the module comment above),
+    // so RTL direction has to be reapplied here based on the target language.
     const scopedStyle = scopeArticleStyles(chapter.style, '.alignment-viz-content');
+    const dirAttr = isRtlLanguage(selectedLanguage) ? ' dir="rtl"' : '';
     container.innerHTML = '<h4 class="alignment-viz-heading">Text Alignment</h4>' +
-        '<div class="alignment-viz-content">' + scopedStyle + verseHtml + '</div>';
+        '<div class="alignment-viz-content"' + dirAttr + '>' + scopedStyle + verseHtml + '</div>';
 }
 
 // Update navigation button states and position indicator
