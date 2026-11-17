@@ -25,6 +25,11 @@ ORG_NAME = 'BibleAquifer'
 ORG_REPO_NAME = '.github'
 README_PATH = 'profile/README.md'
 EXCLUDED_REPOS = ['docs', 'ACAI', 'text-align', 'bibleaquifer.github.io', '.github']
+
+# Site decommission notice (see GCONT-927)
+NEW_SITE_URL = 'https://catalog.aquifer.bible'
+NEW_SITE_HOST = 'catalog.aquifer.bible'
+SITE_END_DATE = 'November 30, 2026'
 # get set up to do retries on requests
 # Define retry strategy
 retry_strategy = Retry(
@@ -760,6 +765,20 @@ def build_resource_data() -> Dict[str, Any]:
     return resources
 
 
+def generate_banner_html() -> str:
+    """Generate the non-dismissable site-moved banner shown on every page."""
+    return (
+        '<div class="sunset-banner" role="note">'
+        '<div class="container">'
+        '<p><strong>This site has moved.</strong> '
+        f'Please use the new Aquifer Catalog at <a href="{NEW_SITE_URL}">{NEW_SITE_HOST}</a>. '
+        f'This site will remain available through {SITE_END_DATE}, '
+        'after which it will redirect to the new site.</p>'
+        '</div>'
+        '</div>'
+    )
+
+
 def generate_index_html(readme_html: str) -> str:
     """Generate index.html with embedded README content"""
     template = """<!DOCTYPE html>
@@ -771,6 +790,7 @@ def generate_index_html(readme_html: str) -> str:
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    {{ banner }}
     <header>
         <div class="container header-content">
             <div>
@@ -810,7 +830,8 @@ def generate_index_html(readme_html: str) -> str:
     t = Template(template)
     build_version = datetime.now(timezone.utc).strftime("%Y-%m-%d@%H:%M:%S")
     build_year = datetime.now(timezone.utc).year
-    return t.render(content=readme_html, build_version=build_version, build_year=build_year)
+    return t.render(content=readme_html, build_version=build_version, build_year=build_year,
+                    banner=generate_banner_html())
 
 
 def generate_catalog_html(resources: Dict[str, Any]) -> str:
@@ -824,6 +845,7 @@ def generate_catalog_html(resources: Dict[str, Any]) -> str:
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    {{ banner }}
     <header>
         <div class="container header-content">
             <div>
@@ -1695,7 +1717,8 @@ function displayLanguageMetadata() {
         resources_json=json.dumps(resources, indent=2),
         org_name=ORG_NAME,
         build_version=build_version,
-        build_year=build_year
+        build_year=build_year,
+        banner=generate_banner_html()
     )
 
 

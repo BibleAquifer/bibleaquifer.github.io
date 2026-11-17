@@ -21,6 +21,27 @@ body {
     padding: 0 20px;
 }
 
+/* Site-moved notice (GCONT-927): slim, non-dismissable, not sticky */
+.sunset-banner {
+    background: #fff4d6;
+    color: #5c4400;
+    border-bottom: 1px solid #e6c97a;
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.sunset-banner a {
+    color: #1e3a66;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.sunset-banner a:hover {
+    color: #2c5aa0;
+}
+
 header {
     background: linear-gradient(135deg, #2c5aa0 0%, #1e3a66 100%);
     color: white;

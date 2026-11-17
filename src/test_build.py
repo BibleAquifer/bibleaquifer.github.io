@@ -11,6 +11,7 @@ from build_site import (
     format_readme_sections,
     generate_index_html,
     generate_catalog_html,
+    generate_banner_html,
     get_language_name,
     get_first_json_path,
     get_json_files_with_labels,
@@ -286,6 +287,22 @@ def test_catalog_generation():
     assert 'RESOURCES_DATA' in catalog_html
     assert 'Spanish' in catalog_html
     print("✓ catalog.html generation works")
+
+
+def test_sunset_banner():
+    """Test the site-moved banner appears on both pages"""
+    print("Testing sunset banner...")
+    index_html = generate_index_html(format_readme_sections(markdown_to_html(SAMPLE_README)))
+    catalog_html = generate_catalog_html(SAMPLE_RESOURCES)
+
+    for name, page in (('index', index_html), ('catalog', catalog_html)):
+        assert 'class="sunset-banner"' in page, f"{name} missing banner"
+        assert '<a href="https://catalog.aquifer.bible">' in page, f"{name} missing new-site link"
+        assert 'November 30, 2026' in page, f"{name} missing end date"
+        # Banner comes before the header and cannot be dismissed
+        assert page.index('sunset-banner') < page.index('<header>'), f"{name} banner not above header"
+    assert 'dismiss' not in generate_banner_html().lower()
+    print("✓ sunset banner works")
 
 
 def test_yaml_compatibility():
@@ -1030,6 +1047,7 @@ def main():
         test_readme_sections()
         test_index_generation()
         test_catalog_generation()
+        test_sunset_banner()
         test_yaml_compatibility()
         test_language_name()
         test_english_title_priority()
