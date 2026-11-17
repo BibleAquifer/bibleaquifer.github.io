@@ -305,6 +305,22 @@ def test_sunset_banner():
     print("✓ sunset banner works")
 
 
+def test_redirect_pages():
+    """Test the static redirect pages used after the 2026-12-01 cutover"""
+    print("Testing redirect pages...")
+    redirect_dir = os.path.join(os.path.dirname(__file__), '..', 'redirect')
+    for name in ('index.html', 'catalog.html', '404.html'):
+        with open(os.path.join(redirect_dir, name)) as f:
+            page = f.read()
+        assert '<meta http-equiv="refresh" content="0; url=https://catalog.aquifer.bible">' in page, name
+        assert 'window.location.replace("https://catalog.aquifer.bible")' in page, name
+        assert '<link rel="canonical" href="https://catalog.aquifer.bible">' in page, name
+        assert '<meta name="robots" content="noindex">' in page, name
+        assert '<a href="https://catalog.aquifer.bible">' in page, f"{name} missing fallback link"
+    assert os.path.exists(os.path.join(redirect_dir, '.nojekyll'))
+    print("✓ redirect pages work")
+
+
 def test_yaml_compatibility():
     """Test that resource data can be saved as YAML"""
     print("Testing YAML compatibility...")
@@ -1048,6 +1064,7 @@ def main():
         test_index_generation()
         test_catalog_generation()
         test_sunset_banner()
+        test_redirect_pages()
         test_yaml_compatibility()
         test_language_name()
         test_english_title_priority()
