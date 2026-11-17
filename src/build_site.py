@@ -552,7 +552,7 @@ def get_json_files_with_labels(metadata: Dict[str, Any], order: Optional[str] = 
                     elif prefix in ('99', '999'):
                         label = 'Back Matter'
                     else:
-                        label = path
+                        label = transform_label(path, order, lang_code or '')
                 json_files.append({'path': path, 'label': label})
     
     # Sort by path to ensure consistent ordering
@@ -591,7 +591,8 @@ def get_format_paths_by_book(metadata: Dict[str, Any]) -> Dict[str, Dict[str, st
             continue
 
         filename = parts[-1]
-        match = re.match(r'^([\d.]+)', filename)
+        # Digits optionally followed by dotted groups (0.00, 1.01); never a trailing dot
+        match = re.match(r'^(\d+(?:\.\d+)*)', filename)
         if not match:
             continue
 
@@ -681,7 +682,7 @@ def build_resource_data() -> Dict[str, Any]:
                 # Attach per-file format paths from ingredients
                 format_map = get_format_paths_by_book(metadata)
                 for entry in json_files:
-                    match = re.match(r'^json/([\d.]+)', entry['path'])
+                    match = re.match(r'^json/(\d+(?:\.\d+)*)', entry['path'])
                     if match:
                         book_num = match.group(1)
                         formats = format_map.get(book_num, {})

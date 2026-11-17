@@ -535,7 +535,25 @@ def test_get_json_files_with_labels():
     }
     result = get_json_files_with_labels(metadata_no_scope)
     assert len(result) == 1
-    assert result[0]['label'] == 'json/99.content.json'
+    # Scopeless 99/999 files are labeled as back matter (see b8cc23a)
+    assert result[0]['label'] == 'Back Matter'
+
+    # Scopeless 00/000 -> Front Matter; other scopeless files fall back to the path
+    metadata_matter = {
+        'scripture_burrito': {
+            'ingredients': {
+                'json/00.content.json': {'mimeType': 'text/json', 'size': 100},
+                'json/000.content.json': {'mimeType': 'text/json', 'size': 100},
+                'json/999.content.json': {'mimeType': 'text/json', 'size': 100},
+                'json/05.content.json': {'mimeType': 'text/json', 'size': 100},
+            }
+        }
+    }
+    labels = {f['path']: f['label'] for f in get_json_files_with_labels(metadata_matter)}
+    assert labels['json/00.content.json'] == 'Front Matter'
+    assert labels['json/000.content.json'] == 'Front Matter'
+    assert labels['json/999.content.json'] == 'Back Matter'
+    assert labels['json/05.content.json'] == 'json/05.content.json'
     
     # Test that non-matching JSON files are ignored
     metadata_non_matching = {
