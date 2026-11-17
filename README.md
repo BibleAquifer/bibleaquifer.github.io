@@ -1,5 +1,7 @@
 # Bible Aquifer - Static Site Frontend
 
+> **This site has moved.** The Aquifer Catalog is now at **https://catalog.aquifer.bible**. This site (bibleaquifer.github.io) will remain available through November 30, 2026, and will redirect to the new site starting December 1, 2026.
+
 This is the static site frontend for the Bible Aquifer organization on GitHub. It provides a user-friendly interface to browse and access biblical resources from the various BibleAquifer repositories.
 
 ## Live Site

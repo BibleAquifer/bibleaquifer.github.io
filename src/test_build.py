@@ -11,6 +11,7 @@ from build_site import (
     format_readme_sections,
     generate_index_html,
     generate_catalog_html,
+    generate_banner_html,
     get_language_name,
     get_first_json_path,
     get_json_files_with_labels,
@@ -288,6 +289,22 @@ def test_catalog_generation():
     print("✓ catalog.html generation works")
 
 
+def test_sunset_banner():
+    """Test the site-moved banner appears on both pages"""
+    print("Testing sunset banner...")
+    index_html = generate_index_html(format_readme_sections(markdown_to_html(SAMPLE_README)))
+    catalog_html = generate_catalog_html(SAMPLE_RESOURCES)
+
+    for name, page in (('index', index_html), ('catalog', catalog_html)):
+        assert 'class="sunset-banner"' in page, f"{name} missing banner"
+        assert '<a href="https://catalog.aquifer.bible">' in page, f"{name} missing new-site link"
+        assert 'November 30, 2026' in page, f"{name} missing end date"
+        # Banner comes before the header and cannot be dismissed
+        assert page.index('sunset-banner') < page.index('<header>'), f"{name} banner not above header"
+    assert 'dismiss' not in generate_banner_html().lower()
+    print("✓ sunset banner works")
+
+
 def test_yaml_compatibility():
     """Test that resource data can be saved as YAML"""
     print("Testing YAML compatibility...")
@@ -535,7 +552,25 @@ def test_get_json_files_with_labels():
     }
     result = get_json_files_with_labels(metadata_no_scope)
     assert len(result) == 1
-    assert result[0]['label'] == 'json/99.content.json'
+    # Scopeless 99/999 files are labeled as back matter (see b8cc23a)
+    assert result[0]['label'] == 'Back Matter'
+
+    # Scopeless 00/000 -> Front Matter; other scopeless files fall back to the path
+    metadata_matter = {
+        'scripture_burrito': {
+            'ingredients': {
+                'json/00.content.json': {'mimeType': 'text/json', 'size': 100},
+                'json/000.content.json': {'mimeType': 'text/json', 'size': 100},
+                'json/999.content.json': {'mimeType': 'text/json', 'size': 100},
+                'json/05.content.json': {'mimeType': 'text/json', 'size': 100},
+            }
+        }
+    }
+    labels = {f['path']: f['label'] for f in get_json_files_with_labels(metadata_matter)}
+    assert labels['json/00.content.json'] == 'Front Matter'
+    assert labels['json/000.content.json'] == 'Front Matter'
+    assert labels['json/999.content.json'] == 'Back Matter'
+    assert labels['json/05.content.json'] == 'json/05.content.json'
     
     # Test that non-matching JSON files are ignored
     metadata_non_matching = {
@@ -1012,6 +1047,7 @@ def main():
         test_readme_sections()
         test_index_generation()
         test_catalog_generation()
+        test_sunset_banner()
         test_yaml_compatibility()
         test_language_name()
         test_english_title_priority()
