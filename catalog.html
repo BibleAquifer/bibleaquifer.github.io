@@ -98,6 +98,7 @@
                         <option value="UBSImages">UBS Images</option>
                         </optgroup>
                         <optgroup label="Semantic Lexicon">
+                        <option value="AbbottSmithGreekLexicon">A Manual Greek Lexicon of the New Testament</option>
                         <option value="BDBAramaicLexicon">Brown-Driver-Briggs Aramaic Lexicon</option>
                         <option value="BDBHebrewLexicon">Brown-Driver-Briggs Hebrew Lexicon</option>
                         <option value="UBSHebrewDictionary">UBS Dictionary of Biblical Hebrew</option>
@@ -181,7 +182,7 @@
         <div class="container">
             <p>&copy; 2026 Mission Mutual. Open Biblical Resources.</p>
             <p><a href="https://github.com/BibleAquifer" target="_blank">GitHub Org</a> | <a href="https://github.com/BibleAquifer/docs" target="_blank">Documentation</a></p>
-            <p class="site-version">Site version: 2026-11-20@16:52:03</p>
+            <p class="site-version">Site version: 2026-11-21@16:04:15</p>
         </div>
     </footer>
 
@@ -6845,7 +6846,7 @@ const RESOURCES_DATA = {
         "has_alignments": true
       }
     },
-    "release_tag": "v2026-11-19",
+    "release_tag": "v2026-11-20",
     "title": "Open Kiswahili Contemporary Version",
     "resource_type": "Bible"
   },
@@ -8150,7 +8151,7 @@ const RESOURCES_DATA = {
         "has_alignments": true
       }
     },
-    "release_tag": "v2026-10-19",
+    "release_tag": "v2026-11-20",
     "title": "UBS Dictionary of Biblical Hebrew",
     "resource_type": "Semantic Lexicon"
   },
@@ -8300,7 +8301,7 @@ const RESOURCES_DATA = {
         "has_alignments": true
       }
     },
-    "release_tag": "v2026-10-19",
+    "release_tag": "v2026-11-20",
     "title": "UBS Dictionary of the Greek New Testament",
     "resource_type": "Semantic Lexicon"
   },
@@ -8432,7 +8433,7 @@ const RESOURCES_DATA = {
         "has_alignments": true
       }
     },
-    "release_tag": "v2026-10-19",
+    "release_tag": "v2026-11-20",
     "title": "Animals in the Bible",
     "resource_type": "Thematic Dictionary"
   },
@@ -8526,7 +8527,7 @@ const RESOURCES_DATA = {
         "has_alignments": true
       }
     },
-    "release_tag": "v2026-10-19",
+    "release_tag": "v2026-11-20",
     "title": "Plants and Trees in the Bible",
     "resource_type": "Thematic Dictionary"
   },
@@ -8620,7 +8621,7 @@ const RESOURCES_DATA = {
         "has_alignments": true
       }
     },
-    "release_tag": "v2026-10-19",
+    "release_tag": "v2026-11-20",
     "title": "Human-made Things in the Bible",
     "resource_type": "Thematic Dictionary"
   },
@@ -8699,7 +8700,7 @@ const RESOURCES_DATA = {
         "has_alignments": true
       }
     },
-    "release_tag": "v2026-09-18",
+    "release_tag": "v2026-11-20",
     "title": "Brown-Driver-Briggs Hebrew Lexicon",
     "resource_type": "Semantic Lexicon"
   },
@@ -8737,7 +8738,7 @@ const RESOURCES_DATA = {
         "has_alignments": true
       }
     },
-    "release_tag": "v2026-09-18",
+    "release_tag": "v2026-11-20",
     "title": "Brown-Driver-Briggs Aramaic Lexicon",
     "resource_type": "Semantic Lexicon"
   },
@@ -8826,13 +8827,15 @@ const RESOURCES_DATA = {
         "code": "ind",
         "name": "Indonesian",
         "title": "Biblica\u00ae Open Indonesian Contemporary New Testament 2025",
-        "version": "1.0.2",
+        "version": "1.1.0",
         "resource_type": "Bible",
         "content_type": "Bible",
         "language": "ind",
         "first_json_path": "json/40.content.json",
-        "has_alignment_viz": false,
-        "alignment_viz_dirs": null,
+        "has_alignment_viz": true,
+        "alignment_viz_dirs": {
+          "nt": "SBLGNT-BOKKPB"
+        },
         "citation": {
           "title": "Biblica\u00ae Open Indonesian Contemporary New Testament 2025",
           "copyright_statement": null,
@@ -8848,10 +8851,10 @@ const RESOURCES_DATA = {
         "has_usx": true,
         "has_usfm": true,
         "has_audio": false,
-        "has_alignments": false
+        "has_alignments": true
       }
     },
-    "release_tag": "v2026-09-18",
+    "release_tag": "v2026-11-20",
     "title": "Biblica\u00ae Open Indonesian Contemporary New Testament 2025",
     "resource_type": "Bible"
   },
@@ -9234,6 +9237,44 @@ const RESOURCES_DATA = {
     "release_tag": "v2026-11-11",
     "title": "Gateway Simplified Text (Farsi)",
     "resource_type": "Bible"
+  },
+  "AbbottSmithGreekLexicon": {
+    "name": "AbbottSmithGreekLexicon",
+    "description": "Aquifer resource repository for AbbottSmithGreekLexicon, containing resource-level metadata, article-level metadata, and content files.",
+    "url": "https://github.com/BibleAquifer/AbbottSmithGreekLexicon",
+    "languages": {
+      "eng": {
+        "code": "eng",
+        "name": "English",
+        "title": "A Manual Greek Lexicon of the New Testament",
+        "version": "1.1.2",
+        "resource_type": "Semantic Lexicon",
+        "content_type": "Html",
+        "language": "eng",
+        "first_json_path": "json/000.content.json",
+        "has_alignment_viz": false,
+        "alignment_viz_dirs": null,
+        "citation": {
+          "title": "A Manual Greek Lexicon of the New Testament",
+          "copyright_statement": "This edition of A Manual Greek Lexicon of the New Testament is licensed with a CC0 license and is in the public domain.",
+          "copyright_dates": "1922",
+          "copyright_holder": "Charles Scribner's Sons",
+          "license_name": "Public Domain CC0",
+          "adaptation_notice": ""
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": true,
+        "has_docx": true,
+        "has_usx": false,
+        "has_usfm": false,
+        "has_audio": false,
+        "has_alignments": true
+      }
+    },
+    "release_tag": "v2026-11-20-0001",
+    "title": "A Manual Greek Lexicon of the New Testament",
+    "resource_type": "Semantic Lexicon"
   }
 };
 const ORG_NAME = 'BibleAquifer';
