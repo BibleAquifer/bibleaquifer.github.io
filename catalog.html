@@ -46,11 +46,14 @@
                         <option value="BiblicaOpenChineseContemporary2023Simplified">Biblica® Open Chinese Contemporary Bible 2023 (Simplified)</option>
                         <option value="BiblicaOpenChineseContemporary2023Traditional">Biblica® Open Chinese Contemporary Bible 2023 (Traditional)</option>
                         <option value="BiblicaOpenHausaContemporaryBible2020">Biblica® Open Hausa Contemporary Bible 2020</option>
+                        <option value="OpenHindiContemporaryVersion">Biblica® Open Hindi Contemporary Version™</option>
                         <option value="BiblicaOpenIgboContemporaryBible2020">Biblica® Open Igbo Contemporary Bible 2020</option>
                         <option value="BiblicaOpenIndonesianContemporaryNewTestament2025">Biblica® Open Indonesian Contemporary New Testament 2025</option>
+                        <option value="OpenKiswahiliContemporaryScriptures2024">Biblica® Open Kiswahili Contemporary Scriptures™ 2024</option>
                         <option value="BiblicaOpenPersianContemporaryBible2022">Biblica® Open Persian Contemporary Bible 2022</option>
                         <option value="BiblicaOpenVietnameseContemporaryBible2015">Biblica® Open Vietnamese Contemporary Bible 2015</option>
                         <option value="TokPisinBible2008">Buk Baibel long Tok Pisin</option>
+                        <option value="ChineseUnionVersionSimplified">Chinese Union Version (Simplified)</option>
                         <option value="ChineseUnionVersionTraditional">Chinese Union Version (Traditional)</option>
                         <option value="ChristianStandardBible">Christian Standard Bible</option>
                         <option value="GatewayLiteralTextFarsi">Gateway Literal Text (Farsi)</option>
@@ -65,7 +68,6 @@
                         <option value="NepaliUnlockedLiteralBible">Nepali Unlocked Literal Bible</option>
                         <option value="NTBibleGreekNewTestament">NT.Bible Greek New Testament</option>
                         <option value="OpenBislamaBibleRevised">Open Bislama Bible Revised</option>
-                        <option value="OpenHindiContemporaryVersion">Open Hindi Contemporary Version</option>
                         <option value="OpenKiswahiliContemporaryVersion">Open Kiswahili Contemporary Version</option>
                         <option value="PSLE">PSLE</option>
                         <option value="ReinaValera1909">Reina Valera 1909</option>
@@ -182,7 +184,7 @@
         <div class="container">
             <p>&copy; 2026 Mission Mutual. Open Biblical Resources.</p>
             <p><a href="https://github.com/BibleAquifer" target="_blank">GitHub Org</a> | <a href="https://github.com/BibleAquifer/docs" target="_blank">Documentation</a></p>
-            <p class="site-version">Site version: 2026-11-23@20:03:10</p>
+            <p class="site-version">Site version: 2026-11-24@19:31:23</p>
         </div>
     </footer>
 
@@ -849,7 +851,7 @@ const RESOURCES_DATA = {
         "has_alignments": false
       }
     },
-    "release_tag": "v2026-11-17",
+    "release_tag": "v2026-11-24",
     "title": "Aquifer Open Study Notes",
     "resource_type": "Study Notes"
   },
@@ -7250,20 +7252,22 @@ const RESOURCES_DATA = {
       "hin": {
         "code": "hin",
         "name": "Hindi",
-        "title": "Open Hindi Contemporary Version",
-        "version": "1.0.2",
+        "title": "Biblica\u00ae Open Hindi Contemporary Version\u2122",
+        "version": "1.1.0",
         "resource_type": "Bible",
         "content_type": "Bible",
         "language": "hin",
         "first_json_path": "json/01.content.json",
-        "has_alignment_viz": false,
-        "alignment_viz_dirs": null,
+        "has_alignment_viz": true,
+        "alignment_viz_dirs": {
+          "nt": "SBLGNT-OHCV"
+        },
         "citation": {
-          "title": "Hindi Contemporary Version Bible",
+          "title": "Biblica\u00ae Open Hindi Contemporary Version\u2122",
           "copyright_statement": null,
-          "copyright_dates": "2019",
+          "copyright_dates": "1978, 2009, 2016, 2019",
           "copyright_holder": "Biblica, Inc",
-          "license_name": "CC BY-SA 4.0 license",
+          "license_name": "CC BY-SA 4.0",
           "adaptation_notice": ""
         },
         "has_json": true,
@@ -7272,12 +7276,12 @@ const RESOURCES_DATA = {
         "has_docx": true,
         "has_usx": true,
         "has_usfm": true,
-        "has_audio": true,
-        "has_alignments": false
+        "has_audio": false,
+        "has_alignments": true
       }
     },
-    "release_tag": "v2026-09-18",
-    "title": "Open Hindi Contemporary Version",
+    "release_tag": "v2026-11-23",
+    "title": "Biblica\u00ae Open Hindi Contemporary Version\u2122",
     "resource_type": "Bible"
   },
   "PSLE": {
@@ -9275,6 +9279,82 @@ const RESOURCES_DATA = {
     "release_tag": "v2026-11-20-0001",
     "title": "A Manual Greek Lexicon of the New Testament",
     "resource_type": "Semantic Lexicon"
+  },
+  "OpenKiswahiliContemporaryScriptures2024": {
+    "name": "OpenKiswahiliContemporaryScriptures2024",
+    "description": "Aquifer resource repository for OpenKiswahiliContemporaryScriptures2024, containing resource-level metadata, article-level metadata, and content files.",
+    "url": "https://github.com/BibleAquifer/OpenKiswahiliContemporaryScriptures2024",
+    "languages": {
+      "swh": {
+        "code": "swh",
+        "name": "Swahili",
+        "title": "Biblica\u00ae Open Kiswahili Contemporary Scriptures\u2122 2024",
+        "version": "1.0.2",
+        "resource_type": "Bible",
+        "content_type": "Bible",
+        "language": "swh",
+        "first_json_path": "json/01.content.json",
+        "has_alignment_viz": false,
+        "alignment_viz_dirs": null,
+        "citation": {
+          "title": "Biblica\u00ae Open Kiswahili Contemporary Scriptures\u2122 2024",
+          "copyright_statement": null,
+          "copyright_dates": "2018, 2024",
+          "copyright_holder": "Biblica, Inc",
+          "license_name": "CC BY-SA 4.0",
+          "adaptation_notice": ""
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": true,
+        "has_docx": true,
+        "has_usx": true,
+        "has_usfm": true,
+        "has_audio": false,
+        "has_alignments": false
+      }
+    },
+    "release_tag": "v2026-11-24",
+    "title": "Biblica\u00ae Open Kiswahili Contemporary Scriptures\u2122 2024",
+    "resource_type": "Bible"
+  },
+  "ChineseUnionVersionSimplified": {
+    "name": "ChineseUnionVersionSimplified",
+    "description": "Aquifer resource repository for ChineseUnionVersionSimplified, containing resource-level metadata, article-level metadata, and content files.",
+    "url": "https://github.com/BibleAquifer/ChineseUnionVersionSimplified",
+    "languages": {
+      "zhs": {
+        "code": "zhs",
+        "name": "Chinese (Simplified)",
+        "title": "Chinese Union Version (Simplified)",
+        "version": "1.0.2",
+        "resource_type": "Bible",
+        "content_type": "Bible",
+        "language": "zhs",
+        "first_json_path": "json/01.content.json",
+        "has_alignment_viz": false,
+        "alignment_viz_dirs": null,
+        "citation": {
+          "title": "Chinese Union Version (Simplified)",
+          "copyright_statement": null,
+          "copyright_dates": null,
+          "copyright_holder": "Unknown",
+          "license_name": "Public Domain",
+          "adaptation_notice": ""
+        },
+        "has_json": true,
+        "has_md": true,
+        "has_pdf": true,
+        "has_docx": true,
+        "has_usx": true,
+        "has_usfm": true,
+        "has_audio": false,
+        "has_alignments": false
+      }
+    },
+    "release_tag": "v2026-11-24",
+    "title": "Chinese Union Version (Simplified)",
+    "resource_type": "Bible"
   }
 };
 const ORG_NAME = 'BibleAquifer';
